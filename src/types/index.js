@@ -5,3 +5,10 @@ export const CERRAR_SESION = "CERRAR_SESION";
 
 // User
 export const OBTENER_USUARIO = "OBTENER_USUARIO";
+
+// Projects
+export const OBTENER_PROJECTS = "OBTENER_PROJECTS";
+export const GET_ALL_PROJECTS = "GET_ALL_PROJECTS";
+export const ADD_PROJECTS = "ADD_PROJECTS";
+export const UPDATE_PROJECTS = "UPDATE_PROJECTS";
+export const DELETE_PROJECTS = "DELETE_PROJECTS";

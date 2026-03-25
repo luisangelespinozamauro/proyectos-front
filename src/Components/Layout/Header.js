@@ -29,13 +29,13 @@ const MODULOS = [
   },
   {
     id: 2,
-    segment: "Proyectos",
+    segment: "Projects",
     title: "Proyectos",
     icon: <FolderIcon />,
   },
   {
     id: 3,
-    segment: "Documentos",
+    segment: "Documents",
     title: "Documentos",
     icon: <DescriptionIcon />,
   },
