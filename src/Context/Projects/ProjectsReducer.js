@@ -12,7 +12,7 @@ const ProjectsReducer = (state, action) => {
     case OBTENER_PROJECTS:
       return {
         ...state,
-        projects: action.payload,
+        project: action.payload,
         success: false,
         ErrorsApi: [],
       };

@@ -17,7 +17,7 @@ import { EstadoChip } from "../../utils/EstadoChip";
 export default function TableProjects({ rows = [] }) {
   const rolid = Number(localStorage.getItem("rolid"));
   const { project, GetProject, DeleteProjects } = useContext(ProjectsContext);
-
+  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -210,7 +210,6 @@ export default function TableProjects({ rows = [] }) {
       headerAlign: "center",
       minWidth: 100,
     },
-
     {
       field: "created_at",
       headerName: "FECHA REGISTRO",
