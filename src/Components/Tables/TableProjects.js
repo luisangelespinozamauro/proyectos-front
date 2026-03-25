@@ -1,5 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Paper,
+  useTheme,
+  useMediaQuery,
+  Grid,
+} from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { esES } from "@mui/x-data-grid/locales";
@@ -17,7 +24,7 @@ import { EstadoChip } from "../../utils/EstadoChip";
 export default function TableProjects({ rows = [] }) {
   const rolid = Number(localStorage.getItem("rolid"));
   const { project, GetProject, DeleteProjects } = useContext(ProjectsContext);
-  
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -49,6 +56,16 @@ export default function TableProjects({ rows = [] }) {
   const handleClickCloseAdd = () => {
     setOpenModalAdd(false);
   };
+
+  const totalEstimatedVolume = rows.reduce((acc, item) => {
+    return acc + (Number(item.estimated_volume) || 0);
+  }, 0);
+
+  const totalEstimatedProduction = rows.reduce((acc, item) => {
+    return acc + (Number(item.production_2026) || 0);
+  }, 0);
+
+  const dailyProductionAverage = totalEstimatedVolume / 240;
 
   const columns = [
     {
@@ -367,6 +384,65 @@ export default function TableProjects({ rows = [] }) {
               },
             }}
           />
+        </Box>
+
+        <Box
+          sx={{
+            mt: 3,
+            px: 1,
+            py: 2,
+            borderTop: `1px solid ${theme.palette.divider}`,
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            justifyContent: "space-between",
+            alignItems: isMobile ? "flex-start" : "center",
+            gap: 2,
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography variant="caption">Total estimated volume</Typography>
+            <Typography variant="h6" fontWeight={700}>
+              {totalEstimatedVolume.toLocaleString()}
+            </Typography>
+          </Box>
+
+          {!isMobile && (
+            <Box
+              sx={{
+                width: "1px",
+                height: 40,
+                backgroundColor: theme.palette.divider,
+              }}
+            />
+          )}
+
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography variant="caption">
+              Producción diaria promedio
+            </Typography>
+            <Typography variant="h6" fontWeight={700}>
+              {dailyProductionAverage.toLocaleString(undefined, {
+                maximumFractionDigits: 2,
+              })}
+            </Typography>
+          </Box>
+
+          {!isMobile && (
+            <Box
+              sx={{
+                width: "1px",
+                height: 40,
+                backgroundColor: theme.palette.divider,
+              }}
+            />
+          )}
+
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography variant="caption">Total producción</Typography>
+            <Typography variant="h6" fontWeight={700}>
+              {totalEstimatedProduction.toLocaleString()}
+            </Typography>
+          </Box>
         </Box>
       </Paper>
       <ModalDetalleProjects

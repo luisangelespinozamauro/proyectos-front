@@ -12,7 +12,7 @@ export default function SelectField({
   disabled,
   optionValue = "id",
   getOptionLabel,
-  defaultOption = "Selecciona una opción",
+  defaultOption = "Select an option",
 }) {
   return (
     <Controller

@@ -31,13 +31,13 @@ const opciones = [
     ruta: "/projects",
     color: "linear-gradient(135deg, #0EA5E9, #38BDF8)",
   },
-  {
-    title: "Documentos",
-    descripcion: "Administración de documentos",
-    icon: <DescriptionIcon />,
-    ruta: "/documents",
-    color: "linear-gradient(135deg, #9333EA, #A855F7)",
-  },
+  // {
+  //   title: "Documentos",
+  //   descripcion: "Administración de documentos",
+  //   icon: <DescriptionIcon />,
+  //   ruta: "/documents",
+  //   color: "linear-gradient(135deg, #9333EA, #A855F7)",
+  // },
 ];
 
 const containerVariants = {

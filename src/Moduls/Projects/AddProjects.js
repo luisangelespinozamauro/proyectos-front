@@ -26,10 +26,10 @@ export default function AddProjects({ open, handleClose }) {
     handleClose();
   };
 
-  const tiposDireccion = [
-    { id: "Comercial", nombre: "Comercial" },
-    { id: "Taller", nombre: "Taller" },
-    { id: "Sucursal", nombre: "Sucursal" },
+  const projectStatus = [
+    { id: "Project confirmed", nombre: "Project confirmed" },
+    { id: "In process", nombre: "In process" },
+    { id: "First approach", nombre: "First approach" },
   ];
 
   return (
@@ -90,8 +90,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="PRODUCT FAMILY"
                 {...register("product_family", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.product_family}
@@ -116,8 +114,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="QUESTIONNAIRE COMPLETION"
                 {...register("questionnaire_completion", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.questionnaire_completion}
@@ -142,8 +138,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="MOU"
                 {...register("mou_status", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.mou_status}
@@ -155,8 +149,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="TCA"
                 {...register("tca_status", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.tca_status}
@@ -168,8 +160,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="CONTRACT"
                 {...register("contract_status", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.contract_status}
@@ -181,8 +171,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="BOM"
                 {...register("bom_status", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.bom_status}
@@ -194,8 +182,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="PRICE AGREEMENT"
                 {...register("price_agreement", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.price_agreement}
@@ -203,16 +189,13 @@ export default function AddProjects({ open, handleClose }) {
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
+              <SelectField
+                name="project_status"
                 label="PROJECT STATUS"
-                {...register("project_status", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                })}
-                error={!!errors.project_status}
-                helperText={errors.project_status?.message}
+                control={control}
+                rules={{ required: "Debes seleccionar una opción" }}
+                errors={errors}
+                options={projectStatus}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -220,8 +203,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="ASSEMBLY APPROACH"
                 {...register("assembly_approach", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.assembly_approach}
@@ -233,8 +214,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="ASSEMBLY LINE"
                 {...register("assembly_line", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.assembly_line}
@@ -246,8 +225,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="LAYOUT"
                 {...register("layout", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.layout}
@@ -259,8 +236,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="PRODUCTION"
                 {...register("production_2026", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.production_2026}
@@ -272,8 +247,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="POTENTIAL VOLUME"
                 {...register("potential_volume", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.potential_volume}
@@ -285,8 +258,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="COMMENTS"
                 {...register("comments", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.comments}
@@ -298,22 +269,10 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="NEXT STEPS"
                 {...register("next_steps", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.next_steps}
                 helperText={errors.next_steps?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <SelectField
-                name="tipo"
-                label="Tipo de dirección"
-                control={control}
-                rules={{ required: "Debes seleccionar una opción" }}
-                errors={errors}
-                options={tiposDireccion}
               />
             </Grid>
           </Grid>

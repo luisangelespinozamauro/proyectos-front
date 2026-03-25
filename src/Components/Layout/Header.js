@@ -39,12 +39,6 @@ const MODULOS = [
     title: "Documentos",
     icon: <DescriptionIcon />,
   },
-  {
-    id: 4,
-    segment: "Departamentos",
-    title: "Departamentos",
-    icon: <ApartmentIcon />,
-  },
 ];
 
 const construirMenu = (role_id) => {
