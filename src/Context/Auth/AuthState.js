@@ -35,8 +35,8 @@ const AuthState = (props) => {
 
     MethodGet("/user")
       .then(({ data }) => {
-        localStorage.setItem("rolid", data.user.rolid);
-        localStorage.setItem("idusuario", data.user.idusuario);
+        localStorage.setItem("role_id", data.user.role_id);
+        localStorage.setItem("id", data.user.id);
         dispatch({
           type: OBTENER_USUARIO,
           payload: data,
@@ -49,9 +49,9 @@ const AuthState = (props) => {
       });
   };
 
-  const loginExterno = async (numcolaborador) => {
+  const loginExterno = async (collaborator_number) => {
     try {
-      const { data } = await MethodPost(`/login/${numcolaborador}`);
+      const { data } = await MethodPost(`/login/${collaborator_number}`);
 
       localStorage.setItem("token", data.token);
 
@@ -81,8 +81,8 @@ const AuthState = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.removeItem("token");
-        localStorage.removeItem("rolid");
-        localStorage.removeItem("idusuario");
+        localStorage.removeItem("role_id");
+        localStorage.removeItem("id");
         dispatch({
           type: CERRAR_SESION,
         });

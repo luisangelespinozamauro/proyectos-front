@@ -1,11 +1,17 @@
-import React from 'react'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import NoResultados from "../Components/Layout/NoResultados";
+import Inicio from "../Moduls/Inicio/Inicio";
 
 const SuperAdminRoutes = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <Routes>
+      <Route path="/Inicio" element={<Inicio />} />
 
-export default SuperAdminRoutes
+      <Route path="/no-resultados" element={<NoResultados />} />
+      <Route path="*" element={<NoResultados />} />
+    </Routes>
+  );
+};
+
+export default SuperAdminRoutes;

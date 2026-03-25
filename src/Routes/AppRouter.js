@@ -17,12 +17,12 @@ const AppRouter = () => {
 
   const location = window.location;
   const params = new URLSearchParams(location.search);
-  const numcolaborador = params.get("numcolaborador");
+  const collaborator_number = params.get("collaborator_number");
   const [showLoader, setShowLoader] = React.useState(true);
 
   useEffect(() => {
-    if (numcolaborador) {
-      loginExterno(numcolaborador);
+    if (collaborator_number) {
+      loginExterno(collaborator_number);
     } else {
       usuarioAutenticado();
     }
@@ -43,11 +43,11 @@ const AppRouter = () => {
     return null;
   }
 
-  const rolid = localStorage.getItem("rolid");
+  const role_id = localStorage.getItem("role_id");
   let PrivateComponent = null;
 
-  if (rolid === "1" || rolid === "1") PrivateComponent = SuperAdminRoutes;
-  if (rolid === "2" || rolid === "2") PrivateComponent = AdminRoutes;
+  if (role_id === "1" || role_id === "1") PrivateComponent = SuperAdminRoutes;
+  if (role_id === "2" || role_id === "2") PrivateComponent = AdminRoutes;
 
   return (
     <Router>

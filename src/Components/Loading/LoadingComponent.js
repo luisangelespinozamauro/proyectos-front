@@ -1,11 +1,136 @@
-import React from 'react'
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  Box,
+  Typography,
+  LinearProgress,
+  CircularProgress,
+  Paper,
+} from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-const LoadingComponent = () => {
+function LinearProgressWithLabel({ value }) {
   return (
-    <div>
-      
-    </div>
-  )
+    <Box sx={{ width: "100%" }}>
+      <LinearProgress
+        variant="determinate"
+        value={value}
+        aria-label="Progreso de carga"
+        sx={{
+          height: 10,
+          borderRadius: 5,
+          backgroundColor: "#E0E0E0",
+          overflow: "hidden",
+          "& .MuiLinearProgress-bar": {
+            borderRadius: 5,
+            background:
+              value < 100
+                ? "linear-gradient(90deg, #000000, #424242)"
+                : "#000000",
+            transition: "all .6s ease",
+          },
+        }}
+      />
+
+      <Typography
+        variant="body2"
+        sx={{
+          mt: 1,
+          fontWeight: 600,
+          textAlign: "center",
+          color: "#000",
+        }}
+      >
+        {Math.round(value)}%
+      </Typography>
+    </Box>
+  );
 }
 
-export default LoadingComponent
+LinearProgressWithLabel.propTypes = {
+  value: PropTypes.number.isRequired,
+};
+
+export default function LoadingComponent({ loading }) {
+  const [progress, setProgress] = React.useState(0);
+  const [showSuccess, setShowSuccess] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!loading) return;
+
+    const timer = setInterval(() => {
+      setProgress((prev) => Math.min(prev + Math.random() * 6, 90));
+    }, 250);
+
+    return () => clearInterval(timer);
+  }, [loading]);
+
+  React.useEffect(() => {
+    if (!loading) {
+      setProgress(100);
+
+      const successTimer = setTimeout(() => {
+        setShowSuccess(true);
+      }, 300);
+
+      return () => clearTimeout(successTimer);
+    }
+  }, [loading]);
+
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "linear-gradient(135deg, #FFFFFF, #BDBDBD)",
+      }}
+    >
+      <Paper
+        sx={{
+          p: 4,
+          width: 320,
+          textAlign: "center",
+          borderRadius: 4,
+          backdropFilter: "blur(12px)",
+          background: "rgba(255,255,255,.9)",
+          boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+        }}
+      >
+        {!showSuccess ? (
+          <CircularProgress
+            size={72}
+            variant="determinate"
+            value={progress}
+            sx={{
+              mb: 2,
+              color: "#000",
+            }}
+          />
+        ) : (
+          <CheckCircleIcon
+            sx={{
+              fontSize: 72,
+              color: "#000",
+              mb: 2,
+              animation: "pop .4s ease",
+            }}
+          />
+        )}
+
+        <Typography
+          sx={{
+            mb: 2,
+            fontWeight: 600,
+            color: "#000",
+          }}
+        >
+          {showSuccess ? "¡Todo listo!" : "Cargando información…"}
+        </Typography>
+
+        <LinearProgressWithLabel value={progress} />
+      </Paper>
+    </Box>
+  );
+}
