@@ -98,7 +98,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
                 <TableCell>
                   <strong>NR:</strong>
                 </TableCell>
-                <TableCell>{project.nr}</TableCell>
+                <TableCell>{project.id}</TableCell>
               </TableRow>
 
               <TableRow>

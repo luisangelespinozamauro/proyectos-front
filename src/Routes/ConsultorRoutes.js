@@ -5,7 +5,7 @@ import Inicio from "../Moduls/Inicio/Inicio";
 import Projects from "../Moduls/Projects/Projects";
 import Documents from "../Moduls/Documents/Documents";
 
-const AdminRoutes = () => {
+const ConsultorRoutes = () => {
   return (
     <Routes>
       <Route path="/Inicio" element={<Inicio />} />
@@ -18,4 +18,4 @@ const AdminRoutes = () => {
   );
 };
 
-export default AdminRoutes;
+export default ConsultorRoutes;

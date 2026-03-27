@@ -7,23 +7,28 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import ProjectsContext from "../../Context/Projects/ProjectsContext";
 import SelectField from "../../Components/Forms/Select";
+import { useState } from "react";
 
 export default function AddProjects({ open, handleClose }) {
   const { CreateProjects } = useContext(ProjectsContext);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const {
     register,
     control,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
 
-  const onSubmit = (data, e) => {
-    CreateProjects(data);
+  const onSubmit = async (data) => {
+    await CreateProjects(data);
+    reset();
     handleClose();
+    setSelectedFile(null);
   };
 
   const projectStatus = [
@@ -49,19 +54,6 @@ export default function AddProjects({ open, handleClose }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="NR"
-                {...register("nr", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                })}
-                error={!!errors.nr}
-                helperText={errors.nr?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
                 label="BRAND"
                 {...register("brand", {
                   required: "Este campo es obligatorio",
@@ -77,8 +69,6 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="MODEL"
                 {...register("model", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.model}
@@ -98,11 +88,10 @@ export default function AddProjects({ open, handleClose }) {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
+                type="number"
                 fullWidth
                 label="ESTIMATED VOLUME"
                 {...register("estimated_volume", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.estimated_volume}
@@ -125,14 +114,37 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="NDA STATUS"
                 {...register("nda_status", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.nda_status}
                 helperText={errors.nda_status?.message}
               />
             </Grid>
+            {/* <Grid size={12}>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                Archivo PDF
+              </Typography>
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={(e) => setSelectedFile(e.target.files[0])}
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "8px",
+                  borderRadius: "6px",
+                  width: "100%",
+                }}
+              />
+              {selectedFile && (
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mt: 1 }}
+                >
+                  Archivo seleccionado: {selectedFile.name}
+                </Typography>
+              )}
+            </Grid> */}
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
@@ -193,7 +205,6 @@ export default function AddProjects({ open, handleClose }) {
                 name="project_status"
                 label="PROJECT STATUS"
                 control={control}
-                rules={{ required: "Debes seleccionar una opción" }}
                 errors={errors}
                 options={projectStatus}
               />
@@ -233,6 +244,7 @@ export default function AddProjects({ open, handleClose }) {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
+                type="number"
                 fullWidth
                 label="PRODUCTION"
                 {...register("production_2026", {
@@ -244,6 +256,7 @@ export default function AddProjects({ open, handleClose }) {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
+                type="number"
                 fullWidth
                 label="POTENTIAL VOLUME"
                 {...register("potential_volume", {
@@ -253,24 +266,24 @@ export default function AddProjects({ open, handleClose }) {
                 helperText={errors.potential_volume?.message}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
               <TextField
+                rows={4}
                 fullWidth
+                multiline
                 label="COMMENTS"
-                {...register("comments", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                })}
+                {...register("comments", {})}
                 error={!!errors.comments}
                 helperText={errors.comments?.message}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
               <TextField
+                rows={4}
+                multiline
                 fullWidth
                 label="NEXT STEPS"
-                {...register("next_steps", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                })}
+                {...register("next_steps", {})}
                 error={!!errors.next_steps}
                 helperText={errors.next_steps?.message}
               />

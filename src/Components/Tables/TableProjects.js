@@ -20,8 +20,13 @@ import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
 import AddProjects from "../../Moduls/Projects/AddProjects";
 import { EstadoChip } from "../../utils/EstadoChip";
+import DescriptionIcon from "@mui/icons-material/Description";
+import { IconButton, Tooltip } from "@mui/material";
+import { formatNumber } from "../../utils/formatters";
+import { Chip } from "@mui/material";
 
 export default function TableProjects({ rows = [] }) {
+  const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
   const rolid = Number(localStorage.getItem("rolid"));
   const { project, GetProject, DeleteProjects } = useContext(ProjectsContext);
 
@@ -67,13 +72,59 @@ export default function TableProjects({ rows = [] }) {
 
   const dailyProductionAverage = totalEstimatedVolume / 240;
 
+  const getDocumentUrl = (row, type) => {
+    const doc = row.documents?.find((d) => d.type === type);
+
+    if (!doc) return null;
+
+    const version = doc.versions?.[0];
+
+    if (!version) return null;
+
+    return `${baseUrl}/storage/${version.file_path}`;
+  };
+
   const columns = [
     {
-      field: "nr",
+      field: "actions",
+      type: "actions",
+      headerName: "ACCIÓN",
+      flex: 0.5,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 100,
+      getActions: (params) => {
+        const actions = [
+          <GridActionsCellItem
+            icon={<VisibilityIcon sx={{ color: "#42A5F5" }} />}
+            label="Ver detalles"
+            onClick={() => handleClickOpen(params.id)}
+          />,
+        ];
+        if (rolid !== 2) {
+          actions.push(
+            <GridActionsCellItem
+              icon={<EditIcon sx={{ color: "#ed6c02" }} />}
+              label="Editar"
+              onClick={() => handleClickOpenEdit(params.id)}
+            />,
+            <GridActionsCellItem
+              icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
+              label="Eliminar"
+              onClick={() => DeleteProjects(params.id)}
+            />,
+          );
+        }
+        return actions;
+      },
+    },
+    {
+      field: "id",
       headerName: "NR",
       flex: 1,
       align: "center",
       headerAlign: "center",
+      minWidth: 100,
     },
     {
       field: "brand",
@@ -122,6 +173,32 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "NDA");
+
+        // if (!url) {
+        //   return (
+        //     <Chip
+        //       label="Pendiente"
+        //       color="error"
+        //       size="small"
+        //       variant="outlined"
+        //     />
+        //   );
+        // }
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver NDA">
+            <IconButton
+              onClick={() => window.open(url, "_blank")}
+              color="primary"
+            >
+              <DescriptionIcon />
+            </IconButton>
+          </Tooltip>
+        );
+      },
     },
     {
       field: "mou_status",
@@ -130,6 +207,32 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "MOU");
+
+        // if (!url) {
+        //   return (
+        //     <Chip
+        //       label="Pendiente"
+        //       color="error"
+        //       size="small"
+        //       variant="outlined"
+        //     />
+        //   );
+        // }
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver MOU">
+            <IconButton
+              onClick={() => window.open(url, "_blank")}
+              color="primary"
+            >
+              <DescriptionIcon />
+            </IconButton>
+          </Tooltip>
+        );
+      },
     },
     {
       field: "tca_status",
@@ -138,6 +241,32 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "TCA");
+
+        // if (!url) {
+        //   return (
+        //     <Chip
+        //       label="Pendiente"
+        //       color="error"
+        //       size="small"
+        //       variant="outlined"
+        //     />
+        //   );
+        // }
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver TCA">
+            <IconButton
+              onClick={() => window.open(url, "_blank")}
+              color="primary"
+            >
+              <DescriptionIcon />
+            </IconButton>
+          </Tooltip>
+        );
+      },
     },
     {
       field: "contract_status",
@@ -145,7 +274,33 @@ export default function TableProjects({ rows = [] }) {
       flex: 1,
       align: "center",
       headerAlign: "center",
-      minWidth: 100,
+      minWidth: 120,
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "CONTRACT");
+
+        // if (!url) {
+        //   return (
+        //     <Chip
+        //       label="Pendiente"
+        //       color="error"
+        //       size="small"
+        //       variant="outlined"
+        //     />
+        //   );
+        // }
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver contrato">
+            <IconButton
+              onClick={() => window.open(url, "_blank")}
+              color="primary"
+            >
+              <DescriptionIcon />
+            </IconButton>
+          </Tooltip>
+        );
+      },
     },
     {
       field: "bom_status",
@@ -154,6 +309,32 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "BOM");
+
+        // if (!url) {
+        //   return (
+        //     <Chip
+        //       label="Pendiente"
+        //       color="error"
+        //       size="small"
+        //       variant="outlined"
+        //     />
+        //   );
+        // }
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver BOM">
+            <IconButton
+              onClick={() => window.open(url, "_blank")}
+              color="primary"
+            >
+              <DescriptionIcon />
+            </IconButton>
+          </Tooltip>
+        );
+      },
     },
     {
       field: "price_agreement",
@@ -162,6 +343,32 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "PRICE");
+
+        // if (!url) {
+        //   return (
+        //     <Chip
+        //       label="Pendiente"
+        //       color="error"
+        //       size="small"
+        //       variant="outlined"
+        //     />
+        //   );
+        // }
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver PRICE AGREEMENT">
+            <IconButton
+              onClick={() => window.open(url, "_blank")}
+              color="primary"
+            >
+              <DescriptionIcon />
+            </IconButton>
+          </Tooltip>
+        );
+      },
     },
     {
       field: "project_status",
@@ -169,7 +376,7 @@ export default function TableProjects({ rows = [] }) {
       flex: 1,
       align: "center",
       headerAlign: "center",
-      minWidth: 100,
+      minWidth: 150,
     },
     {
       field: "assembly_approach",
@@ -177,7 +384,7 @@ export default function TableProjects({ rows = [] }) {
       flex: 1,
       align: "center",
       headerAlign: "center",
-      minWidth: 100,
+      minWidth: 150,
     },
     {
       field: "assembly_line",
@@ -194,6 +401,32 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "LAYOUT");
+
+        // if (!url) {
+        //   return (
+        //     <Chip
+        //       label="Pendiente"
+        //       color="error"
+        //       size="small"
+        //       variant="outlined"
+        //     />
+        //   );
+        // }
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver LAYOUT">
+            <IconButton
+              onClick={() => window.open(url, "_blank")}
+              color="primary"
+            >
+              <DescriptionIcon />
+            </IconButton>
+          </Tooltip>
+        );
+      },
     },
     {
       field: "production_2026",
@@ -215,25 +448,19 @@ export default function TableProjects({ rows = [] }) {
       field: "comments",
       headerName: "COMMENTS",
       flex: 1,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
+      minWidth: 200,
     },
     {
       field: "next_steps",
       headerName: "NEXT STEPS",
       flex: 1,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
+      minWidth: 200,
     },
     {
       field: "created_at",
       headerName: "FECHA REGISTRO",
       flex: 1,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
+      minWidth: 200,
       renderCell: (params) => dateFormatter(params.value),
     },
     {
@@ -244,39 +471,6 @@ export default function TableProjects({ rows = [] }) {
       headerAlign: "center",
       minWidth: 100,
       renderCell: (params) => <EstadoChip estado={params.value} />,
-    },
-    {
-      field: "actions",
-      type: "actions",
-      headerName: "ACCIÓN",
-      flex: 0.5,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
-      getActions: (params) => {
-        const actions = [
-          <GridActionsCellItem
-            icon={<VisibilityIcon sx={{ color: "#42A5F5" }} />}
-            label="Ver detalles"
-            onClick={() => handleClickOpen(params.id)}
-          />,
-        ];
-        if (rolid !== 2) {
-          actions.push(
-            <GridActionsCellItem
-              icon={<EditIcon sx={{ color: "#ed6c02" }} />}
-              label="Editar"
-              onClick={() => handleClickOpenEdit(params.id)}
-            />,
-            <GridActionsCellItem
-              icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
-              label="Eliminar"
-              onClick={() => DeleteProjects(params.id)}
-            />,
-          );
-        }
-        return actions;
-      },
     },
   ];
 
@@ -305,7 +499,7 @@ export default function TableProjects({ rows = [] }) {
             columns={columns}
             showToolbar
             autoHeight={isMobile}
-            checkboxSelection={!isMobile}
+            checkboxSelection={false}
             disableRowSelectionOnClick
             pageSizeOptions={[5, 10, 20]}
             initialState={{
@@ -313,7 +507,7 @@ export default function TableProjects({ rows = [] }) {
                 paginationModel: { pageSize: 5, page: 0 },
               },
               sorting: {
-                sortModel: [{ field: "id", sort: "desc" }],
+                sortModel: [{ field: "id", sort: "asc" }],
               },
             }}
             slots={{
@@ -402,7 +596,7 @@ export default function TableProjects({ rows = [] }) {
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography variant="caption">Total estimated volume</Typography>
             <Typography variant="h6" fontWeight={700}>
-              {totalEstimatedVolume.toLocaleString()}
+              {formatNumber(totalEstimatedVolume)}
             </Typography>
           </Box>
 
@@ -421,9 +615,7 @@ export default function TableProjects({ rows = [] }) {
               Producción diaria promedio
             </Typography>
             <Typography variant="h6" fontWeight={700}>
-              {dailyProductionAverage.toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              })}
+              {formatNumber(dailyProductionAverage)}
             </Typography>
           </Box>
 
@@ -440,7 +632,7 @@ export default function TableProjects({ rows = [] }) {
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography variant="caption">Total producción</Typography>
             <Typography variant="h6" fontWeight={700}>
-              {totalEstimatedProduction.toLocaleString()}
+              {formatNumber(totalEstimatedProduction)}
             </Typography>
           </Box>
         </Box>

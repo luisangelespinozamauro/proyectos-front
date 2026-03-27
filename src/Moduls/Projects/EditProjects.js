@@ -68,20 +68,6 @@ export default function EditProjects({ open, handleClose, id }) {
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <TextField
                   fullWidth
-                  label="NR"
-                  defaultValue={project.nr}
-                  {...register("nr", {
-                    required: "Este campo es obligatorio",
-                    minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                    maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                  })}
-                  error={!!errors.nr}
-                  helperText={errors.nr?.message}
-                />
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                <TextField
-                  fullWidth
                   label="BRAND"
                   defaultValue={project.brand}
                   {...register("brand", {
@@ -99,8 +85,6 @@ export default function EditProjects({ open, handleClose, id }) {
                   label="MODEL"
                   defaultValue={project.model}
                   {...register("model", {
-                    required: "Este campo es obligatorio",
-                    minLength: { value: 1, message: "Mínimo 1 caracteres" },
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
                   error={!!errors.model}
@@ -125,8 +109,6 @@ export default function EditProjects({ open, handleClose, id }) {
                   label="ESTIMATED VOLUME"
                   defaultValue={project.estimated_volume}
                   {...register("estimated_volume", {
-                    required: "Este campo es obligatorio",
-                    minLength: { value: 1, message: "Mínimo 1 caracteres" },
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
                   error={!!errors.estimated_volume}
@@ -151,8 +133,6 @@ export default function EditProjects({ open, handleClose, id }) {
                   label="NDA STATUS"
                   defaultValue={project.nda_status}
                   {...register("nda_status", {
-                    required: "Este campo es obligatorio",
-                    minLength: { value: 1, message: "Mínimo 1 caracteres" },
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
                   error={!!errors.nda_status}
@@ -224,7 +204,6 @@ export default function EditProjects({ open, handleClose, id }) {
                   name="project_status"
                   label="PROJECT STATUS"
                   control={control}
-                  rules={{ required: "Debes seleccionar una opción" }}
                   errors={errors}
                   options={projectStatus}
                 />
@@ -289,26 +268,26 @@ export default function EditProjects({ open, handleClose, id }) {
                   helperText={errors.potential_volume?.message}
                 />
               </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
                 <TextField
+                  rows={4}
+                  multiline
                   fullWidth
                   label="COMMENTS"
                   defaultValue={project.comments}
-                  {...register("comments", {
-                    maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                  })}
+                  {...register("comments", {})}
                   error={!!errors.comments}
                   helperText={errors.comments?.message}
                 />
               </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
                 <TextField
+                  rows={4}
+                  multiline
                   fullWidth
                   label="NEXT STEPS"
                   defaultValue={project.next_steps}
-                  {...register("next_steps", {
-                    maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                  })}
+                  {...register("next_steps", {})}
                   error={!!errors.next_steps}
                   helperText={errors.next_steps?.message}
                 />
