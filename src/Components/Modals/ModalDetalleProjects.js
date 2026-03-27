@@ -20,8 +20,10 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { dateFormatter } from "../../utils/dateFormatter";
 import { EstadoChip } from "../../utils/EstadoChip";
+import { formatNumber } from "../../utils/formatters";
 
 const ModalDetalleProjects = ({ open, handleClose, project }) => {
+  const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
   const theme = useTheme();
   const [value, setValue] = useState(0);
 
@@ -29,6 +31,17 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const getDocumentsByType = (type) => {
+    const doc = project.documents?.find((d) => d.type === type);
+
+    if (!doc || !doc.versions?.length) return [];
+
+    return doc.versions.map((v) => ({
+      url: `${baseUrl}/storage/${v.file_path}`,
+      version: v.version,
+    }));
   };
 
   return (
@@ -91,164 +104,126 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
       </Box>
 
       <DialogContent sx={{ p: 4 }}>
-        <TableContainer component={Paper}>
+        <TableContainer
+          component={Paper}
+          sx={{
+            borderRadius: 2,
+            boxShadow: "none",
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+        >
           <Table>
             <TableBody>
-              <TableRow>
-                <TableCell>
-                  <strong>NR:</strong>
-                </TableCell>
-                <TableCell>{project.id}</TableCell>
-              </TableRow>
+              {[
+                { label: "NR", value: project.id },
+                { label: "BRAND", value: project.brand },
+                { label: "MODEL", value: project.model },
+                { label: "PRODUCT FAMILY", value: project.product_family },
+                {
+                  label: "ESTIMATED VOLUME",
+                  value: formatNumber(project.estimated_volume),
+                },
+                {
+                  label: "QUESTIONNAIRE COMPLETION",
+                  value: project.questionnaire_completion,
+                },
+                { label: "NDA STATUS", value: project.nda_status },
+                {
+                  label: "NDA STATUS",
+                  value: (
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems="center"
+                      flexWrap="wrap"
+                    >
+                      <span>{project.nda_status || "-"}</span>
 
-              <TableRow>
-                <TableCell>
-                  <strong>BRAND:</strong>
-                </TableCell>
-                <TableCell>{project.brand}</TableCell>
-              </TableRow>
+                      {getDocumentsByType("NDA").length > 0 && (
+                        <Stack direction="row" spacing={1}>
+                          {getDocumentsByType("NDA").map((doc, i) => (
+                            <Typography
+                              key={i}
+                              onClick={() => window.open(doc.url, "_blank")}
+                              sx={{
+                                cursor: "pointer",
+                                fontSize: "0.8rem",
+                                px: 1,
+                                borderRadius: 1,
+                                backgroundColor: theme.palette.primary.light,
+                                color: theme.palette.primary.contrastText,
+                                "&:hover": {
+                                  opacity: 0.8,
+                                },
+                              }}
+                            >
+                              V{doc.version}
+                            </Typography>
+                          ))}
+                        </Stack>
+                      )}
+                    </Stack>
+                  ),
+                },
+                { label: "MOU", value: project.mou_status },
+                { label: "TCA", value: project.tca_status },
+                { label: "CONTRACT", value: project.contract_status },
+                { label: "BOM", value: project.bom_status },
+                { label: "PRICE AGREEMENT", value: project.price_agreement },
+                { label: "PROJECT STATUS", value: project.project_status },
+                {
+                  label: "ASSEMBLY APPROACH",
+                  value: project.assembly_approach,
+                },
+                { label: "ASSEMBLY LINE", value: project.assembly_line },
+                { label: "LAYOUT", value: project.layout },
+                {
+                  label: "PRODUCTION",
+                  value: formatNumber(project.production_2026),
+                },
+                {
+                  label: "POTENTIAL VOLUME",
+                  value: formatNumber(project.potential_volume),
+                },
+                { label: "COMMENTS", value: project.comments },
+                { label: "NEXT STEPS", value: project.next_steps },
+                {
+                  label: "Fecha de registro",
+                  value: dateFormatter(project.created_at),
+                },
+                {
+                  label: "Estado",
+                  value: <EstadoChip estado={project.estado} />,
+                },
+              ].map((row, index) => (
+                <TableRow
+                  key={index}
+                  sx={{
+                    "&:nth-of-type(odd)": {
+                      backgroundColor: theme.palette.action.hover,
+                    },
+                  }}
+                >
+                  <TableCell
+                    sx={{
+                      fontWeight: 600,
+                      width: "35%",
+                      color: theme.palette.text.secondary,
+                      borderRight: `1px solid ${theme.palette.divider}`,
+                    }}
+                  >
+                    {row.label}
+                  </TableCell>
 
-              <TableRow>
-                <TableCell>
-                  <strong>MODEL:</strong>
-                </TableCell>
-                <TableCell>{project.model}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>PRODUCT FAMILY:</strong>
-                </TableCell>
-                <TableCell>{project.product_family}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>ESTIMATED VOLUME:</strong>
-                </TableCell>
-                <TableCell>{project.estimated_volume}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>QUESTIONNAIRE COMPLETION:</strong>
-                </TableCell>
-                <TableCell>{project.questionnaire_completion}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>NDA STATUS:</strong>
-                </TableCell>
-                <TableCell>{project.nda_status}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>MOU:</strong>
-                </TableCell>
-                <TableCell>{project.mou_status}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>TCA:</strong>
-                </TableCell>
-                <TableCell>{project.tca_status}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>CONTRACT:</strong>
-                </TableCell>
-                <TableCell>{project.contract_status}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>BOM:</strong>
-                </TableCell>
-                <TableCell>{project.bom_status}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>PRICE AGREEMENT:</strong>
-                </TableCell>
-                <TableCell>{project.price_agreement}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>PROJECT STATUS:</strong>
-                </TableCell>
-                <TableCell>{project.project_status}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>ASSEMBLY APPROACH:</strong>
-                </TableCell>
-                <TableCell>{project.assembly_approach}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>ASSEMBLY LINE:</strong>
-                </TableCell>
-                <TableCell>{project.assembly_line}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>LAYOUT:</strong>
-                </TableCell>
-                <TableCell>{project.layout}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>PRODUCTION:</strong>
-                </TableCell>
-                <TableCell>{project.production_2026}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>POTENTIAL VOLUME:</strong>
-                </TableCell>
-                <TableCell>{project.potential_volume}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>COMMENTS:</strong>
-                </TableCell>
-                <TableCell>{project.comments}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>NEXT STEPS:</strong>
-                </TableCell>
-                <TableCell>{project.next_steps}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>Fecha de registro:</strong>
-                </TableCell>
-                <TableCell>{dateFormatter(project.created_at)}</TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell>
-                  <strong>Estado:</strong>
-                </TableCell>
-                <TableCell>
-                  <EstadoChip estado={project.estado} />
-                </TableCell>
-              </TableRow>
+                  <TableCell
+                    sx={{
+                      fontWeight: 500,
+                    }}
+                  >
+                    {row.value || "-"}
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

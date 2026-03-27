@@ -1,12 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  Box,
-  Typography,
-  Paper,
-  useTheme,
-  useMediaQuery,
-  Grid,
-} from "@mui/material";
+import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { esES } from "@mui/x-data-grid/locales";
@@ -20,10 +13,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
 import AddProjects from "../../Moduls/Projects/AddProjects";
 import { EstadoChip } from "../../utils/EstadoChip";
-import DescriptionIcon from "@mui/icons-material/Description";
 import { IconButton, Tooltip } from "@mui/material";
 import { formatNumber } from "../../utils/formatters";
-import { Chip } from "@mui/material";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import DescriptionIcon from "@mui/icons-material/Description";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
 export default function TableProjects({ rows = [] }) {
   const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
@@ -82,6 +76,28 @@ export default function TableProjects({ rows = [] }) {
     if (!version) return null;
 
     return `${baseUrl}/storage/${version.file_path}`;
+  };
+
+  const getFileIcon = (url) => {
+    if (!url) return null;
+
+    if (url.endsWith(".pdf")) {
+      return <PictureAsPdfIcon sx={{ color: "#d32f2f" }} />;
+    }
+
+    if (url.endsWith(".doc") || url.endsWith(".docx")) {
+      return <DescriptionIcon sx={{ color: "#1976d2" }} />;
+    }
+
+    if (url.endsWith(".xls") || url.endsWith(".xlsx")) {
+      return <InsertDriveFileIcon sx={{ color: "#2e7d32" }} />;
+    }
+
+    if (url.endsWith(".ppt") || url.endsWith(".pptx")) {
+      return <InsertDriveFileIcon sx={{ color: "#ed6c02" }} />;
+    }
+
+    return <DescriptionIcon />;
   };
 
   const columns = [
@@ -157,6 +173,9 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      valueFormatter: (params) => {
+        return formatNumber(Number(params) || 0);
+      },
     },
     {
       field: "questionnaire_completion",
@@ -176,25 +195,12 @@ export default function TableProjects({ rows = [] }) {
       renderCell: (params) => {
         const url = getDocumentUrl(params.row, "NDA");
 
-        // if (!url) {
-        //   return (
-        //     <Chip
-        //       label="Pendiente"
-        //       color="error"
-        //       size="small"
-        //       variant="outlined"
-        //     />
-        //   );
-        // }
         if (!url) return null;
 
         return (
           <Tooltip title="Ver NDA">
-            <IconButton
-              onClick={() => window.open(url, "_blank")}
-              color="primary"
-            >
-              <DescriptionIcon />
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
             </IconButton>
           </Tooltip>
         );
@@ -210,25 +216,12 @@ export default function TableProjects({ rows = [] }) {
       renderCell: (params) => {
         const url = getDocumentUrl(params.row, "MOU");
 
-        // if (!url) {
-        //   return (
-        //     <Chip
-        //       label="Pendiente"
-        //       color="error"
-        //       size="small"
-        //       variant="outlined"
-        //     />
-        //   );
-        // }
         if (!url) return null;
 
         return (
           <Tooltip title="Ver MOU">
-            <IconButton
-              onClick={() => window.open(url, "_blank")}
-              color="primary"
-            >
-              <DescriptionIcon />
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
             </IconButton>
           </Tooltip>
         );
@@ -244,25 +237,12 @@ export default function TableProjects({ rows = [] }) {
       renderCell: (params) => {
         const url = getDocumentUrl(params.row, "TCA");
 
-        // if (!url) {
-        //   return (
-        //     <Chip
-        //       label="Pendiente"
-        //       color="error"
-        //       size="small"
-        //       variant="outlined"
-        //     />
-        //   );
-        // }
         if (!url) return null;
 
         return (
           <Tooltip title="Ver TCA">
-            <IconButton
-              onClick={() => window.open(url, "_blank")}
-              color="primary"
-            >
-              <DescriptionIcon />
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
             </IconButton>
           </Tooltip>
         );
@@ -278,25 +258,12 @@ export default function TableProjects({ rows = [] }) {
       renderCell: (params) => {
         const url = getDocumentUrl(params.row, "CONTRACT");
 
-        // if (!url) {
-        //   return (
-        //     <Chip
-        //       label="Pendiente"
-        //       color="error"
-        //       size="small"
-        //       variant="outlined"
-        //     />
-        //   );
-        // }
         if (!url) return null;
 
         return (
           <Tooltip title="Ver contrato">
-            <IconButton
-              onClick={() => window.open(url, "_blank")}
-              color="primary"
-            >
-              <DescriptionIcon />
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
             </IconButton>
           </Tooltip>
         );
@@ -312,25 +279,12 @@ export default function TableProjects({ rows = [] }) {
       renderCell: (params) => {
         const url = getDocumentUrl(params.row, "BOM");
 
-        // if (!url) {
-        //   return (
-        //     <Chip
-        //       label="Pendiente"
-        //       color="error"
-        //       size="small"
-        //       variant="outlined"
-        //     />
-        //   );
-        // }
         if (!url) return null;
 
         return (
           <Tooltip title="Ver BOM">
-            <IconButton
-              onClick={() => window.open(url, "_blank")}
-              color="primary"
-            >
-              <DescriptionIcon />
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
             </IconButton>
           </Tooltip>
         );
@@ -346,25 +300,12 @@ export default function TableProjects({ rows = [] }) {
       renderCell: (params) => {
         const url = getDocumentUrl(params.row, "PRICE");
 
-        // if (!url) {
-        //   return (
-        //     <Chip
-        //       label="Pendiente"
-        //       color="error"
-        //       size="small"
-        //       variant="outlined"
-        //     />
-        //   );
-        // }
         if (!url) return null;
 
         return (
           <Tooltip title="Ver PRICE AGREEMENT">
-            <IconButton
-              onClick={() => window.open(url, "_blank")}
-              color="primary"
-            >
-              <DescriptionIcon />
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
             </IconButton>
           </Tooltip>
         );
@@ -404,25 +345,12 @@ export default function TableProjects({ rows = [] }) {
       renderCell: (params) => {
         const url = getDocumentUrl(params.row, "LAYOUT");
 
-        // if (!url) {
-        //   return (
-        //     <Chip
-        //       label="Pendiente"
-        //       color="error"
-        //       size="small"
-        //       variant="outlined"
-        //     />
-        //   );
-        // }
         if (!url) return null;
 
         return (
           <Tooltip title="Ver LAYOUT">
-            <IconButton
-              onClick={() => window.open(url, "_blank")}
-              color="primary"
-            >
-              <DescriptionIcon />
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
             </IconButton>
           </Tooltip>
         );
@@ -435,6 +363,9 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      valueFormatter: (params) => {
+        return formatNumber(Number(params) || 0);
+      },
     },
     {
       field: "potential_volume",
@@ -443,6 +374,9 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      valueFormatter: (params) => {
+        return formatNumber(Number(params) || 0);
+      },
     },
     {
       field: "comments",
