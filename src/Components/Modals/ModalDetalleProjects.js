@@ -21,6 +21,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { dateFormatter } from "../../utils/dateFormatter";
 import { EstadoChip } from "../../utils/EstadoChip";
 import { formatNumber } from "../../utils/formatters";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import DescriptionIcon from "@mui/icons-material/Description";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { Tooltip } from "@mui/material";
 
 const ModalDetalleProjects = ({ open, handleClose, project }) => {
   const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
@@ -33,15 +37,112 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
     setValue(newValue);
   };
 
-  const getDocumentsByType = (type) => {
+  const getFileConfig = (url) => {
+    if (!url) return {};
+
+    if (url.endsWith(".pdf")) {
+      return {
+        icon: <PictureAsPdfIcon sx={{ color: "#d32f2f", fontSize: 18 }} />,
+        action: () => window.open(url, "_blank"),
+      };
+    }
+
+    if (url.endsWith(".doc") || url.endsWith(".docx")) {
+      return {
+        icon: <DescriptionIcon sx={{ color: "#1976d2", fontSize: 18 }} />,
+        action: () => downloadFile(url),
+      };
+    }
+
+    if (url.endsWith(".xls") || url.endsWith(".xlsx")) {
+      return {
+        icon: <InsertDriveFileIcon sx={{ color: "#2e7d32", fontSize: 18 }} />,
+        action: () => downloadFile(url),
+      };
+    }
+
+    if (url.endsWith(".ppt") || url.endsWith(".pptx")) {
+      return {
+        icon: <InsertDriveFileIcon sx={{ color: "#ed6c02", fontSize: 18 }} />,
+        action: () => downloadFile(url),
+      };
+    }
+
+    return {
+      icon: <DescriptionIcon sx={{ fontSize: 18 }} />,
+      action: () => downloadFile(url),
+    };
+  };
+
+  const downloadFile = (url) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const renderDocumentVersions = (type, label) => {
     const doc = project.documents?.find((d) => d.type === type);
 
-    if (!doc || !doc.versions?.length) return [];
+    if (!doc) {
+      return { label, value: "-" };
+    }
 
-    return doc.versions.map((v) => ({
-      url: `${baseUrl}/storage/${v.file_path}`,
-      version: v.version,
-    }));
+    return {
+      label,
+      value: (
+        <Stack spacing={1}>
+          <Typography fontSize="0.85rem">
+            {project[`${type.toLowerCase()}_status`] || "-"}
+          </Typography>
+
+          <Stack direction="row" spacing={1} flexWrap="wrap">
+            {doc.versions.map((v, i) => {
+              const url = `${baseUrl}/storage/${v.file_path}`;
+              const { icon, action } = getFileConfig(url);
+              return (
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={0.5}
+                    sx={{
+                      cursor: "pointer",
+                      px: 1,
+                      py: 0.3,
+                      borderRadius: 2,
+                      backgroundColor: theme.palette.grey[100],
+                      border: `1px solid ${theme.palette.divider}`,
+                      "&:hover": {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                    }}
+                  >
+                    {icon}
+
+                    <Tooltip
+                      title={`Subido: ${dateFormatter(v.created_at)}`}
+                      arrow
+                    >
+                      <Typography fontSize="0.75rem" fontWeight={600}>
+                        Versión{v.version}
+                      </Typography>
+                    </Tooltip>
+                  </Stack>
+                </a>
+              );
+            })}
+          </Stack>
+        </Stack>
+      ),
+    };
   };
 
   return (
@@ -128,48 +229,17 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
                   value: project.questionnaire_completion,
                 },
                 { label: "NDA STATUS", value: project.nda_status },
-                {
-                  label: "NDA STATUS",
-                  value: (
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      alignItems="center"
-                      flexWrap="wrap"
-                    >
-                      <span>{project.nda_status || "-"}</span>
-
-                      {getDocumentsByType("NDA").length > 0 && (
-                        <Stack direction="row" spacing={1}>
-                          {getDocumentsByType("NDA").map((doc, i) => (
-                            <Typography
-                              key={i}
-                              onClick={() => window.open(doc.url, "_blank")}
-                              sx={{
-                                cursor: "pointer",
-                                fontSize: "0.8rem",
-                                px: 1,
-                                borderRadius: 1,
-                                backgroundColor: theme.palette.primary.light,
-                                color: theme.palette.primary.contrastText,
-                                "&:hover": {
-                                  opacity: 0.8,
-                                },
-                              }}
-                            >
-                              V{doc.version}
-                            </Typography>
-                          ))}
-                        </Stack>
-                      )}
-                    </Stack>
-                  ),
-                },
+                renderDocumentVersions("NDA", "NDA"),
                 { label: "MOU", value: project.mou_status },
+                renderDocumentVersions("MOU", "MOU"),
                 { label: "TCA", value: project.tca_status },
+                renderDocumentVersions("TCA", "TCA"),
                 { label: "CONTRACT", value: project.contract_status },
+                renderDocumentVersions("CONTRACT", "CONTRACT"),
                 { label: "BOM", value: project.bom_status },
+                renderDocumentVersions("BOM", "BOM"),
                 { label: "PRICE AGREEMENT", value: project.price_agreement },
+                renderDocumentVersions("PRICE", "PRICE AGREEMENT"),
                 { label: "PROJECT STATUS", value: project.project_status },
                 {
                   label: "ASSEMBLY APPROACH",
@@ -177,6 +247,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
                 },
                 { label: "ASSEMBLY LINE", value: project.assembly_line },
                 { label: "LAYOUT", value: project.layout },
+                renderDocumentVersions("LAYOUT", "LAYOUT"),
                 {
                   label: "PRODUCTION",
                   value: formatNumber(project.production_2026),
