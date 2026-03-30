@@ -435,10 +435,10 @@ export default function TableProjects({ rows = [] }) {
             autoHeight={isMobile}
             checkboxSelection={false}
             disableRowSelectionOnClick
-            pageSizeOptions={[5, 10, 20]}
+            pageSizeOptions={[5, 10, 20, 50, 100]}
             initialState={{
               pagination: {
-                paginationModel: { pageSize: 5, page: 0 },
+                paginationModel: { pageSize: 10, page: 0 },
               },
               sorting: {
                 sortModel: [{ field: "id", sort: "asc" }],
