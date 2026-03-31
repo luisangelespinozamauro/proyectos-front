@@ -11,7 +11,7 @@ import LogoDinamico from "./LogoDinamico";
 import { tienePermisoMenu } from "../../utils/roles";
 import FolderIcon from "@mui/icons-material/Folder";
 import DescriptionIcon from "@mui/icons-material/Description";
-import ApartmentIcon from "@mui/icons-material/Apartment";
+import GroupIcon from "@mui/icons-material/Group";
 
 const theme = createTheme({
   cssVariables: {
@@ -38,6 +38,12 @@ const MODULOS = [
     segment: "Documents",
     title: "Documentos",
     icon: <DescriptionIcon />,
+  },
+  {
+    id: 4,
+    segment: "Users",
+    title: "Usuarios",
+    icon: <GroupIcon />,
   },
 ];
 

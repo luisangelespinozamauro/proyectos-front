@@ -12,10 +12,10 @@ import MethodGet from "../../Config/Service";
 import ProjectsContext from "../../Context/Projects/ProjectsContext";
 import { useState } from "react";
 import SelectField from "../../Components/Forms/Select";
+import FileField from "../../Components/Forms/FileField";
 
 export default function EditProjects({ open, handleClose, id }) {
   const { UpdateProjects } = useContext(ProjectsContext);
-
   const [project, saveProject] = useState(null);
 
   const {
@@ -30,8 +30,17 @@ export default function EditProjects({ open, handleClose, id }) {
     let url = `/projects/${id}`;
     MethodGet(url)
       .then((res) => {
-        saveProject(res.data);
-        reset(res.data);
+        const data = res.data;
+
+        const documentsMap = {};
+        data.documents.forEach((doc) => {
+          documentsMap[doc.type] = doc;
+        });
+
+        data.documents = documentsMap;
+
+        saveProject(data);
+        reset(data);
       })
       .catch((error) => {
         console.log(error);
@@ -50,6 +59,17 @@ export default function EditProjects({ open, handleClose, id }) {
     { id: "First approach", nombre: "First approach" },
   ];
 
+  const documentTypes = [
+    "QUESTIONNAIRE",
+    "NDA",
+    "MOU",
+    "TCA",
+    "CONTRACT",
+    "BOM",
+    "PRICE",
+    "LAYOUT",
+  ];
+
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="lg">
       <DialogTitle>Editar proyecto</DialogTitle>
@@ -65,11 +85,21 @@ export default function EditProjects({ open, handleClose, id }) {
         <DialogContent>
           {project && (
             <Grid container spacing={2}>
+              {documentTypes.map((type) => (
+                <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                  <FileField
+                    name={`documents.${type}`}
+                    label={`${type} (Nueva versión)`}
+                    control={control}
+                    errors={errors}
+                    currentFile={project?.documents?.[type]}
+                  />
+                </Grid>
+              ))}
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <TextField
                   fullWidth
                   label="BRAND"
-                  defaultValue={project.brand}
                   {...register("brand", {
                     required: "Este campo es obligatorio",
                     minLength: { value: 1, message: "Mínimo 1 caracteres" },
@@ -83,7 +113,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="MODEL"
-                  defaultValue={project.model}
                   {...register("model", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -95,7 +124,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="PRODUCT FAMILY"
-                  defaultValue={project.product_family}
                   {...register("product_family", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -105,9 +133,9 @@ export default function EditProjects({ open, handleClose, id }) {
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <TextField
+                  type="number"
                   fullWidth
                   label="ESTIMATED VOLUME"
-                  defaultValue={project.estimated_volume}
                   {...register("estimated_volume", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -119,7 +147,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="QUESTIONNAIRE COMPLETION"
-                  defaultValue={project.questionnaire_completion}
                   {...register("questionnaire_completion", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -131,7 +158,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="NDA STATUS"
-                  defaultValue={project.nda_status}
                   {...register("nda_status", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -143,7 +169,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="MOU"
-                  defaultValue={project.mou_status}
                   {...register("mou_status", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -155,7 +180,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="TCA"
-                  defaultValue={project.tca_status}
                   {...register("tca_status", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -167,7 +191,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="CONTRACT"
-                  defaultValue={project.contract_status}
                   {...register("contract_status", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -179,7 +202,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="BOM"
-                  defaultValue={project.bom_status}
                   {...register("bom_status", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -191,7 +213,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="PRICE AGREEMENT"
-                  defaultValue={project.price_agreement}
                   {...register("price_agreement", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -212,7 +233,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="ASSEMBLY APPROACH"
-                  defaultValue={project.assembly_approach}
                   {...register("assembly_approach", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -224,7 +244,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="ASSEMBLY LINE"
-                  defaultValue={project.assembly_line}
                   {...register("assembly_line", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -236,7 +255,6 @@ export default function EditProjects({ open, handleClose, id }) {
                 <TextField
                   fullWidth
                   label="LAYOUT"
-                  defaultValue={project.layout}
                   {...register("layout", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -246,9 +264,9 @@ export default function EditProjects({ open, handleClose, id }) {
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <TextField
+                  type="number"
                   fullWidth
                   label="PRODUCTION"
-                  defaultValue={project.production}
                   {...register("production_2026", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -258,9 +276,9 @@ export default function EditProjects({ open, handleClose, id }) {
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <TextField
+                  type="number"
                   fullWidth
                   label="POTENTIAL VOLUME"
-                  defaultValue={project.potential_volume}
                   {...register("potential_volume", {
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}
@@ -274,7 +292,6 @@ export default function EditProjects({ open, handleClose, id }) {
                   multiline
                   fullWidth
                   label="COMMENTS"
-                  defaultValue={project.comments}
                   {...register("comments", {})}
                   error={!!errors.comments}
                   helperText={errors.comments?.message}
@@ -286,7 +303,6 @@ export default function EditProjects({ open, handleClose, id }) {
                   multiline
                   fullWidth
                   label="NEXT STEPS"
-                  defaultValue={project.next_steps}
                   {...register("next_steps", {})}
                   error={!!errors.next_steps}
                   helperText={errors.next_steps?.message}

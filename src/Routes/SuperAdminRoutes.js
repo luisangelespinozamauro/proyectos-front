@@ -4,6 +4,7 @@ import NoResultados from "../Components/Layout/NoResultados";
 import Inicio from "../Moduls/Inicio/Inicio";
 import Projects from "../Moduls/Projects/Projects";
 import Documents from "../Moduls/Documents/Documents";
+import Users from "../Moduls/Users/Users";
 
 const SuperAdminRoutes = () => {
   return (
@@ -11,6 +12,7 @@ const SuperAdminRoutes = () => {
       <Route path="/Inicio" element={<Inicio />} />
       <Route path="/Projects" element={<Projects />} />
       <Route path="/Documents" element={<Documents />} />
+      <Route path="/Users" element={<Users />} />
       
       <Route path="/no-resultados" element={<NoResultados />} />
       <Route path="*" element={<NoResultados />} />

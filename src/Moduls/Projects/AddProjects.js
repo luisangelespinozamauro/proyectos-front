@@ -7,14 +7,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import ProjectsContext from "../../Context/Projects/ProjectsContext";
 import SelectField from "../../Components/Forms/Select";
-import { useState } from "react";
+import FileField from "../../Components/Forms/FileField";
 
 export default function AddProjects({ open, handleClose }) {
   const { CreateProjects } = useContext(ProjectsContext);
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const {
     register,
@@ -25,16 +24,44 @@ export default function AddProjects({ open, handleClose }) {
   } = useForm();
 
   const onSubmit = async (data) => {
-    await CreateProjects(data);
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      if (key !== "documents") {
+        formData.append(key, data[key]);
+      }
+    });
+
+    if (data.documents) {
+      Object.keys(data.documents).forEach((type) => {
+        const file = data.documents[type];
+        if (file) {
+          formData.append(`documents[${type}]`, file);
+        }
+      });
+    }
+
+    await CreateProjects(formData);
+
     reset();
     handleClose();
-    setSelectedFile(null);
   };
 
   const projectStatus = [
     { id: "Project confirmed", nombre: "Project confirmed" },
     { id: "In process", nombre: "In process" },
     { id: "First approach", nombre: "First approach" },
+  ];
+
+  const documentTypes = [
+    "QUESTIONNAIRE",
+    "NDA",
+    "MOU",
+    "TCA",
+    "CONTRACT",
+    "BOM",
+    "PRICE",
+    "LAYOUT",
   ];
 
   return (
@@ -51,6 +78,16 @@ export default function AddProjects({ open, handleClose }) {
       >
         <DialogContent>
           <Grid container spacing={2}>
+            {documentTypes.map((type) => (
+              <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                <FileField
+                  name={`documents.${type}`}
+                  label={`${type} FILE`}
+                  control={control}
+                  errors={errors}
+                />
+              </Grid>
+            ))}
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
@@ -120,31 +157,6 @@ export default function AddProjects({ open, handleClose }) {
                 helperText={errors.nda_status?.message}
               />
             </Grid>
-            {/* <Grid size={12}>
-              <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                Archivo PDF
-              </Typography>
-              <input
-                type="file"
-                accept="application/pdf"
-                onChange={(e) => setSelectedFile(e.target.files[0])}
-                style={{
-                  border: "1px solid #ccc",
-                  padding: "8px",
-                  borderRadius: "6px",
-                  width: "100%",
-                }}
-              />
-              {selectedFile && (
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mt: 1 }}
-                >
-                  Archivo seleccionado: {selectedFile.name}
-                </Typography>
-              )}
-            </Grid> */}
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth

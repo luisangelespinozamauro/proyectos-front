@@ -228,6 +228,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
                   label: "QUESTIONNAIRE COMPLETION",
                   value: project.questionnaire_completion,
                 },
+                renderDocumentVersions("QUESTIONNAIRE", "QUESTIONNAIRE"),
                 { label: "NDA STATUS", value: project.nda_status },
                 renderDocumentVersions("NDA", "NDA"),
                 { label: "MOU", value: project.mou_status },
@@ -279,7 +280,6 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
                     sx={{
                       fontWeight: 600,
                       width: "35%",
-                      color: theme.palette.text.secondary,
                       borderRight: `1px solid ${theme.palette.divider}`,
                     }}
                   >

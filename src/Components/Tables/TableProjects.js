@@ -21,7 +21,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
 export default function TableProjects({ rows = [] }) {
   const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
-  const rolid = Number(localStorage.getItem("rolid"));
+  const role_id = Number(localStorage.getItem("role_id"));
   const { project, GetProject, DeleteProjects } = useContext(ProjectsContext);
 
   const theme = useTheme();
@@ -117,7 +117,7 @@ export default function TableProjects({ rows = [] }) {
             onClick={() => handleClickOpen(params.id)}
           />,
         ];
-        if (rolid !== 2) {
+        if (role_id !== 3) {
           actions.push(
             <GridActionsCellItem
               icon={<EditIcon sx={{ color: "#ed6c02" }} />}
@@ -184,6 +184,19 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "QUESTIONNAIRE");
+
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver QUESTIONNAIRE COMPLETION">
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
+            </IconButton>
+          </Tooltip>
+        );
+      },
     },
     {
       field: "nda_status",
@@ -455,7 +468,7 @@ export default function TableProjects({ rows = [] }) {
                   }}
                 >
                   <Typography fontWeight={600}>Total: {rows.length}</Typography>
-                  {rolid !== 2 && (
+                  {role_id !== 3 && (
                     <Button
                       variant="contained"
                       startIcon={<AddIcon />}
