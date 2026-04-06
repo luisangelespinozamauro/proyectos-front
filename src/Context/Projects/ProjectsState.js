@@ -76,15 +76,16 @@ const ProjectsState = ({ children }) => {
       .catch(handleError);
   };
 
-  const UpdateProjects = (data) => {
-    MethodPut(`/projects/${data.id}`, data)
+  const UpdateProjects = (id, data) => {
+    const request =
+      data instanceof FormData
+        ? MethodPost(`/projects/${id}?_method=PUT`, data, imageHeaders)
+        : MethodPut(`/projects/${id}`, data);
+
+    request
       .then((res) => {
         dispatch({ type: UPDATE_PROJECTS, payload: res.data });
-        Swal.fire({
-          title: "Éxito",
-          text: "Proyecto actualizado con éxito",
-          icon: "success",
-        });
+        Swal.fire("Éxito", "Proyecto actualizado con éxito", "success");
         GetProjects();
       })
       .catch(handleError);

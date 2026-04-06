@@ -1,6 +1,8 @@
 import React from "react";
 import { Controller } from "react-hook-form";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button, Stack } from "@mui/material";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
 export default function FileField({
   name,
@@ -24,33 +26,71 @@ export default function FileField({
             {label}
           </Typography>
 
-          <input
-            type="file"
-            accept={accept}
+          <Button
+            variant="outlined"
+            component="label"
+            startIcon={<UploadFileIcon />}
+            fullWidth
+            sx={{
+              justifyContent: "flex-start",
+              textTransform: "none",
+              borderStyle: "dashed",
+              height: 56,
+            }}
             disabled={disabled}
-            onChange={(e) => {
-              const file = e.target.files[0];
-              onChange(file);
-            }}
-            style={{
-              border: "1px solid #ccc",
-              padding: "8px",
-              borderRadius: "6px",
-              width: "100%",
-            }}
-          />
+          >
+            {value
+              ? "Cambiar archivo"
+              : currentFile
+                ? "Reemplazar archivo"
+                : "Seleccionar archivo"}
 
-          {!value && currentFile && (
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              Archivo actual: {currentFile.name}
-            </Typography>
-          )}
+            <input
+              type="file"
+              hidden
+              accept={accept}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                onChange(file);
 
-          {value && (
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-              Nuevo archivo: {value.name}
-            </Typography>
-          )}
+                e.target.value = null;
+              }}
+            />
+          </Button>
+
+          <Stack spacing={0.5} sx={{ mt: 1 }}>
+            {value && (
+              <Box display="flex" alignItems="center" gap={1}>
+                <InsertDriveFileIcon fontSize="small" color="primary" />
+                <Typography variant="body2" color="primary">
+                  Nuevo: {value.name}
+                </Typography>
+
+                <Button
+                  size="small"
+                  color="error"
+                  onClick={() => onChange(null)}
+                >
+                  Quitar
+                </Button>
+              </Box>
+            )}
+
+            {!value && currentFile && (
+              <Box display="flex" alignItems="center" gap={1}>
+                <InsertDriveFileIcon fontSize="small" />
+                <Typography variant="body2" color="text.secondary">
+                  Actual: {currentFile?.name || "Archivo existente"}
+                </Typography>
+              </Box>
+            )}
+
+            {!value && !currentFile && (
+              <Typography variant="body2" color="text.disabled">
+                Sin archivo seleccionado
+              </Typography>
+            )}
+          </Stack>
 
           {errors?.[name] && (
             <Typography color="error" variant="caption">

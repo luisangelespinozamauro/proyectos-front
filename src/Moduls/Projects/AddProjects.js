@@ -64,6 +64,11 @@ export default function AddProjects({ open, handleClose }) {
     "LAYOUT",
   ];
 
+  const dueDiligence = [
+    { id: "Si", nombre: "Si" },
+    { id: "No", nombre: "No" },
+  ];
+
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="lg">
       <DialogTitle>Nuevo proyecto</DialogTitle>
@@ -106,6 +111,8 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="MODEL"
                 {...register("model", {
+                  required: "Este campo es obligatorio",
+                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.model}
@@ -117,6 +124,8 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="PRODUCT FAMILY"
                 {...register("product_family", {
+                  required: "Este campo es obligatorio",
+                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.product_family}
@@ -129,6 +138,8 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="ESTIMATED VOLUME"
                 {...register("estimated_volume", {
+                  required: "Este campo es obligatorio",
+                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.estimated_volume}
@@ -151,6 +162,8 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="NDA STATUS"
                 {...register("nda_status", {
+                  required: "Este campo es obligatorio",
+                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.nda_status}
@@ -226,6 +239,8 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="ASSEMBLY APPROACH"
                 {...register("assembly_approach", {
+                  required: "Este campo es obligatorio",
+                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.assembly_approach}
@@ -237,6 +252,8 @@ export default function AddProjects({ open, handleClose }) {
                 fullWidth
                 label="ASSEMBLY LINE"
                 {...register("assembly_line", {
+                  required: "Este campo es obligatorio",
+                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
                   maxLength: { value: 200, message: "Máximo 200 caracteres" },
                 })}
                 error={!!errors.assembly_line}
@@ -276,6 +293,15 @@ export default function AddProjects({ open, handleClose }) {
                 })}
                 error={!!errors.potential_volume}
                 helperText={errors.potential_volume?.message}
+              />
+            </Grid> 
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <SelectField
+                name="due_diligence"
+                label="Due Diligence"
+                control={control}
+                errors={errors}
+                options={dueDiligence}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>

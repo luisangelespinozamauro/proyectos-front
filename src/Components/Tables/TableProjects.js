@@ -71,7 +71,8 @@ export default function TableProjects({ rows = [] }) {
 
     if (!doc) return null;
 
-    const version = doc.versions?.[0];
+    //const version = doc.versions?.[0];
+    const version = doc.versions?.[doc.versions.length - 1];
 
     if (!version) return null;
 

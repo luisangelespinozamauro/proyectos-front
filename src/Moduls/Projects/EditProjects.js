@@ -40,16 +40,37 @@ export default function EditProjects({ open, handleClose, id }) {
         data.documents = documentsMap;
 
         saveProject(data);
-        reset(data);
+
+        reset({
+          ...data,
+          documents: {},
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   }, [id, reset]);
 
-  const onSubmit = (data, e) => {
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      if (key !== "documents") {
+        formData.append(key, data[key]);
+      }
+    });
+
+    if (data.documents) {
+      Object.keys(data.documents).forEach((type) => {
+        const file = data.documents[type];
+        if (file instanceof File) {
+          formData.append(`documents[${type}]`, file);
+        }
+      });
+    }
+
     data.id = id;
-    UpdateProjects(data);
+    await UpdateProjects(id, formData);
     handleClose();
   };
 
@@ -68,6 +89,11 @@ export default function EditProjects({ open, handleClose, id }) {
     "BOM",
     "PRICE",
     "LAYOUT",
+  ];
+
+  const dueDiligence = [
+    { id: "Si", nombre: "Si" },
+    { id: "No", nombre: "No" },
   ];
 
   return (
@@ -284,6 +310,15 @@ export default function EditProjects({ open, handleClose, id }) {
                   })}
                   error={!!errors.potential_volume}
                   helperText={errors.potential_volume?.message}
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                <SelectField
+                  name="due_diligence"
+                  label="Due Diligence"
+                  control={control}
+                  errors={errors}
+                  options={dueDiligence}
                 />
               </Grid>
               <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
