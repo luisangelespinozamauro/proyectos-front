@@ -41,6 +41,17 @@ export default function EditProjects({ open, handleClose, id }) {
 
         saveProject(data);
 
+        if (data.yearly_estimations && data.yearly_estimations.length > 0) {
+          setYearlyEstimations(
+            data.yearly_estimations.map((item) => ({
+              year: item.year,
+              amount: item.amount,
+            })),
+          );
+        } else {
+          setYearlyEstimations([{ year: "", amount: "" }]);
+        }
+
         reset({
           ...data,
           documents: {},
@@ -69,6 +80,11 @@ export default function EditProjects({ open, handleClose, id }) {
       });
     }
 
+    yearlyEstimations.forEach((item, index) => {
+      formData.append(`yearly_estimations[${index}][year]`, item.year);
+      formData.append(`yearly_estimations[${index}][amount]`, item.amount);
+    });
+
     data.id = id;
     await UpdateProjects(id, formData);
     handleClose();
@@ -95,6 +111,32 @@ export default function EditProjects({ open, handleClose, id }) {
     { id: "Si", nombre: "Si" },
     { id: "No", nombre: "No" },
   ];
+
+  const [yearlyEstimations, setYearlyEstimations] = React.useState([
+    { year: "", amount: "" },
+  ]);
+
+  const addYear = () => {
+    setYearlyEstimations([
+      ...yearlyEstimations,
+      {
+        year: new Date().getFullYear() + yearlyEstimations.length,
+        amount: "",
+      },
+    ]);
+  };
+
+  const removeYear = (index) => {
+    const updated = [...yearlyEstimations];
+    updated.splice(index, 1);
+    setYearlyEstimations(updated);
+  };
+
+  const handleYearChange = (index, field, value) => {
+    const updated = [...yearlyEstimations];
+    updated[index][field] = value;
+    setYearlyEstimations(updated);
+  };
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="lg">
@@ -288,7 +330,7 @@ export default function EditProjects({ open, handleClose, id }) {
                   helperText={errors.layout?.message}
                 />
               </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              {/* <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <TextField
                   type="number"
                   fullWidth
@@ -311,7 +353,7 @@ export default function EditProjects({ open, handleClose, id }) {
                   error={!!errors.potential_volume}
                   helperText={errors.potential_volume?.message}
                 />
-              </Grid>
+              </Grid> */}
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <SelectField
                   name="due_diligence"
@@ -320,6 +362,46 @@ export default function EditProjects({ open, handleClose, id }) {
                   errors={errors}
                   options={dueDiligence}
                 />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                {yearlyEstimations.map((item, index) => (
+                  <Grid container spacing={2} key={index} mb={1}>
+                    <Grid size={{ xs: 12, sm: 5 }}>
+                      <TextField
+                        fullWidth
+                        label="Año"
+                        type="number"
+                        value={item.year}
+                        onChange={(e) =>
+                          handleYearChange(index, "year", e.target.value)
+                        }
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 5 }}>
+                      <TextField
+                        fullWidth
+                        label="Monto"
+                        type="number"
+                        value={item.amount}
+                        onChange={(e) =>
+                          handleYearChange(index, "amount", e.target.value)
+                        }
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 2 }}>
+                      <Button
+                        fullWidth
+                        color="error"
+                        onClick={() => removeYear(index)}
+                      >
+                        Eliminar
+                      </Button>
+                    </Grid>
+                  </Grid>
+                ))}
+                <Button onClick={addYear} variant="outlined">
+                  + Agregar año
+                </Button>
               </Grid>
               <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
                 <TextField

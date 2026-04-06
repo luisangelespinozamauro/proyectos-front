@@ -249,13 +249,30 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
                 { label: "ASSEMBLY LINE", value: project.assembly_line },
                 { label: "LAYOUT", value: project.layout },
                 renderDocumentVersions("LAYOUT", "LAYOUT"),
+                // {
+                //   label: "PRODUCTION",
+                //   value: formatNumber(project.production_2026),
+                // },
+                // {
+                //   label: "POTENTIAL VOLUME",
+                //   value: formatNumber(project.potential_volume),
+                // },
                 {
                   label: "PRODUCTION",
-                  value: formatNumber(project.production_2026),
-                },
-                {
-                  label: "POTENTIAL VOLUME",
-                  value: formatNumber(project.potential_volume),
+                  value: (
+                    <Stack spacing={0.5}>
+                      {project.yearly_estimations?.length > 0
+                        ? [...project.yearly_estimations]
+                            .sort((a, b) => a.year - b.year)
+                            .map((item) => (
+                              <Typography key={item.id} fontSize="0.85rem">
+                                <strong>{item.year}:</strong>{" "}
+                                {formatNumber(Number(item.amount))}
+                              </Typography>
+                            ))
+                        : "-"}
+                    </Stack>
+                  ),
                 },
                 { label: "COMMENTS", value: project.comments },
                 { label: "NEXT STEPS", value: project.next_steps },

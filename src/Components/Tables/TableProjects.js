@@ -370,15 +370,40 @@ export default function TableProjects({ rows = [] }) {
         );
       },
     },
+    // {
+    //   field: "production_2026",
+    //   headerName: "PRODUCTION",
+    //   flex: 1,
+    //   align: "center",
+    //   headerAlign: "center",
+    //   minWidth: 100,
+    //   valueFormatter: (params) => {
+    //     return formatNumber(Number(params) || 0);
+    //   },
+    // },
     {
-      field: "production_2026",
+      field: "production",
       headerName: "PRODUCTION",
       flex: 1,
       align: "center",
       headerAlign: "center",
-      minWidth: 100,
-      valueFormatter: (params) => {
-        return formatNumber(Number(params) || 0);
+      minWidth: 150,
+      renderCell: (params) => {
+        const estimations = params.row.yearly_estimations;
+
+        if (!estimations || estimations.length === 0) {
+          return <Typography variant="caption">Sin datos</Typography>;
+        }
+
+        return (
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            {estimations.map((item) => (
+              <Typography key={item.id} variant="caption">
+                {item.year} = {formatNumber(Number(item.amount))}
+              </Typography>
+            ))}
+          </Box>
+        );
       },
     },
     {
@@ -445,6 +470,7 @@ export default function TableProjects({ rows = [] }) {
           <DataGrid
             rows={rows}
             columns={columns}
+            getRowHeight={() => "auto"}
             showToolbar
             autoHeight={isMobile}
             checkboxSelection={false}
@@ -497,11 +523,19 @@ export default function TableProjects({ rows = [] }) {
                 borderTop: `2px solid ${theme.palette.primary.main}`,
               },
 
+              // "& .MuiDataGrid-cell": {
+              //   borderBottom: "1px solid #e0e0e0",
+              //   whiteSpace: "nowrap",
+              //   overflow: "hidden",
+              //   textOverflow: "ellipsis",
+              // },
+
               "& .MuiDataGrid-cell": {
                 borderBottom: "1px solid #e0e0e0",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                whiteSpace: "normal",
+                lineHeight: "1.4rem",
+                display: "flex",
+                alignItems: "center",
               },
 
               "& .MuiDataGrid-columnSeparator": {
