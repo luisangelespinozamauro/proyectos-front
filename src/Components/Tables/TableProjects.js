@@ -61,7 +61,11 @@ export default function TableProjects({ rows = [] }) {
   }, 0);
 
   const totalEstimatedProduction = rows.reduce((acc, item) => {
-    return acc + (Number(item.production_2026) || 0);
+    const totalByProject = item.yearly_estimations?.reduce((sum, est) => {
+      return sum + (Number(est.amount) || 0);
+    }, 0);
+
+    return acc + totalByProject;
   }, 0);
 
   const dailyProductionAverage = totalEstimatedVolume / 240;

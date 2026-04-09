@@ -11,6 +11,7 @@ import {
   LOGIN_ERROR,
   CERRAR_SESION,
 } from "../../types";
+import { ROLES } from "../../utils/roles";
 
 const AuthState = (props) => {
   const initialState = {
@@ -101,6 +102,58 @@ const AuthState = (props) => {
     });
   };
 
+  const manualUsuario = async () => {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Se descargará el manual de usuario",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sí, descargar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const role_id = localStorage.getItem("role_id");
+          const tipo = ROLES(role_id); 
+
+          if (!tipo) {
+            throw new Error("Rol inválido");
+          }
+
+          const response = await MethodGet(
+            `/manual/${tipo}`,
+            {},
+            { responseType: "blob" },
+          );
+
+          const blob = new Blob([response.data], {
+            type: "application/pdf",
+          });
+
+          const url = window.URL.createObjectURL(blob);
+
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `manual-${tipo}.pdf`;
+          link.click();
+
+          Swal.fire({
+            title: "Descarga exitosa",
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        } catch (error) {
+          Swal.fire({
+            title: "Error",
+            text: error.message || "No se pudo descargar",
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -114,6 +167,7 @@ const AuthState = (props) => {
         usuarioAutenticado,
         loginExterno,
         cerrarSesion,
+        manualUsuario,
       }}
     >
       {props.children}

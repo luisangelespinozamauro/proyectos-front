@@ -23,6 +23,7 @@ const opciones = [
     icon: <HomeIcon />,
     ruta: "/inicio",
     color: "linear-gradient(135deg, #4F46E5, #6366F1)",
+    rolesPermitidos: [1, 2, 3],
   },
   {
     title: "Proyectos",
@@ -30,14 +31,16 @@ const opciones = [
     icon: <StorefrontIcon />,
     ruta: "/projects",
     color: "linear-gradient(135deg, #0EA5E9, #38BDF8)",
+    rolesPermitidos: [1, 2, 3],
   },
-  // {
-  //   title: "Documentos",
-  //   descripcion: "Administración de documentos",
-  //   icon: <DescriptionIcon />,
-  //   ruta: "/documents",
-  //   color: "linear-gradient(135deg, #9333EA, #A855F7)",
-  // },
+  {
+    title: "Usuarios",
+    descripcion: "Administración de usuarios",
+    icon: <DescriptionIcon />,
+    ruta: "/Users",
+    color: "linear-gradient(135deg, #10B981, #34D399)",
+    rolesPermitidos: [1],
+  },
 ];
 
 const containerVariants = {
@@ -76,6 +79,12 @@ const Inicio = () => {
 
   const nombreCompleto = getNombreCompleto(usuario);
 
+  const role_id = usuario?.user?.role_id;
+
+  const opcionesFiltradas = opciones.filter((item) =>
+    item.rolesPermitidos.includes(Number(role_id)),
+  );
+
   return (
     <Layout>
       <Box sx={{ minHeight: "100vh", py: 10 }}>
@@ -105,7 +114,7 @@ const Inicio = () => {
             initial="hidden"
             animate="visible"
           >
-            {opciones.map((item, index) => (
+            {opcionesFiltradas.map((item, index) => (
               <Grid
                 item
                 key={index}

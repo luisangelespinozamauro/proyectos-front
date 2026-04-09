@@ -31,17 +31,23 @@ const ProjectsState = ({ children }) => {
       Swal.fire("Error", "Error de conexión con el servidor", "error");
       return;
     }
-
     const { status, data } = error.response;
-
     if (status === 422 && data.errors) {
-      const mensajes = Object.values(data.errors).flat().join("\n");
-      Swal.fire("Error de validación", mensajes, "warning");
-    } else if (data.message) {
-      Swal.fire("Error", data.message, "error");
-    } else {
-      Swal.fire("Error", "Ocurrió un error inesperado", "error");
+      const mensajes = Object.entries(data.errors)
+        .map(([campo, errores]) => `• ${errores.join(", ")}`)
+        .join("\n");
+      Swal.fire({
+        title: "Error de validación",
+        text: mensajes,
+        icon: "warning",
+      });
+      return;
     }
+    if (data.message) {
+      Swal.fire("Error", data.message, "error");
+      return;
+    }
+    Swal.fire("Error", "Ocurrió un error inesperado", "error");
   };
 
   const GetProjects = () => {

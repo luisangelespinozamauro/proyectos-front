@@ -115,16 +115,6 @@ export default function AddProjects({ open, handleClose }) {
       >
         <DialogContent>
           <Grid container spacing={2}>
-            {documentTypes.map((type) => (
-              <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                <FileField
-                  name={`documents.${type}`}
-                  label={`${type} FILE`}
-                  control={control}
-                  errors={errors}
-                />
-              </Grid>
-            ))}
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
@@ -336,6 +326,16 @@ export default function AddProjects({ open, handleClose }) {
                 options={dueDiligence}
               />
             </Grid>
+            {documentTypes.map((type) => (
+              <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                <FileField
+                  name={`documents.${type}`}
+                  label={`${type} FILE`}
+                  control={control}
+                  errors={errors}
+                />
+              </Grid>
+            ))}
             <Grid size={{ xs: 12 }}>
               {yearlyEstimations.map((item, index) => (
                 <Grid container spacing={2} key={index} mb={1}>
