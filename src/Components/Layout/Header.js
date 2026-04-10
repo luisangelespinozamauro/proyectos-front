@@ -66,7 +66,7 @@ const construirMenu = (role_id) => {
 };
 
 export default function Header({ children }) {
-  const { cerrarSesion, manualUsuario } = useContext(AuthContext);
+  const { cerrarSesion } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -74,14 +74,14 @@ export default function Header({ children }) {
     () => ({
       pathname: location.pathname,
       navigate: (path) => {
-        if (path === "/volver-intranet") {
-          window.location.href =
-            "https://ldrhsys.ldrhumanresources.com/Cliente/interfaces/Inicio.php";
+        if (path === "/manual-usuario") {
+          window.open("/super-admin.pdf", "_blank", "noreferrer");
           return;
         }
 
-        if (path === "/manual-usuario") {
-          manualUsuario();
+        if (path === "/volver-intranet") {
+          window.location.href =
+            "https://ldrhsys.ldrhumanresources.com/Cliente/interfaces/Inicio.php";
           return;
         }
 
@@ -110,11 +110,11 @@ export default function Header({ children }) {
         title: "Volver a la intranet",
         icon: <KeyboardReturnIcon />,
       },
-      // {
-      //   segment: "manual-usuario",
-      //   title: "Manual de usuario",
-      //   icon: <DescriptionIcon />,
-      // },
+      {
+        segment: "manual-usuario",
+        title: "Manual de usuario",
+        icon: <DescriptionIcon />,
+      },
       {
         segment: "cerrar-sesion",
         title: "Cerrar sesión",
