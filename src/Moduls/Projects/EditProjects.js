@@ -17,6 +17,7 @@ import FileField from "../../Components/Forms/FileField";
 export default function EditProjects({ open, handleClose, id }) {
   const { UpdateProjects } = useContext(ProjectsContext);
   const [project, saveProject] = useState(null);
+  const auth_user_id = Number(localStorage.getItem("id"));
 
   const {
     register,
@@ -153,17 +154,6 @@ export default function EditProjects({ open, handleClose, id }) {
         <DialogContent>
           {project && (
             <Grid container spacing={2}>
-              {documentTypes.map((type) => (
-                <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                  <FileField
-                    name={`documents.${type}`}
-                    label={`${type} (Nueva versión)`}
-                    control={control}
-                    errors={errors}
-                    currentFile={project?.documents?.[type]}
-                  />
-                </Grid>
-              ))}
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <TextField
                   fullWidth
@@ -277,17 +267,24 @@ export default function EditProjects({ open, handleClose, id }) {
                   helperText={errors.bom_status?.message}
                 />
               </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                <TextField
-                  fullWidth
-                  label="PRICE AGREEMENT"
-                  {...register("price_agreement", {
-                    maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                  })}
-                  error={!!errors.price_agreement}
-                  helperText={errors.price_agreement?.message}
-                />
-              </Grid>
+              {(auth_user_id === 5 ||
+                auth_user_id === 6 ||
+                auth_user_id === 12) && (
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                  <TextField
+                    fullWidth
+                    label="PRICE AGREEMENT"
+                    {...register("price_agreement", {
+                      maxLength: {
+                        value: 200,
+                        message: "Máximo 200 caracteres",
+                      },
+                    })}
+                    error={!!errors.price_agreement}
+                    helperText={errors.price_agreement?.message}
+                  />
+                </Grid>
+              )}
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <SelectField
                   name="project_status"
@@ -363,6 +360,19 @@ export default function EditProjects({ open, handleClose, id }) {
                   options={dueDiligence}
                 />
               </Grid>
+              <br />
+              {documentTypes.map((type) => (
+                <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                  <FileField
+                    name={`documents.${type}`}
+                    label={`${type} (Nueva versión)`}
+                    control={control}
+                    errors={errors}
+                    currentFile={project?.documents?.[type]}
+                  />
+                </Grid>
+              ))}
+              <br />
               <Grid size={{ xs: 12 }}>
                 {yearlyEstimations.map((item, index) => (
                   <Grid container spacing={2} key={index} mb={1}>

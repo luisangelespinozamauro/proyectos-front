@@ -27,9 +27,14 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import { Tooltip } from "@mui/material";
 
 const ModalDetalleProjects = ({ open, handleClose, project }) => {
-  const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
+  const baseUrl =
+    process.env.REACT_APP_BACKEND_URL?.replace(/\/api$/, "") || "";
   const theme = useTheme();
   const [value, setValue] = useState(0);
+
+  const auth_user_id = Number(localStorage.getItem("id"));
+  const allowedUserIds = [5, 6, 12];
+  const canSeePrice = allowedUserIds.includes(auth_user_id);
 
   if (!project) return null;
 
@@ -39,29 +44,30 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
 
   const getFileConfig = (url) => {
     if (!url) return {};
+    const lowerUrl = url.toLowerCase();
 
-    if (url.endsWith(".pdf")) {
+    if (lowerUrl.endsWith(".pdf")) {
       return {
         icon: <PictureAsPdfIcon sx={{ color: "#d32f2f", fontSize: 18 }} />,
         action: () => window.open(url, "_blank"),
       };
     }
 
-    if (url.endsWith(".doc") || url.endsWith(".docx")) {
+    if (lowerUrl.endsWith(".doc") || lowerUrl.endsWith(".docx")) {
       return {
         icon: <DescriptionIcon sx={{ color: "#1976d2", fontSize: 18 }} />,
         action: () => downloadFile(url),
       };
     }
 
-    if (url.endsWith(".xls") || url.endsWith(".xlsx")) {
+    if (lowerUrl.endsWith(".xls") || lowerUrl.endsWith(".xlsx")) {
       return {
         icon: <InsertDriveFileIcon sx={{ color: "#2e7d32", fontSize: 18 }} />,
         action: () => downloadFile(url),
       };
     }
 
-    if (url.endsWith(".ppt") || url.endsWith(".pptx")) {
+    if (lowerUrl.endsWith(".ppt") || lowerUrl.endsWith(".pptx")) {
       return {
         icon: <InsertDriveFileIcon sx={{ color: "#ed6c02", fontSize: 18 }} />,
         action: () => downloadFile(url),
@@ -101,9 +107,10 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
           <Stack direction="row" spacing={1} flexWrap="wrap">
             {doc.versions.map((v, i) => {
               const url = `${baseUrl}/storage/${v.file_path}`;
-              const { icon, action } = getFileConfig(url);
+              const { icon } = getFileConfig(url);
               return (
                 <a
+                  key={i}
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -131,8 +138,12 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
                       title={`Subido: ${dateFormatter(v.created_at)}`}
                       arrow
                     >
-                      <Typography fontSize="0.75rem" fontWeight={600}>
-                        Versión{v.version}
+                      <Typography
+                        fontSize="0.75rem"
+                        fontWeight={600}
+                        color="text.primary"
+                      >
+                        Versión {v.version}
                       </Typography>
                     </Tooltip>
                   </Stack>
@@ -145,23 +156,78 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
     };
   };
 
+  const rows = [
+    { label: "NR", value: project.id },
+    { label: "BRAND", value: project.brand },
+    { label: "MODEL", value: project.model },
+    { label: "PRODUCT FAMILY", value: project.product_family },
+    {
+      label: "ESTIMATED VOLUME",
+      value: formatNumber(project.estimated_volume),
+    },
+    {
+      label: "QUESTIONNAIRE COMPLETION",
+      value: project.questionnaire_completion,
+    },
+    renderDocumentVersions("QUESTIONNAIRE", "QUESTIONNAIRE"),
+    { label: "NDA STATUS", value: project.nda_status },
+    renderDocumentVersions("NDA", "NDA"),
+    { label: "MOU", value: project.mou_status },
+    renderDocumentVersions("MOU", "MOU"),
+    { label: "TCA", value: project.tca_status },
+    renderDocumentVersions("TCA", "TCA"),
+    { label: "CONTRACT", value: project.contract_status },
+    renderDocumentVersions("CONTRACT", "CONTRACT"),
+    { label: "BOM", value: project.bom_status },
+    renderDocumentVersions("BOM", "BOM"),
+  ];
+
+  if (canSeePrice) {
+    rows.push(
+      { label: "PRICE AGREEMENT", value: project.price_agreement },
+      renderDocumentVersions("PRICE", "PRICE AGREEMENT"),
+    );
+  }
+
+  rows.push(
+    { label: "PROJECT STATUS", value: project.project_status },
+    { label: "ASSEMBLY APPROACH", value: project.assembly_approach },
+    { label: "ASSEMBLY LINE", value: project.assembly_line },
+    { label: "LAYOUT", value: project.layout },
+    renderDocumentVersions("LAYOUT", "LAYOUT"),
+    {
+      label: "PRODUCTION",
+      value: (
+        <Stack spacing={0.5}>
+          {project.yearly_estimations?.length > 0
+            ? [...project.yearly_estimations]
+                .sort((a, b) => a.year - b.year)
+                .map((item) => (
+                  <Typography key={item.id} fontSize="0.85rem">
+                    <strong>{item.year}:</strong>{" "}
+                    {formatNumber(Number(item.amount))}
+                  </Typography>
+                ))
+            : "-"}
+        </Stack>
+      ),
+    },
+    { label: "COMMENTS", value: project.comments },
+    { label: "NEXT STEPS", value: project.next_steps },
+    { label: "Fecha de registro", value: dateFormatter(project.created_at) },
+    { label: "Estado", value: <EstadoChip estado={project.estado} /> },
+  );
+
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       maxWidth="xl"
       fullWidth
-      PaperProps={{
-        sx: {
-          borderRadius: 3,
-        },
-      }}
+      PaperProps={{ sx: { borderRadius: 3 } }}
     >
       <DialogTitle
-        sx={{
-          borderBottom: `1px solid ${theme.palette.divider}`,
-          py: 2,
-        }}
+        sx={{ borderBottom: `1px solid ${theme.palette.divider}`, py: 2 }}
       >
         <Stack
           direction="row"
@@ -171,7 +237,6 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
           <Typography variant="h6" fontWeight={700}>
             Detalle del proyecto
           </Typography>
-
           <IconButton onClick={handleClose}>
             <CloseIcon />
           </IconButton>
@@ -179,25 +244,16 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
       </DialogTitle>
 
       <Box
-        sx={{
-          borderBottom: 1,
-          borderColor: "divider",
-          px: { xs: 1, sm: 3 },
-        }}
+        sx={{ borderBottom: 1, borderColor: "divider", px: { xs: 1, sm: 3 } }}
       >
         <Tabs
           value={value}
           onChange={handleChange}
           variant="scrollable"
           scrollButtons="auto"
-          allowScrollButtonsMobile
           sx={{
             minHeight: 48,
-            "& .MuiTab-root": {
-              minHeight: 48,
-              textTransform: "none",
-              fontWeight: 600,
-            },
+            "& .MuiTab-root": { textTransform: "none", fontWeight: 600 },
           }}
         >
           <Tab label="Información" />
@@ -215,76 +271,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
         >
           <Table>
             <TableBody>
-              {[
-                { label: "NR", value: project.id },
-                { label: "BRAND", value: project.brand },
-                { label: "MODEL", value: project.model },
-                { label: "PRODUCT FAMILY", value: project.product_family },
-                {
-                  label: "ESTIMATED VOLUME",
-                  value: formatNumber(project.estimated_volume),
-                },
-                {
-                  label: "QUESTIONNAIRE COMPLETION",
-                  value: project.questionnaire_completion,
-                },
-                renderDocumentVersions("QUESTIONNAIRE", "QUESTIONNAIRE"),
-                { label: "NDA STATUS", value: project.nda_status },
-                renderDocumentVersions("NDA", "NDA"),
-                { label: "MOU", value: project.mou_status },
-                renderDocumentVersions("MOU", "MOU"),
-                { label: "TCA", value: project.tca_status },
-                renderDocumentVersions("TCA", "TCA"),
-                { label: "CONTRACT", value: project.contract_status },
-                renderDocumentVersions("CONTRACT", "CONTRACT"),
-                { label: "BOM", value: project.bom_status },
-                renderDocumentVersions("BOM", "BOM"),
-                { label: "PRICE AGREEMENT", value: project.price_agreement },
-                renderDocumentVersions("PRICE", "PRICE AGREEMENT"),
-                { label: "PROJECT STATUS", value: project.project_status },
-                {
-                  label: "ASSEMBLY APPROACH",
-                  value: project.assembly_approach,
-                },
-                { label: "ASSEMBLY LINE", value: project.assembly_line },
-                { label: "LAYOUT", value: project.layout },
-                renderDocumentVersions("LAYOUT", "LAYOUT"),
-                // {
-                //   label: "PRODUCTION",
-                //   value: formatNumber(project.production_2026),
-                // },
-                // {
-                //   label: "POTENTIAL VOLUME",
-                //   value: formatNumber(project.potential_volume),
-                // },
-                {
-                  label: "PRODUCTION",
-                  value: (
-                    <Stack spacing={0.5}>
-                      {project.yearly_estimations?.length > 0
-                        ? [...project.yearly_estimations]
-                            .sort((a, b) => a.year - b.year)
-                            .map((item) => (
-                              <Typography key={item.id} fontSize="0.85rem">
-                                <strong>{item.year}:</strong>{" "}
-                                {formatNumber(Number(item.amount))}
-                              </Typography>
-                            ))
-                        : "-"}
-                    </Stack>
-                  ),
-                },
-                { label: "COMMENTS", value: project.comments },
-                { label: "NEXT STEPS", value: project.next_steps },
-                {
-                  label: "Fecha de registro",
-                  value: dateFormatter(project.created_at),
-                },
-                {
-                  label: "Estado",
-                  value: <EstadoChip estado={project.estado} />,
-                },
-              ].map((row, index) => (
+              {rows.map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{
@@ -302,12 +289,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
                   >
                     {row.label}
                   </TableCell>
-
-                  <TableCell
-                    sx={{
-                      fontWeight: 500,
-                    }}
-                  >
+                  <TableCell sx={{ fontWeight: 500 }}>
                     {row.value || "-"}
                   </TableCell>
                 </TableRow>
