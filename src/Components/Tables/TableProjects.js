@@ -22,6 +22,9 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 export default function TableProjects({ rows = [] }) {
   const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
   const role_id = Number(localStorage.getItem("role_id"));
+  const auth_user_id = Number(localStorage.getItem("id"));
+  const allowedUserIds = [5, 6, 12];
+
   const { project, GetProject, DeleteProjects } = useContext(ProjectsContext);
 
   const theme = useTheme();
@@ -316,6 +319,10 @@ export default function TableProjects({ rows = [] }) {
       headerAlign: "center",
       minWidth: 100,
       renderCell: (params) => {
+        if (!allowedUserIds.includes(auth_user_id)) {
+          return "No autorizado";
+        }
+
         const url = getDocumentUrl(params.row, "PRICE");
 
         if (!url) return null;
