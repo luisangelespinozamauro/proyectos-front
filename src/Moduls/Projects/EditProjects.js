@@ -269,7 +269,7 @@ export default function EditProjects({ open, handleClose, id }) {
               </Grid>
               {(auth_user_id === 5 ||
                 auth_user_id === 6 ||
-                auth_user_id === 12) && (
+                auth_user_id === 13) && (
                 <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                   <TextField
                     fullWidth

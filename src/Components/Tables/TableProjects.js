@@ -23,7 +23,7 @@ export default function TableProjects({ rows = [] }) {
   const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
   const role_id = Number(localStorage.getItem("role_id"));
   const auth_user_id = Number(localStorage.getItem("id"));
-  const allowedUserIds = [5, 6, 12];
+  const allowedUserIds = [5, 6, 13];
 
   const { project, GetProject, DeleteProjects } = useContext(ProjectsContext);
 

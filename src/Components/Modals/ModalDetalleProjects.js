@@ -33,7 +33,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
   const [value, setValue] = useState(0);
 
   const auth_user_id = Number(localStorage.getItem("id"));
-  const allowedUserIds = [5, 6, 12];
+  const allowedUserIds = [5, 6, 13];
   const canSeePrice = allowedUserIds.includes(auth_user_id);
 
   if (!project) return null;
@@ -165,26 +165,26 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
       label: "ESTIMATED VOLUME",
       value: formatNumber(project.estimated_volume),
     },
-    {
-      label: "QUESTIONNAIRE COMPLETION",
-      value: project.questionnaire_completion,
-    },
+    // {
+    //   label: "QUESTIONNAIRE COMPLETION",
+    //   value: project.questionnaire_completion,
+    // },
     renderDocumentVersions("QUESTIONNAIRE", "QUESTIONNAIRE"),
-    { label: "NDA STATUS", value: project.nda_status },
+    // { label: "NDA STATUS", value: project.nda_status },
     renderDocumentVersions("NDA", "NDA"),
-    { label: "MOU", value: project.mou_status },
+    // { label: "MOU", value: project.mou_status },
     renderDocumentVersions("MOU", "MOU"),
-    { label: "TCA", value: project.tca_status },
+    // { label: "TCA", value: project.tca_status },
     renderDocumentVersions("TCA", "TCA"),
-    { label: "CONTRACT", value: project.contract_status },
+    // { label: "CONTRACT", value: project.contract_status },
     renderDocumentVersions("CONTRACT", "CONTRACT"),
-    { label: "BOM", value: project.bom_status },
+    // { label: "BOM", value: project.bom_status },
     renderDocumentVersions("BOM", "BOM"),
   ];
 
   if (canSeePrice) {
     rows.push(
-      { label: "PRICE AGREEMENT", value: project.price_agreement },
+      // { label: "PRICE AGREEMENT", value: project.price_agreement },
       renderDocumentVersions("PRICE", "PRICE AGREEMENT"),
     );
   }
@@ -193,7 +193,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
     { label: "PROJECT STATUS", value: project.project_status },
     { label: "ASSEMBLY APPROACH", value: project.assembly_approach },
     { label: "ASSEMBLY LINE", value: project.assembly_line },
-    { label: "LAYOUT", value: project.layout },
+    // { label: "LAYOUT", value: project.layout },
     renderDocumentVersions("LAYOUT", "LAYOUT"),
     {
       label: "PRODUCTION",
