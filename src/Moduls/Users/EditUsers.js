@@ -11,7 +11,7 @@ import { Grid, MenuItem } from "@mui/material";
 import UsersContext from "../../Context/Users/UsersContext";
 import MethodGet from "../../Config/Service";
 
-export default function EditUsers({ open, handleClose, id }) {
+export default function EditUsers({ open, handleClose, id, brands }) {
   const { UpdateUsers } = useContext(UsersContext);
 
   const [usuario, setUsuario] = useState(null);
@@ -33,6 +33,7 @@ export default function EditUsers({ open, handleClose, id }) {
 
   const {
     control,
+    watch,
     register,
     formState: { errors },
     handleSubmit,
@@ -48,6 +49,7 @@ export default function EditUsers({ open, handleClose, id }) {
         phone: usuario.phone || "",
         email: usuario.email || "",
         role_id: usuario.role_id || "",
+        brand_id: usuario.brand_id || "",
       });
     }
   }, [usuario, roles, reset]);
@@ -57,6 +59,8 @@ export default function EditUsers({ open, handleClose, id }) {
     UpdateUsers(data);
     handleClose();
   };
+
+  const roleSelected = watch("role_id");
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
@@ -147,7 +151,6 @@ export default function EditUsers({ open, handleClose, id }) {
                   helperText={errors.email?.message}
                 />
               </Grid>
-
               <Grid size={12}>
                 <Controller
                   name="role_id"
@@ -176,6 +179,35 @@ export default function EditUsers({ open, handleClose, id }) {
                   )}
                 />
               </Grid>
+              {Number(roleSelected) === 4 && (
+                <Grid size={12}>
+                  <Controller
+                    name="brand_id"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Debes seleccionar una marca" }}
+                    render={({ field }) => (
+                      <TextField
+                        select
+                        fullWidth
+                        label="Selecciona una marca"
+                        {...field}
+                        error={!!errors.brand_id}
+                        helperText={errors.brand_id?.message}
+                      >
+                        <MenuItem value="">
+                          <em>-- Selecciona una marca --</em>
+                        </MenuItem>
+                        {brands.map((brand) => (
+                          <MenuItem key={brand.id} value={brand.id}>
+                            {brand.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  />
+                </Grid>
+              )}
             </Grid>
           )}
         </DialogContent>

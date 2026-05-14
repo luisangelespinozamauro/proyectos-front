@@ -12,6 +12,9 @@ import { tienePermisoMenu } from "../../utils/roles";
 import FolderIcon from "@mui/icons-material/Folder";
 import DescriptionIcon from "@mui/icons-material/Description";
 import GroupIcon from "@mui/icons-material/Group";
+import SellIcon from "@mui/icons-material/Sell";
+import SecurityIcon from "@mui/icons-material/Security";
+import KeyIcon from "@mui/icons-material/Key";
 
 const theme = createTheme({
   cssVariables: {
@@ -29,21 +32,33 @@ const MODULOS = [
   },
   {
     id: 2,
-    segment: "Projects",
-    title: "Proyectos",
-    icon: <FolderIcon />,
+    segment: "Brands",
+    title: "Marcas",
+    icon: <SellIcon />,
   },
   {
     id: 3,
-    segment: "Documents",
-    title: "Documentos",
-    icon: <DescriptionIcon />,
+    segment: "Projects",
+    title: "Proyectos",
+    icon: <FolderIcon />,
   },
   {
     id: 4,
     segment: "Users",
     title: "Usuarios",
     icon: <GroupIcon />,
+  },
+  {
+    id: 5,
+    segment: "Roles",
+    title: "Roles",
+    icon: <SecurityIcon  />,
+  },
+  {
+    id: 6,
+    segment: "Permisos",
+    title: "Permisos",
+    icon: <KeyIcon  />,
   },
 ];
 

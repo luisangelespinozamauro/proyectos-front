@@ -1,35 +1,27 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { esES } from "@mui/x-data-grid/locales";
-import ModalDetalleUser from "../Modals/ModalDetalleUser";
-import UsersContext from "../../Context/Users/UsersContext";
-import BrandsContext from "../../Context/Brands/BrandsContext";
+import ModalDetalleRoles from "../Modals/ModalDetalleRoles";
+import RolesContext from "../../Context/Roles/RolesContext";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { dateFormatter } from "../../utils/dateFormatter";
-import EditUsers from "../../Moduls/Users/EditUsers";
+import EditRoles from "../../Moduls/Roles/EditRoles";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
-import AddUsers from "../../Moduls/Users/AddUsers";
+import AddRoles from "../../Moduls/Roles/AddRoles";
 import { EstadoChip } from "../../utils/EstadoChip";
-import { ROLES } from "../../utils/roles";
 
-export default function TableUsers({ rows = [] }) {
-  const { user, GetUser, DeleteUsers } = useContext(UsersContext);
-  const { brands, GetBrands } = useContext(BrandsContext);
-
-  useEffect(() => {
-    GetBrands();
-  }, []);
-
+export default function TableRoles({ rows = [] }) {
+  const { role, GetRole, DeleteRoles } = useContext(RolesContext);  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [openModal, setOpenModal] = useState(false);
   const handleClickOpen = async (id) => {
-    await GetUser(id);
+    await GetRole(id);
     setOpenModal(true);
   };
   const handleClose = () => {
@@ -37,14 +29,14 @@ export default function TableUsers({ rows = [] }) {
   };
 
   const [modalUpdate, OpenModalUpdate] = useState(false);
-  const [id_usuario, saveIdUsuario] = useState(null);
+  const [id_role, saveIdRole] = useState(null);
   const handleClickOpenEdit = (id) => {
     OpenModalUpdate(true);
-    saveIdUsuario(id);
+    saveIdRole(id);
   };
   const handleClickCloseEdit = () => {
     OpenModalUpdate(false);
-    saveIdUsuario(null);
+    saveIdRole(null);
   };
 
   const [modalAdd, setOpenModalAdd] = useState(false);
@@ -80,7 +72,7 @@ export default function TableUsers({ rows = [] }) {
           <GridActionsCellItem
             icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
             label="Eliminar"
-            onClick={() => DeleteUsers(params.id)}
+            onClick={() => DeleteRoles(params.id)}
           />,
         ];
         return actions;
@@ -89,86 +81,19 @@ export default function TableUsers({ rows = [] }) {
     {
       field: "id",
       headerName: "ID",
-      flex: 0.5,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
-    },
-    {
-      field: "collaborator_number",
-      headerName: "NUM COLABORADOR",
       flex: 1,
       align: "center",
       headerAlign: "center",
       minWidth: 100,
     },
+
     {
       field: "name",
-      headerName: "NOMBRES",
+      headerName: "NOMBRE",
       flex: 1,
       align: "center",
       headerAlign: "center",
       minWidth: 100,
-    },
-    {
-      field: "last_name",
-      headerName: "APELLIDOS",
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
-    },
-    {
-      field: "phone",
-      headerName: "TELEFONO",
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
-    },
-    {
-      field: "email",
-      headerName: "CORREO",
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
-    },
-    {
-      field: "role_id",
-      headerName: "ROL",
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 180,
-      renderCell: (params) => {
-        const rol = ROLES[params.row.role_id];
-
-        return (
-          <Box
-            sx={{
-              textAlign: "center",
-              lineHeight: 1.2,
-            }}
-          >
-            {rol}
-
-            {params.row.role_id === 4 && (
-              <>
-                <br />
-                <span
-                  style={{
-                    fontSize: "11px",
-                    color: "#757575",
-                  }}
-                >
-                  {params.row.brand?.name}
-                </span>
-              </>
-            )}
-          </Box>
-        );
-      },
     },
     {
       field: "created_at",
@@ -201,7 +126,7 @@ export default function TableUsers({ rows = [] }) {
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-          Listado de Usuarios
+          Listado de roles
         </Typography>
 
         <Box
@@ -243,7 +168,7 @@ export default function TableUsers({ rows = [] }) {
                     onClick={handleClickOpenAdd}
                     sx={{ borderRadius: 3 }}
                   >
-                    Nuevo Usuario
+                    Nuevo rol
                   </Button>
                 </Box>
               ),
@@ -294,26 +219,21 @@ export default function TableUsers({ rows = [] }) {
           />
         </Box>
       </Paper>
-      <ModalDetalleUser
+      <ModalDetalleRoles
         open={openModal}
         handleClose={handleClose}
-        user={user}
+        role={role}
       />
 
-      {id_usuario !== null && (
-        <EditUsers
+      {id_role !== null && (
+        <EditRoles
           open={modalUpdate}
           handleClose={handleClickCloseEdit}
-          id={id_usuario}
-          brands={brands}
+          id={id_role}
         />
       )}
 
-      <AddUsers
-        open={modalAdd}
-        handleClose={handleClickCloseAdd}
-        brands={brands}
-      />
+      <AddRoles open={modalAdd} handleClose={handleClickCloseAdd} />
     </>
   );
 }

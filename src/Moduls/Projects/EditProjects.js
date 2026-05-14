@@ -14,7 +14,7 @@ import { useState } from "react";
 import SelectField from "../../Components/Forms/Select";
 import FileField from "../../Components/Forms/FileField";
 
-export default function EditProjects({ open, handleClose, id }) {
+export default function EditProjects({ open, handleClose, id, brands }) {
   const { UpdateProjects } = useContext(ProjectsContext);
   const [project, saveProject] = useState(null);
   const auth_user_id = Number(localStorage.getItem("id"));
@@ -155,16 +155,18 @@ export default function EditProjects({ open, handleClose, id }) {
           {project && (
             <Grid container spacing={2}>
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                <TextField
-                  fullWidth
+                <SelectField
+                  name="brand_id"
                   label="BRAND"
-                  {...register("brand", {
-                    required: "Este campo es obligatorio",
-                    minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                    maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                  })}
-                  error={!!errors.brand}
-                  helperText={errors.brand?.message}
+                  control={control}
+                  errors={errors}
+                  rules={{
+                    required: "La marca es obligatoria",
+                  }}
+                  options={brands.map((brand) => ({
+                    id: brand.id,
+                    nombre: brand.name,
+                  }))}
                 />
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>

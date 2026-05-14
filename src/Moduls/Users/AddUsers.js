@@ -11,7 +11,7 @@ import UsersContext from "../../Context/Users/UsersContext";
 import { useEffect, useContext, useState } from "react";
 import MethodGet from "../../Config/Service";
 
-export default function AddUsers({ open, handleClose }) {
+export default function AddUsers({ open, handleClose, brands }) {
   const { CreateUsers } = useContext(UsersContext);
 
   const [roles, saveRoles] = useState([]);
@@ -28,6 +28,7 @@ export default function AddUsers({ open, handleClose }) {
 
   const {
     register,
+    watch,
     formState: { errors },
     handleSubmit,
   } = useForm();
@@ -36,6 +37,8 @@ export default function AddUsers({ open, handleClose }) {
     CreateUsers(data);
     handleClose();
   };
+
+  const roleSelected = watch("role_id");
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -139,6 +142,29 @@ export default function AddUsers({ open, handleClose }) {
                 ))}
               </TextField>
             </Grid>
+            {Number(roleSelected) === 4 && (
+              <Grid size={12}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Selecciona una marca"
+                  {...register("brand_id", {
+                    required: "Debes seleccionar una marca",
+                  })}
+                  error={!!errors.brand_id}
+                  helperText={errors.brand_id?.message}
+                >
+                  <MenuItem value="">
+                    <em>-- Selecciona una marca --</em>
+                  </MenuItem>
+                  {brands.map((brand) => (
+                    <MenuItem key={brand.id} value={brand.id}>
+                      {brand.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+            )}
           </Grid>
         </DialogContent>
         <DialogActions>

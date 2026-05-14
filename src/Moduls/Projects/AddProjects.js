@@ -12,7 +12,7 @@ import ProjectsContext from "../../Context/Projects/ProjectsContext";
 import SelectField from "../../Components/Forms/Select";
 import FileField from "../../Components/Forms/FileField";
 
-export default function AddProjects({ open, handleClose }) {
+export default function AddProjects({ open, handleClose, brands }) {
   const { CreateProjects } = useContext(ProjectsContext);
 
   const {
@@ -116,16 +116,18 @@ export default function AddProjects({ open, handleClose }) {
         <DialogContent>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
+              <SelectField
+                name="brand_id"
                 label="BRAND"
-                {...register("brand", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                })}
-                error={!!errors.brand}
-                helperText={errors.brand?.message}
+                control={control}
+                errors={errors}
+                rules={{
+                  required: "La marca es obligatoria",
+                }}
+                options={brands.map((brand) => ({
+                  id: brand.id,
+                  nombre: brand.name,
+                }))}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>

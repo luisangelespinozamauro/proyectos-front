@@ -158,7 +158,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
 
   const rows = [
     { label: "NR", value: project.id },
-    { label: "BRAND", value: project.brand },
+    { label: "BRAND", value: project?.brand?.name || "Sin marca" },
     { label: "MODEL", value: project.model },
     { label: "PRODUCT FAMILY", value: project.product_family },
     {

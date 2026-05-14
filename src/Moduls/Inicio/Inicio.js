@@ -15,6 +15,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import DescriptionIcon from "@mui/icons-material/Description";
 import AuthContext from "../../Context/Auth/AuthContext";
+import SellIcon from "@mui/icons-material/Sell";
+import SecurityIcon from "@mui/icons-material/Security";
+import KeyIcon from "@mui/icons-material/Key";
 
 const opciones = [
   {
@@ -23,7 +26,15 @@ const opciones = [
     icon: <HomeIcon />,
     ruta: "/inicio",
     color: "linear-gradient(135deg, #4F46E5, #6366F1)",
-    rolesPermitidos: [1, 2, 3],
+    rolesPermitidos: [1, 2, 3, 4],
+  },
+  {
+    title: "Marcas",
+    descripcion: "Gestión de marcas",
+    icon: <SellIcon />,
+    ruta: "/brands",
+    color: "linear-gradient(135deg, #F59E0B, #FBBF24)",
+    rolesPermitidos: [1, 2, 3, 4],
   },
   {
     title: "Proyectos",
@@ -31,7 +42,7 @@ const opciones = [
     icon: <StorefrontIcon />,
     ruta: "/projects",
     color: "linear-gradient(135deg, #0EA5E9, #38BDF8)",
-    rolesPermitidos: [1, 2, 3],
+    rolesPermitidos: [1, 2, 3, 4],
   },
   {
     title: "Usuarios",
@@ -39,6 +50,23 @@ const opciones = [
     icon: <DescriptionIcon />,
     ruta: "/Users",
     color: "linear-gradient(135deg, #10B981, #34D399)",
+    rolesPermitidos: [1],
+  },
+  //roles
+  {
+    title: "Roles",
+    descripcion: "Administración de roles",
+    icon: <SecurityIcon />,
+    ruta: "/Roles",
+    color: "linear-gradient(135deg, #EF4444, #F87171)",
+    rolesPermitidos: [1],
+  },
+  {
+    title: "Permisos",
+    descripcion: "Administración de permisos",
+    icon: <KeyIcon />,
+    ruta: "/Permisos",
+    color: "linear-gradient(135deg, #8B5CF6, #A78BFA)",
     rolesPermitidos: [1],
   },
 ];

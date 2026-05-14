@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -18,8 +18,10 @@ import { formatNumber } from "../../utils/formatters";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DescriptionIcon from "@mui/icons-material/Description";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import BrandsContext from "../../Context/Brands/BrandsContext";
 
 export default function TableProjects({ rows = [] }) {
+  const { brands, GetBrands } = useContext(BrandsContext);
   const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
   const role_id = Number(localStorage.getItem("role_id"));
   const auth_user_id = Number(localStorage.getItem("id"));
@@ -29,6 +31,10 @@ export default function TableProjects({ rows = [] }) {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    GetBrands();
+  }, []);
 
   const [openModal, setOpenModal] = useState(false);
   const handleClickOpen = async (id) => {
@@ -157,6 +163,9 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      renderCell: (params) => {
+        return params.row.brand?.name;
+      },
     },
     {
       field: "model",
@@ -641,10 +650,15 @@ export default function TableProjects({ rows = [] }) {
           open={modalUpdate}
           handleClose={handleClickCloseEdit}
           id={id_project}
+          brands={brands}
         />
       )}
 
-      <AddProjects open={modalAdd} handleClose={handleClickCloseAdd} />
+      <AddProjects
+        open={modalAdd}
+        handleClose={handleClickCloseAdd}
+        brands={brands}
+      />
     </>
   );
 }
