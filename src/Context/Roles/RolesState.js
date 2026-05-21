@@ -1,18 +1,13 @@
 import React, { useReducer } from "react";
 import RolesContext from "./RolesContext";
 import RolesReducer from "./RolesReducer";
-import MethodGet, {
-  MethodDelete,
-  MethodPost,
-  MethodPut,
-} from "../../Config/Service";
+import MethodGet, { MethodPost, MethodPut } from "../../Config/Service";
 import Swal from "sweetalert2";
 import {
   GET_ALL_ROLES,
   OBTENER_ROLES,
   ADD_ROLES,
   UPDATE_ROLES,
-  DELETE_ROLES,
 } from "../../types";
 import imageHeaders from "../../Config/ImageHeaders";
 
@@ -72,7 +67,6 @@ const RolesState = ({ children }) => {
       .catch(handleError);
   };
 
-
   const CreateRoles = (data) => {
     MethodPost("/roles", data, imageHeaders)
       .then((res) => {
@@ -101,33 +95,6 @@ const RolesState = ({ children }) => {
       .catch(handleError);
   };
 
-  const DeleteRoles = (id) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "El rol seleccionado será eliminado",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "No, volver",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        MethodDelete(`/roles/${id}`)
-          .then((res) => {
-            dispatch({ type: DELETE_ROLES, payload: id });
-            Swal.fire({
-              title: "Eliminado",
-              text: res.data.mensaje,
-              icon: "success",
-            });
-            GetRoles();
-          })
-          .catch(handleError);
-      }
-    });
-  };
-
   return (
     <RolesContext.Provider
       value={{
@@ -139,7 +106,6 @@ const RolesState = ({ children }) => {
         GetRole,
         CreateRoles,
         UpdateRoles,
-        DeleteRoles,
       }}
     >
       {children}

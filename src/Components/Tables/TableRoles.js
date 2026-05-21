@@ -6,7 +6,6 @@ import { esES } from "@mui/x-data-grid/locales";
 import ModalDetalleRoles from "../Modals/ModalDetalleRoles";
 import RolesContext from "../../Context/Roles/RolesContext";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { dateFormatter } from "../../utils/dateFormatter";
 import EditRoles from "../../Moduls/Roles/EditRoles";
 import AddIcon from "@mui/icons-material/Add";
@@ -15,7 +14,7 @@ import AddRoles from "../../Moduls/Roles/AddRoles";
 import { EstadoChip } from "../../utils/EstadoChip";
 
 export default function TableRoles({ rows = [] }) {
-  const { role, GetRole, DeleteRoles } = useContext(RolesContext);  
+  const { role, GetRole } = useContext(RolesContext);  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -68,11 +67,6 @@ export default function TableRoles({ rows = [] }) {
             icon={<EditIcon sx={{ color: "#ed6c02" }} />}
             label="Editar"
             onClick={() => handleClickOpenEdit(params.id)}
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
-            label="Eliminar"
-            onClick={() => DeleteRoles(params.id)}
           />,
         ];
         return actions;

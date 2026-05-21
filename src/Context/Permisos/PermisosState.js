@@ -2,7 +2,6 @@ import React, { useReducer } from "react";
 import PermisosContext from "./PermisosContext";
 import PermisosReducer from "./PermisosReducer";
 import MethodGet, {
-  MethodDelete,
   MethodPost,
   MethodPut,
 } from "../../Config/Service";
@@ -12,7 +11,6 @@ import {
   OBTENER_PERMISOS,
   ADD_PERMISOS,
   UPDATE_PERMISOS,
-  DELETE_PERMISOS,
 } from "../../types";
 import imageHeaders from "../../Config/ImageHeaders";
 
@@ -100,33 +98,6 @@ const PermisosState = ({ children }) => {
       .catch(handleError);
   };
 
-  const DeletePermisos = (id) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "El permiso seleccionado será eliminado",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "No, volver",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        MethodDelete(`/permisos/${id}`)
-          .then((res) => {
-            dispatch({ type: DELETE_PERMISOS, payload: id });
-            Swal.fire({
-              title: "Eliminado",
-              text: res.data.mensaje,
-              icon: "success",
-            });
-            GetPermisos();
-          })
-          .catch(handleError);
-      }
-    });
-  };
-
   return (
     <PermisosContext.Provider
       value={{
@@ -138,7 +109,6 @@ const PermisosState = ({ children }) => {
         GetPermiso,
         CreatePermisos,
         UpdatePermisos,
-        DeletePermisos,
       }}
     >
       {children}
