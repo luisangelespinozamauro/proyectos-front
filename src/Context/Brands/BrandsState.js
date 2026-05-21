@@ -2,7 +2,6 @@ import React, { useReducer } from "react";
 import BrandsContext from "./BrandsContext";
 import BrandsReducer from "./BrandsReducer";
 import MethodGet, {
-  MethodDelete,
   MethodPost,
   MethodPut,
 } from "../../Config/Service";
@@ -12,7 +11,6 @@ import {
   OBTENER_BRANDS,
   ADD_BRANDS,
   UPDATE_BRANDS,
-  DELETE_BRANDS,
 } from "../../types";
 import imageHeaders from "../../Config/ImageHeaders";
 
@@ -101,33 +99,6 @@ const BrandsState = ({ children }) => {
       .catch(handleError);
   };
 
-  const DeleteBrands = (id) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "La marca seleccionada será eliminada",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "No, volver",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        MethodDelete(`/brands/${id}`)
-          .then((res) => {
-            dispatch({ type: DELETE_BRANDS, payload: id });
-            Swal.fire({
-              title: "Eliminado",
-              text: res.data.mensaje,
-              icon: "success",
-            });
-            GetBrands();
-          })
-          .catch(handleError);
-      }
-    });
-  };
-
   return (
     <BrandsContext.Provider
       value={{
@@ -139,7 +110,6 @@ const BrandsState = ({ children }) => {
         GetBrand,
         CreateBrands,
         UpdateBrands,
-        DeleteBrands,
       }}
     >
       {children}

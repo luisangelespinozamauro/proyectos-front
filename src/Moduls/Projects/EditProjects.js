@@ -6,8 +6,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useContext } from "react";
-import { useForm } from "react-hook-form";
-import { Grid } from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
+import { Grid, MenuItem } from "@mui/material";
 import MethodGet from "../../Config/Service";
 import ProjectsContext from "../../Context/Projects/ProjectsContext";
 import { useState } from "react";
@@ -138,6 +138,11 @@ export default function EditProjects({ open, handleClose, id, brands }) {
     updated[index][field] = value;
     setYearlyEstimations(updated);
   };
+
+  const estado = [
+    { id: 1, nombre: "Inactivo" },
+    { id: 2, nombre: "Activo" },
+  ];
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="lg">
@@ -360,6 +365,35 @@ export default function EditProjects({ open, handleClose, id, brands }) {
                   control={control}
                   errors={errors}
                   options={dueDiligence}
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                <Controller
+                  name="estado"
+                  control={control}
+                  rules={{
+                    required: "Debes seleccionar un estado",
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      select
+                      fullWidth
+                      label="Selecciona un estado"
+                      {...field}
+                      error={!!errors.estado}
+                      helperText={errors.estado?.message}
+                    >
+                      <MenuItem value="">
+                        <em>-- Selecciona un estado --</em>
+                      </MenuItem>
+
+                      {estado.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.nombre}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
                 />
               </Grid>
               <br />

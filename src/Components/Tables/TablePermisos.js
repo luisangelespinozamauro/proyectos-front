@@ -6,7 +6,6 @@ import { esES } from "@mui/x-data-grid/locales";
 import ModalDetallePermisos from "../Modals/ModalDetallePermisos";
 import PermisosContext from "../../Context/Permisos/PermisosContext";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { dateFormatter } from "../../utils/dateFormatter";
 import EditPermisos from "../../Moduls/Permisos/EditPermisos";
 import AddIcon from "@mui/icons-material/Add";
@@ -15,7 +14,7 @@ import AddPermisos from "../../Moduls/Permisos/AddPermisos";
 import { EstadoChip } from "../../utils/EstadoChip";
 
 export default function TablePermisos({ rows = [] }) {
-  const { permiso, GetPermiso, DeletePermisos } = useContext(PermisosContext);  
+  const { permiso, GetPermiso } = useContext(PermisosContext);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -69,11 +68,6 @@ export default function TablePermisos({ rows = [] }) {
             label="Editar"
             onClick={() => handleClickOpenEdit(params.id)}
           />,
-          <GridActionsCellItem
-            icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
-            label="Eliminar"
-            onClick={() => DeletePermisos(params.id)}
-          />,
         ];
         return actions;
       },
@@ -94,6 +88,14 @@ export default function TablePermisos({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+    },
+    {
+      field: "slug",
+      headerName: "SLUG",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 150,
     },
     {
       field: "created_at",

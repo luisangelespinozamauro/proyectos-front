@@ -7,7 +7,17 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useContext, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Grid, MenuItem } from "@mui/material";
+import {
+  Grid,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Checkbox,
+  ListItemText,
+  OutlinedInput,
+  FormHelperText,
+} from "@mui/material";
 import UsersContext from "../../Context/Users/UsersContext";
 import MethodGet from "../../Config/Service";
 
@@ -49,7 +59,8 @@ export default function EditUsers({ open, handleClose, id, brands }) {
         phone: usuario.phone || "",
         email: usuario.email || "",
         role_id: usuario.role_id || "",
-        brand_id: usuario.brand_id || "",
+        brands: usuario.brands?.map((brand) => brand.id) || [],
+        estado: usuario.estado || "",
       });
     }
   }, [usuario, roles, reset]);
@@ -61,6 +72,11 @@ export default function EditUsers({ open, handleClose, id, brands }) {
   };
 
   const roleSelected = watch("role_id");
+
+  const estado = [
+    { id: 1, nombre: "Inactivo" },
+    { id: 2, nombre: "Activo" },
+  ];
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
@@ -182,32 +198,77 @@ export default function EditUsers({ open, handleClose, id, brands }) {
               {Number(roleSelected) === 4 && (
                 <Grid size={12}>
                   <Controller
-                    name="brand_id"
+                    name="brands"
                     control={control}
-                    defaultValue=""
-                    rules={{ required: "Debes seleccionar una marca" }}
+                    defaultValue={[]}
+                    rules={{
+                      required: "Debes seleccionar al menos una marca",
+                    }}
                     render={({ field }) => (
-                      <TextField
-                        select
-                        fullWidth
-                        label="Selecciona una marca"
-                        {...field}
-                        error={!!errors.brand_id}
-                        helperText={errors.brand_id?.message}
-                      >
-                        <MenuItem value="">
-                          <em>-- Selecciona una marca --</em>
-                        </MenuItem>
-                        {brands.map((brand) => (
-                          <MenuItem key={brand.id} value={brand.id}>
-                            {brand.name}
-                          </MenuItem>
-                        ))}
-                      </TextField>
+                      <FormControl fullWidth error={!!errors.brands}>
+                        <InputLabel>Selecciona marcas</InputLabel>
+
+                        <Select
+                          multiple
+                          {...field}
+                          input={<OutlinedInput label="Selecciona marcas" />}
+                          renderValue={(selected) =>
+                            brands
+                              .filter((brand) => selected.includes(brand.id))
+                              .map((brand) => brand.name)
+                              .join(", ")
+                          }
+                        >
+                          {brands.map((brand) => (
+                            <MenuItem key={brand.id} value={brand.id}>
+                              <Checkbox
+                                checked={field.value?.includes(brand.id)}
+                              />
+
+                              <ListItemText primary={brand.name} />
+                            </MenuItem>
+                          ))}
+                        </Select>
+
+                        <FormHelperText>
+                          {errors.brands?.message}
+                        </FormHelperText>
+                      </FormControl>
                     )}
                   />
                 </Grid>
               )}
+
+              <Grid size={12}>
+                <Controller
+                  name="estado"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: "Debes seleccionar un estado",
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      select
+                      fullWidth
+                      label="Selecciona un estado"
+                      {...field}
+                      error={!!errors.estado}
+                      helperText={errors.estado?.message}
+                    >
+                      <MenuItem value="">
+                        <em>-- Selecciona un estado --</em>
+                      </MenuItem>
+
+                      {estado.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.nombre}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                />
+              </Grid>
             </Grid>
           )}
         </DialogContent>

@@ -114,6 +114,14 @@ const ModalDetalleUser = ({ open, handleClose, user }) => {
                   value: ROLES[user.role_id] || "Sin rol",
                 },
                 {
+                  label: "MARCAS",
+                  value:
+                    user.brands?.length > 0
+                      ? user.brands.map((brand) => brand.name).join(", ")
+                      : "Sin marcas",
+                },
+
+                {
                   label: "FECHA DE REGISTRO",
                   value: dateFormatter(user.created_at),
                 },

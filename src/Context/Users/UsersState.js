@@ -2,7 +2,6 @@ import React, { useReducer } from "react";
 import UsersContext from "./UsersContext";
 import UsersReducer from "./UsersReducer";
 import MethodGet, {
-  MethodDelete,
   MethodPost,
   MethodPut,
 } from "../../Config/Service";
@@ -12,7 +11,6 @@ import {
   OBTENER_USER,
   ADD_USERS,
   UPDATE_USERS,
-  DELETE_USERS,
 } from "../../types";
 
 const UsersState = ({ children }) => {
@@ -93,32 +91,6 @@ const UsersState = ({ children }) => {
       .catch(handleError);
   };
 
-  const DeleteUsers = (id) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "El usuario seleccionado será eliminado",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "No, volver",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        MethodDelete(`/users/${id}`)
-          .then((res) => {
-            dispatch({ type: DELETE_USERS, payload: id });
-            Swal.fire({
-              title: "Eliminado",
-              text: res.data.mensaje,
-              icon: "success",
-            });
-            GetUsers();
-          })
-          .catch(handleError);
-      }
-    });
-  };
 
   return (
     <UsersContext.Provider
@@ -131,7 +103,6 @@ const UsersState = ({ children }) => {
         GetUser,
         CreateUsers,
         UpdateUsers,
-        DeleteUsers,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -6,7 +6,6 @@ import { esES } from "@mui/x-data-grid/locales";
 import ModalDetalleProjects from "../Modals/ModalDetalleProjects";
 import ProjectsContext from "../../Context/Projects/ProjectsContext";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { dateFormatter } from "../../utils/dateFormatter";
 import EditProjects from "../../Moduls/Projects/EditProjects";
 import AddIcon from "@mui/icons-material/Add";
@@ -27,7 +26,7 @@ export default function TableProjects({ rows = [] }) {
   const auth_user_id = Number(localStorage.getItem("id"));
   const allowedUserIds = [5, 6, 13];
 
-  const { project, GetProject, DeleteProjects } = useContext(ProjectsContext);
+  const { project, GetProject } = useContext(ProjectsContext);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -114,6 +113,23 @@ export default function TableProjects({ rows = [] }) {
     return <DescriptionIcon />;
   };
 
+  const canManageProject = (project) => {
+    // ADMIN o SUPER ADMIN
+    if (role_id === 1 || role_id === 2) {
+      return true;
+    }
+
+    // GERENTE DE MARCA
+    if (role_id === 4) {
+      return project.brand?.users?.some(
+        (brandUser) => Number(brandUser.id) === auth_user_id,
+      );
+    }
+
+    // usuarios normales
+    return false;
+  };
+
   const columns = [
     {
       field: "actions",
@@ -124,6 +140,7 @@ export default function TableProjects({ rows = [] }) {
       headerAlign: "center",
       minWidth: 100,
       getActions: (params) => {
+        const project = params.row;
         const actions = [
           <GridActionsCellItem
             icon={<VisibilityIcon sx={{ color: "#42A5F5" }} />}
@@ -131,17 +148,13 @@ export default function TableProjects({ rows = [] }) {
             onClick={() => handleClickOpen(params.id)}
           />,
         ];
-        if (role_id !== 3) {
+        const canManage = canManageProject(project);
+        if (canManage) {
           actions.push(
             <GridActionsCellItem
               icon={<EditIcon sx={{ color: "#ed6c02" }} />}
               label="Editar"
               onClick={() => handleClickOpenEdit(params.id)}
-            />,
-            <GridActionsCellItem
-              icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
-              label="Eliminar"
-              onClick={() => DeleteProjects(params.id)}
             />,
           );
         }

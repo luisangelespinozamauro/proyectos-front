@@ -6,7 +6,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm } from "react-hook-form";
-import { Grid, MenuItem } from "@mui/material";
+import {
+  Grid,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Checkbox,
+  ListItemText,
+  OutlinedInput,
+  FormHelperText,
+} from "@mui/material";
 import UsersContext from "../../Context/Users/UsersContext";
 import { useEffect, useContext, useState } from "react";
 import MethodGet from "../../Config/Service";
@@ -29,9 +39,20 @@ export default function AddUsers({ open, handleClose, brands }) {
   const {
     register,
     watch,
+    setValue,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      brands: [],
+    },
+  });
+
+  useEffect(() => {
+    register("brands", {
+      required: "Debes seleccionar al menos una marca",
+    });
+  }, [register]);
 
   const onSubmit = (data, e) => {
     CreateUsers(data);
@@ -144,25 +165,36 @@ export default function AddUsers({ open, handleClose, brands }) {
             </Grid>
             {Number(roleSelected) === 4 && (
               <Grid size={12}>
-                <TextField
-                  select
-                  fullWidth
-                  label="Selecciona una marca"
-                  {...register("brand_id", {
-                    required: "Debes seleccionar una marca",
-                  })}
-                  error={!!errors.brand_id}
-                  helperText={errors.brand_id?.message}
-                >
-                  <MenuItem value="">
-                    <em>-- Selecciona una marca --</em>
-                  </MenuItem>
-                  {brands.map((brand) => (
-                    <MenuItem key={brand.id} value={brand.id}>
-                      {brand.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <FormControl fullWidth error={!!errors.brands}>
+                  <InputLabel>Selecciona marcas</InputLabel>
+
+                  <Select
+                    multiple
+                    value={watch("brands") || []}
+                    onChange={(e) => {
+                      setValue("brands", e.target.value);
+                    }}
+                    input={<OutlinedInput label="Selecciona marcas" />}
+                    renderValue={(selected) =>
+                      brands
+                        .filter((brand) => selected.includes(brand.id))
+                        .map((brand) => brand.name)
+                        .join(", ")
+                    }
+                  >
+                    {brands.map((brand) => (
+                      <MenuItem key={brand.id} value={brand.id}>
+                        <Checkbox
+                          checked={(watch("brands") || []).includes(brand.id)}
+                        />
+
+                        <ListItemText primary={brand.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+
+                  <FormHelperText>{errors.brands?.message}</FormHelperText>
+                </FormControl>
               </Grid>
             )}
           </Grid>

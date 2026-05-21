@@ -7,7 +7,6 @@ import ModalDetalleUser from "../Modals/ModalDetalleUser";
 import UsersContext from "../../Context/Users/UsersContext";
 import BrandsContext from "../../Context/Brands/BrandsContext";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { dateFormatter } from "../../utils/dateFormatter";
 import EditUsers from "../../Moduls/Users/EditUsers";
 import AddIcon from "@mui/icons-material/Add";
@@ -17,7 +16,7 @@ import { EstadoChip } from "../../utils/EstadoChip";
 import { ROLES } from "../../utils/roles";
 
 export default function TableUsers({ rows = [] }) {
-  const { user, GetUser, DeleteUsers } = useContext(UsersContext);
+  const { user, GetUser } = useContext(UsersContext);
   const { brands, GetBrands } = useContext(BrandsContext);
 
   useEffect(() => {
@@ -76,11 +75,6 @@ export default function TableUsers({ rows = [] }) {
             icon={<EditIcon sx={{ color: "#ed6c02" }} />}
             label="Editar"
             onClick={() => handleClickOpenEdit(params.id)}
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
-            label="Eliminar"
-            onClick={() => DeleteUsers(params.id)}
           />,
         ];
         return actions;
@@ -153,16 +147,17 @@ export default function TableUsers({ rows = [] }) {
           >
             {rol}
 
-            {params.row.role_id === 4 && (
+            {params.row.role_id === 4 && params.row.brands?.length > 0 && (
               <>
                 <br />
+
                 <span
                   style={{
                     fontSize: "11px",
                     color: "#757575",
                   }}
                 >
-                  {params.row.brand?.name}
+                  {params.row.brands.map((brand) => brand.name).join(", ")}
                 </span>
               </>
             )}

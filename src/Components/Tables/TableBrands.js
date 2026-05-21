@@ -6,7 +6,6 @@ import { esES } from "@mui/x-data-grid/locales";
 import ModalDetalleBrands from "../Modals/ModalDetalleBrands";
 import BrandsContext from "../../Context/Brands/BrandsContext";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { dateFormatter } from "../../utils/dateFormatter";
 import EditBrands from "../../Moduls/Brands/EditBrands";
 import AddIcon from "@mui/icons-material/Add";
@@ -15,7 +14,7 @@ import AddBrands from "../../Moduls/Brands/AddBrands";
 import { EstadoChip } from "../../utils/EstadoChip";
 
 export default function TableBrands({ rows = [] }) {
-  const { brand, GetBrand, DeleteBrands } = useContext(BrandsContext);
+  const { brand, GetBrand } = useContext(BrandsContext);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -69,11 +68,6 @@ export default function TableBrands({ rows = [] }) {
             icon={<EditIcon sx={{ color: "#ed6c02" }} />}
             label="Editar"
             onClick={() => handleClickOpenEdit(params.id)}
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
-            label="Eliminar"
-            onClick={() => DeleteBrands(params.id)}
           />,
         ];
         return actions;

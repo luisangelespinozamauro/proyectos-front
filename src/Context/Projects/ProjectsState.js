@@ -1,18 +1,13 @@
 import React, { useReducer } from "react";
 import ProjectsContext from "./ProjectsContext";
 import ProjectsReducer from "./ProjectsReducer";
-import MethodGet, {
-  MethodDelete,
-  MethodPost,
-  MethodPut,
-} from "../../Config/Service";
+import MethodGet, { MethodPost, MethodPut } from "../../Config/Service";
 import Swal from "sweetalert2";
 import {
   GET_ALL_PROJECTS,
   OBTENER_PROJECTS,
   ADD_PROJECTS,
   UPDATE_PROJECTS,
-  DELETE_PROJECTS,
 } from "../../types";
 import imageHeaders from "../../Config/ImageHeaders";
 
@@ -97,33 +92,6 @@ const ProjectsState = ({ children }) => {
       .catch(handleError);
   };
 
-  const DeleteProjects = (id) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "El proyecto seleccionado será eliminado",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "No, volver",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        MethodDelete(`/projects/${id}`)
-          .then((res) => {
-            dispatch({ type: DELETE_PROJECTS, payload: id });
-            Swal.fire({
-              title: "Eliminado",
-              text: res.data.mensaje,
-              icon: "success",
-            });
-            GetProjects();
-          })
-          .catch(handleError);
-      }
-    });
-  };
-
   return (
     <ProjectsContext.Provider
       value={{
@@ -135,7 +103,6 @@ const ProjectsState = ({ children }) => {
         GetProject,
         CreateProjects,
         UpdateProjects,
-        DeleteProjects,
       }}
     >
       {children}
