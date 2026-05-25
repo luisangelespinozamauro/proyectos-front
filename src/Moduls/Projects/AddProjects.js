@@ -46,6 +46,11 @@ export default function AddProjects({ open, handleClose, brands }) {
       formData.append(`yearly_estimations[${index}][amount]`, item.amount);
     });
 
+    monthlyComments.forEach((item, index) => {
+      formData.append(`months_comments[${index}][months]`, item.months);
+      formData.append(`months_comments[${index}][comment]`, item.comment);
+    });
+
     await CreateProjects(formData);
 
     reset();
@@ -79,12 +84,26 @@ export default function AddProjects({ open, handleClose, brands }) {
     { year: "", amount: "" },
   ]);
 
+  const [monthlyComments, setMonthlyComments] = React.useState([
+    { months: "", comment: "" },
+  ]);
+
   const addYear = () => {
     setYearlyEstimations([
       ...yearlyEstimations,
       {
         year: new Date().getFullYear() + yearlyEstimations.length,
         amount: "",
+      },
+    ]);
+  };
+
+  const addMonth = () => {
+    setMonthlyComments([
+      ...monthlyComments,
+      {
+        months: "",
+        comment: "",
       },
     ]);
   };
@@ -99,6 +118,18 @@ export default function AddProjects({ open, handleClose, brands }) {
     const updated = [...yearlyEstimations];
     updated[index][field] = value;
     setYearlyEstimations(updated);
+  };
+
+  const removeMonth = (index) => {
+    const updated = [...monthlyComments];
+    updated.splice(index, 1);
+    setMonthlyComments(updated);
+  };
+
+  const handleMonthChange = (index, field, value) => {
+    const updated = [...monthlyComments];
+    updated[index][field] = value;
+    setMonthlyComments(updated);
   };
 
   return (
@@ -328,16 +359,6 @@ export default function AddProjects({ open, handleClose, brands }) {
                 options={dueDiligence}
               />
             </Grid>
-            {documentTypes.map((type) => (
-              <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                <FileField
-                  name={`documents.${type}`}
-                  label={`${type} FILE`}
-                  control={control}
-                  errors={errors}
-                />
-              </Grid>
-            ))}
             <Grid size={{ xs: 12 }}>
               {yearlyEstimations.map((item, index) => (
                 <Grid container spacing={2} key={index} mb={1}>
@@ -378,6 +399,56 @@ export default function AddProjects({ open, handleClose, brands }) {
                 + Agregar año
               </Button>
             </Grid>
+            <Grid size={{ xs: 12 }}>
+              {monthlyComments.map((item, index) => (
+                <Grid container spacing={2} key={index} mb={1}>
+                  <Grid size={{ xs: 12, sm: 5 }}>
+                    <TextField
+                      fullWidth
+                      label="Mes"
+                      value={item.months}
+                      onChange={(e) =>
+                        handleMonthChange(index, "months", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 5 }}>
+                    <TextField
+                      fullWidth
+                      label="Comentario"
+                      value={item.comment}
+                      onChange={(e) =>
+                        handleMonthChange(index, "comment", e.target.value)
+                      }
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12, sm: 2 }}>
+                    <Button
+                      fullWidth
+                      color="error"
+                      onClick={() => removeMonth(index)}
+                    >
+                      Eliminar
+                    </Button>
+                  </Grid>
+                </Grid>
+              ))}
+
+              <Button onClick={addMonth} variant="outlined">
+                + Agregar mes
+              </Button>
+            </Grid>
+            {documentTypes.map((type) => (
+              <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                <FileField
+                  name={`documents.${type}`}
+                  label={`${type} FILE`}
+                  control={control}
+                  errors={errors}
+                />
+              </Grid>
+            ))}
             <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
               <TextField
                 rows={4}

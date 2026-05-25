@@ -403,17 +403,6 @@ export default function TableProjects({ rows = [] }) {
         );
       },
     },
-    // {
-    //   field: "production_2026",
-    //   headerName: "PRODUCTION",
-    //   flex: 1,
-    //   align: "center",
-    //   headerAlign: "center",
-    //   minWidth: 100,
-    //   valueFormatter: (params) => {
-    //     return formatNumber(Number(params) || 0);
-    //   },
-    // },
     {
       field: "production",
       headerName: "PRODUCTION",

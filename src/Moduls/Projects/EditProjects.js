@@ -53,6 +53,17 @@ export default function EditProjects({ open, handleClose, id, brands }) {
           setYearlyEstimations([{ year: "", amount: "" }]);
         }
 
+        if (data.months_comments && data.months_comments.length > 0) {
+          setMonthlyComments(
+            data.months_comments.map((item) => ({
+              months: item.months,
+              comment: item.comment,
+            })),
+          );
+        } else {
+          setMonthlyComments([{ months: "", comment: "" }]);
+        }
+
         reset({
           ...data,
           documents: {},
@@ -86,6 +97,11 @@ export default function EditProjects({ open, handleClose, id, brands }) {
       formData.append(`yearly_estimations[${index}][amount]`, item.amount);
     });
 
+    monthlyComments.forEach((item, index) => {
+      formData.append(`months_comments[${index}][months]`, item.months);
+      formData.append(`months_comments[${index}][comment]`, item.comment);
+    });
+
     data.id = id;
     await UpdateProjects(id, formData);
     handleClose();
@@ -117,6 +133,10 @@ export default function EditProjects({ open, handleClose, id, brands }) {
     { year: "", amount: "" },
   ]);
 
+  const [monthlyComments, setMonthlyComments] = React.useState([
+    { months: "", comment: "" },
+  ]);
+
   const addYear = () => {
     setYearlyEstimations([
       ...yearlyEstimations,
@@ -125,6 +145,10 @@ export default function EditProjects({ open, handleClose, id, brands }) {
         amount: "",
       },
     ]);
+  };
+
+  const addMonth = () => {
+    setMonthlyComments([...monthlyComments, { months: "", comment: "" }]);
   };
 
   const removeYear = (index) => {
@@ -137,6 +161,18 @@ export default function EditProjects({ open, handleClose, id, brands }) {
     const updated = [...yearlyEstimations];
     updated[index][field] = value;
     setYearlyEstimations(updated);
+  };
+
+  const removeMonth = (index) => {
+    const updated = [...monthlyComments];
+    updated.splice(index, 1);
+    setMonthlyComments(updated);
+  };
+
+  const handleMonthChange = (index, field, value) => {
+    const updated = [...monthlyComments];
+    updated[index][field] = value;
+    setMonthlyComments(updated);
   };
 
   const estado = [
@@ -396,19 +432,6 @@ export default function EditProjects({ open, handleClose, id, brands }) {
                   )}
                 />
               </Grid>
-              <br />
-              {documentTypes.map((type) => (
-                <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                  <FileField
-                    name={`documents.${type}`}
-                    label={`${type} (Nueva versión)`}
-                    control={control}
-                    errors={errors}
-                    currentFile={project?.documents?.[type]}
-                  />
-                </Grid>
-              ))}
-              <br />
               <Grid size={{ xs: 12 }}>
                 {yearlyEstimations.map((item, index) => (
                   <Grid container spacing={2} key={index} mb={1}>
@@ -449,6 +472,57 @@ export default function EditProjects({ open, handleClose, id, brands }) {
                   + Agregar año
                 </Button>
               </Grid>
+              <Grid size={{ xs: 12 }}>
+                {monthlyComments.map((item, index) => (
+                  <Grid container spacing={2} key={index} mb={1}>
+                    <Grid size={{ xs: 12, sm: 5 }}>
+                      <TextField
+                        fullWidth
+                        label="Mes"
+                        value={item.months}
+                        onChange={(e) =>
+                          handleMonthChange(index, "months", e.target.value)
+                        }
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 5 }}>
+                      <TextField
+                        fullWidth
+                        label="Comentario"
+                        value={item.comment}
+                        onChange={(e) =>
+                          handleMonthChange(index, "comment", e.target.value)
+                        }
+                      />
+                    </Grid>
+
+                    <Grid size={{ xs: 12, sm: 2 }}>
+                      <Button
+                        fullWidth
+                        color="error"
+                        onClick={() => removeMonth(index)}
+                      >
+                        Eliminar
+                      </Button>
+                    </Grid>
+                  </Grid>
+                ))}
+
+                <Button onClick={addMonth} variant="outlined">
+                  + Agregar mes
+                </Button>
+              </Grid>
+              {documentTypes.map((type) => (
+                <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                  <FileField
+                    name={`documents.${type}`}
+                    label={`${type} (Nueva versión)`}
+                    control={control}
+                    errors={errors}
+                    currentFile={project?.documents?.[type]}
+                  />
+                </Grid>
+              ))}
               <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
                 <TextField
                   rows={4}
