@@ -23,18 +23,7 @@ import MethodGet from "../../Config/Service";
 
 export default function AddUsers({ open, handleClose, brands }) {
   const { CreateUsers } = useContext(UsersContext);
-
   const [roles, saveRoles] = useState([]);
-  useEffect(() => {
-    let url = `/roles`;
-    MethodGet(url)
-      .then((res) => {
-        saveRoles(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   const {
     register,
@@ -48,18 +37,42 @@ export default function AddUsers({ open, handleClose, brands }) {
     },
   });
 
+  const roleSelected = watch("role_id");
+
+  useEffect(() => {
+    let url = `/roles`;
+
+    MethodGet(url)
+      .then((res) => {
+        saveRoles(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   useEffect(() => {
     register("brands", {
-      required: "Debes seleccionar al menos una marca",
-    });
-  }, [register]);
+      validate: (value) => {
+        if (Number(roleSelected) === 4) {
+          return value?.length > 0 || "Debes seleccionar al menos una marca";
+        }
 
-  const onSubmit = (data, e) => {
+        return true;
+      },
+    });
+  }, [register, roleSelected]);
+
+  useEffect(() => {
+    if (Number(roleSelected) !== 4) {
+      setValue("brands", []);
+    }
+  }, [roleSelected, setValue]);
+
+  const onSubmit = (data) => {
     CreateUsers(data);
     handleClose();
   };
-
-  const roleSelected = watch("role_id");
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -172,7 +185,9 @@ export default function AddUsers({ open, handleClose, brands }) {
                     multiple
                     value={watch("brands") || []}
                     onChange={(e) => {
-                      setValue("brands", e.target.value);
+                      setValue("brands", e.target.value, {
+                        shouldValidate: true,
+                      });
                     }}
                     input={<OutlinedInput label="Selecciona marcas" />}
                     renderValue={(selected) =>

@@ -199,16 +199,15 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
       label: "PRODUCTION",
       value: (
         <Stack spacing={0.5}>
-          {project.yearly_estimations?.length > 0
-            ? [...project.yearly_estimations]
-                .sort((a, b) => a.year - b.year)
-                .map((item) => (
-                  <Typography key={item.id} fontSize="0.85rem">
-                    <strong>{item.year}:</strong>{" "}
-                    {formatNumber(Number(item.amount))}
-                  </Typography>
-                ))
-            : "-"}
+          {project.yearly_estimations?.length > 0 &&
+            [...project.yearly_estimations]
+              .sort((a, b) => a.year - b.year)
+              .map((item) => (
+                <Typography key={item.id} fontSize="0.85rem">
+                  <strong>{item.year}</strong>{" "}
+                  {formatNumber(Number(item.amount))}
+                </Typography>
+              ))}
         </Stack>
       ),
     },

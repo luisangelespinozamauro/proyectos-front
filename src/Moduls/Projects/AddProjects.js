@@ -40,16 +40,19 @@ export default function AddProjects({ open, handleClose, brands }) {
         }
       });
     }
+    yearlyEstimations
+      .filter((item) => item.year || item.amount)
+      .forEach((item, index) => {
+        formData.append(`yearly_estimations[${index}][year]`, item.year);
+        formData.append(`yearly_estimations[${index}][amount]`, item.amount);
+      });
 
-    yearlyEstimations.forEach((item, index) => {
-      formData.append(`yearly_estimations[${index}][year]`, item.year);
-      formData.append(`yearly_estimations[${index}][amount]`, item.amount);
-    });
-
-    monthlyComments.forEach((item, index) => {
-      formData.append(`months_comments[${index}][months]`, item.months);
-      formData.append(`months_comments[${index}][comment]`, item.comment);
-    });
+    monthlyComments
+      .filter((item) => item.months || item.comment)
+      .forEach((item, index) => {
+        formData.append(`months_comments[${index}][months]`, item.months);
+        formData.append(`months_comments[${index}][comment]`, item.comment);
+      });
 
     await CreateProjects(formData);
 
@@ -65,14 +68,14 @@ export default function AddProjects({ open, handleClose, brands }) {
   ];
 
   const documentTypes = [
-    "QUESTIONNAIRE",
-    "NDA",
-    "MOU",
-    "TCA",
-    "CONTRACT",
-    "BOM",
-    "PRICE",
-    "LAYOUT",
+    "Questionnaire",
+    "Nda",
+    "Mou",
+    "Tca",
+    "Contract",
+    "Bom",
+    "Price",
+    "Layout",
   ];
 
   const dueDiligence = [
@@ -134,7 +137,7 @@ export default function AddProjects({ open, handleClose, brands }) {
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="lg">
-      <DialogTitle>Nuevo proyecto</DialogTitle>
+      <DialogTitle>New project</DialogTitle>
       <form
         onSubmit={handleSubmit(onSubmit)}
         autoComplete="off"
@@ -149,11 +152,11 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <SelectField
                 name="brand_id"
-                label="BRAND"
+                label="Brand"
                 control={control}
                 errors={errors}
                 rules={{
-                  required: "La marca es obligatoria",
+                  required: "This field is required",
                 }}
                 options={brands.map((brand) => ({
                   id: brand.id,
@@ -164,11 +167,11 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="MODEL"
+                label="Model"
                 {...register("model", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.model}
                 helperText={errors.model?.message}
@@ -177,11 +180,11 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="PRODUCT FAMILY"
+                label="Product family"
                 {...register("product_family", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.product_family}
                 helperText={errors.product_family?.message}
@@ -191,11 +194,11 @@ export default function AddProjects({ open, handleClose, brands }) {
               <TextField
                 type="number"
                 fullWidth
-                label="ESTIMATED VOLUME"
+                label="Estimated volume"
                 {...register("estimated_volume", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.estimated_volume}
                 helperText={errors.estimated_volume?.message}
@@ -204,9 +207,9 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="QUESTIONNAIRE COMPLETION"
+                label="Questionnaire completion"
                 {...register("questionnaire_completion", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.questionnaire_completion}
                 helperText={errors.questionnaire_completion?.message}
@@ -215,11 +218,11 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="NDA STATUS"
+                label="Nda"
                 {...register("nda_status", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.nda_status}
                 helperText={errors.nda_status?.message}
@@ -228,9 +231,9 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="MOU"
+                label="Mou"
                 {...register("mou_status", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.mou_status}
                 helperText={errors.mou_status?.message}
@@ -239,9 +242,9 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="TCA"
+                label="Tca"
                 {...register("tca_status", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.tca_status}
                 helperText={errors.tca_status?.message}
@@ -250,9 +253,9 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="CONTRACT"
+                label="Contract"
                 {...register("contract_status", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.contract_status}
                 helperText={errors.contract_status?.message}
@@ -261,9 +264,9 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="BOM"
+                label="Bom"
                 {...register("bom_status", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.bom_status}
                 helperText={errors.bom_status?.message}
@@ -272,9 +275,9 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="PRICE AGREEMENT"
+                label="Price agreement"
                 {...register("price_agreement", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.price_agreement}
                 helperText={errors.price_agreement?.message}
@@ -283,7 +286,7 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <SelectField
                 name="project_status"
-                label="PROJECT STATUS"
+                label="Project status"
                 control={control}
                 errors={errors}
                 options={projectStatus}
@@ -292,11 +295,11 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="ASSEMBLY APPROACH"
+                label="Assembly approach"
                 {...register("assembly_approach", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.assembly_approach}
                 helperText={errors.assembly_approach?.message}
@@ -305,11 +308,11 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="ASSEMBLY LINE"
+                label="Assembly line"
                 {...register("assembly_line", {
-                  required: "Este campo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.assembly_line}
                 helperText={errors.assembly_line?.message}
@@ -318,42 +321,30 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="LAYOUT"
+                label="Layout"
                 {...register("layout", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.layout}
                 helperText={errors.layout?.message}
               />
             </Grid>
-            {/* <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                type="number"
-                fullWidth
-                label="PRODUCTION"
-                {...register("production_2026", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
-                })}
-                error={!!errors.production_2026}
-                helperText={errors.production_2026?.message}
-              />
-            </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 type="number"
                 fullWidth
-                label="POTENTIAL VOLUME"
+                label="Potential volume"
                 {...register("potential_volume", {
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.potential_volume}
                 helperText={errors.potential_volume?.message}
               />
-            </Grid> */}
+            </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <SelectField
                 name="due_diligence"
-                label="Due Diligence"
+                label="Due diligence"
                 control={control}
                 errors={errors}
                 options={dueDiligence}
@@ -365,7 +356,7 @@ export default function AddProjects({ open, handleClose, brands }) {
                   <Grid size={{ xs: 12, sm: 5 }}>
                     <TextField
                       fullWidth
-                      label="Año"
+                      label="Year"
                       type="number"
                       value={item.year}
                       onChange={(e) =>
@@ -376,7 +367,7 @@ export default function AddProjects({ open, handleClose, brands }) {
                   <Grid size={{ xs: 12, sm: 5 }}>
                     <TextField
                       fullWidth
-                      label="Monto"
+                      label="Amount"
                       type="number"
                       value={item.amount}
                       onChange={(e) =>
@@ -389,14 +380,20 @@ export default function AddProjects({ open, handleClose, brands }) {
                       fullWidth
                       color="error"
                       onClick={() => removeYear(index)}
+                      sx={{ textTransform: "none" }}
                     >
-                      Eliminar
+                      Eliminate
                     </Button>
                   </Grid>
                 </Grid>
               ))}
-              <Button onClick={addYear} variant="outlined">
-                + Agregar año
+              <Button
+                onClick={addYear}
+                color="error"
+                variant="outlined"
+                sx={{ textTransform: "none" }}
+              >
+                + Add year
               </Button>
             </Grid>
             <Grid size={{ xs: 12 }}>
@@ -405,7 +402,7 @@ export default function AddProjects({ open, handleClose, brands }) {
                   <Grid size={{ xs: 12, sm: 5 }}>
                     <TextField
                       fullWidth
-                      label="Mes"
+                      label="Months"
                       value={item.months}
                       onChange={(e) =>
                         handleMonthChange(index, "months", e.target.value)
@@ -415,7 +412,7 @@ export default function AddProjects({ open, handleClose, brands }) {
                   <Grid size={{ xs: 12, sm: 5 }}>
                     <TextField
                       fullWidth
-                      label="Comentario"
+                      label="Comments"
                       value={item.comment}
                       onChange={(e) =>
                         handleMonthChange(index, "comment", e.target.value)
@@ -428,47 +425,193 @@ export default function AddProjects({ open, handleClose, brands }) {
                       fullWidth
                       color="error"
                       onClick={() => removeMonth(index)}
+                      sx={{ textTransform: "none" }}
                     >
-                      Eliminar
+                      Eliminate
                     </Button>
                   </Grid>
                 </Grid>
               ))}
 
-              <Button onClick={addMonth} variant="outlined">
-                + Agregar mes
+              <Button
+                onClick={addMonth}
+                color="error"
+                variant="outlined"
+                sx={{ textTransform: "none" }}
+              >
+                + Add month
               </Button>
             </Grid>
             {documentTypes.map((type) => (
               <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <FileField
                   name={`documents.${type}`}
-                  label={`${type} FILE`}
+                  label={`${type} file`}
                   control={control}
                   errors={errors}
                 />
               </Grid>
             ))}
-            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
               <TextField
                 rows={4}
                 fullWidth
                 multiline
-                label="COMMENTS"
+                label="Comments"
                 {...register("comments", {})}
                 error={!!errors.comments}
                 helperText={errors.comments?.message}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
               <TextField
                 rows={4}
                 multiline
                 fullWidth
-                label="NEXT STEPS"
+                label="Next steps"
                 {...register("next_steps", {})}
                 error={!!errors.next_steps}
                 helperText={errors.next_steps?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Main contact supervisor"
+                {...register("main_contact_supervisor", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.main_contact_supervisor}
+                helperText={errors.main_contact_supervisor?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Model family"
+                {...register("model_family", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.model_family}
+                helperText={errors.model_family?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Models"
+                {...register("models", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.models}
+                helperText={errors.models?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Plant line"
+                {...register("plant_line", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.plant_line}
+                helperText={errors.plant_line?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Trademark license agreement"
+                {...register("trademark_license_agreement", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.trademark_license_agreement}
+                helperText={errors.trademark_license_agreement?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Homologation status"
+                {...register("homologation_status", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.homologation_status}
+                helperText={errors.homologation_status?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Estimated SOP"
+                {...register("estimated_sop", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.estimated_sop}
+                helperText={errors.estimated_sop?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Project mgr"
+                {...register("project_mgr", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.project_mgr}
+                helperText={errors.project_mgr?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Pending points legal"
+                {...register("pending_points_legal", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.pending_points_legal}
+                helperText={errors.pending_points_legal?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Support requested"
+                {...register("support_requested", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.support_requested}
+                helperText={errors.support_requested?.message}
               />
             </Grid>
           </Grid>
@@ -480,9 +623,10 @@ export default function AddProjects({ open, handleClose, brands }) {
               backgroundColor: "red",
               color: "white",
               "&:hover": { backgroundColor: "darkred" },
+              textTransform: "none",
             }}
           >
-            Cancelar
+            Cancel
           </Button>
           <Button
             type="submit"
@@ -490,9 +634,10 @@ export default function AddProjects({ open, handleClose, brands }) {
               backgroundColor: "#1565c0",
               color: "white",
               "&:hover": { backgroundColor: "#0d47a1" },
+              textTransform: "none",
             }}
           >
-            Guardar
+            Save
           </Button>
         </DialogActions>
       </form>

@@ -40,10 +40,10 @@ export default function FileField({
             disabled={disabled}
           >
             {value
-              ? "Cambiar archivo"
+              ? "Change file"
               : currentFile
-                ? "Reemplazar archivo"
-                : "Seleccionar archivo"}
+                ? "Current file"
+                : "Upload file"}
 
             <input
               type="file"
@@ -63,7 +63,7 @@ export default function FileField({
               <Box display="flex" alignItems="center" gap={1}>
                 <InsertDriveFileIcon fontSize="small" color="primary" />
                 <Typography variant="body2" color="primary">
-                  Nuevo: {value.name}
+                  Selected: {value.name}
                 </Typography>
 
                 <Button
@@ -71,7 +71,7 @@ export default function FileField({
                   color="error"
                   onClick={() => onChange(null)}
                 >
-                  Quitar
+                  Remove
                 </Button>
               </Box>
             )}
@@ -80,14 +80,14 @@ export default function FileField({
               <Box display="flex" alignItems="center" gap={1}>
                 <InsertDriveFileIcon fontSize="small" />
                 <Typography variant="body2" color="text.secondary">
-                  Actual: {currentFile?.name || "Archivo existente"}
+                  Current: {currentFile?.name || "No file uploaded"}
                 </Typography>
               </Box>
             )}
 
             {!value && !currentFile && (
               <Typography variant="body2" color="text.disabled">
-                Sin archivo seleccionado
+                No file selected
               </Typography>
             )}
           </Stack>

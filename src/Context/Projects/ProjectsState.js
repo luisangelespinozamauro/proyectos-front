@@ -32,7 +32,7 @@ const ProjectsState = ({ children }) => {
         .map(([campo, errores]) => `• ${errores.join(", ")}`)
         .join("\n");
       Swal.fire({
-        title: "Error de validación",
+        title: "Validation error",
         text: mensajes,
         icon: "warning",
       });
@@ -71,7 +71,7 @@ const ProjectsState = ({ children }) => {
     MethodPost("/projects", data, imageHeaders)
       .then((res) => {
         dispatch({ type: ADD_PROJECTS, payload: res.data });
-        Swal.fire("Éxito", "Proyecto agregado con éxito", "success");
+        Swal.fire("Success", "Project successfully added", "success");
         GetProjects();
       })
       .catch(handleError);
@@ -86,7 +86,7 @@ const ProjectsState = ({ children }) => {
     request
       .then((res) => {
         dispatch({ type: UPDATE_PROJECTS, payload: res.data });
-        Swal.fire("Éxito", "Proyecto actualizado con éxito", "success");
+        Swal.fire("Success", "Project successfully updated", "success");
         GetProjects();
       })
       .catch(handleError);
