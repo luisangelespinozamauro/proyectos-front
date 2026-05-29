@@ -27,7 +27,11 @@ export default function AddProjects({ open, handleClose, brands }) {
     const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
-      if (key !== "documents") {
+      if (
+        key !== "documents" &&
+        key !== "yearly_estimations" &&
+        key !== "months_comments"
+      ) {
         formData.append(key, data[key]);
       }
     });
@@ -57,7 +61,8 @@ export default function AddProjects({ open, handleClose, brands }) {
     await CreateProjects(formData);
 
     reset();
-    setYearlyEstimations([{ year: "", amount: "" }]);
+    setYearlyEstimations([]);
+    setMonthlyComments([]);
     handleClose();
   };
 
@@ -83,13 +88,9 @@ export default function AddProjects({ open, handleClose, brands }) {
     { id: "No", nombre: "No" },
   ];
 
-  const [yearlyEstimations, setYearlyEstimations] = React.useState([
-    { year: "", amount: "" },
-  ]);
+  const [yearlyEstimations, setYearlyEstimations] = React.useState([]);
 
-  const [monthlyComments, setMonthlyComments] = React.useState([
-    { months: "", comment: "" },
-  ]);
+  const [monthlyComments, setMonthlyComments] = React.useState([]);
 
   const addYear = () => {
     setYearlyEstimations([
@@ -167,27 +168,43 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="Model"
-                {...register("model", {
-                  required: "This field is required",
-                  minLength: { value: 1, message: "Minimum 1 character" },
-                  maxLength: { value: 100, message: "Maximum 100 characters" },
+                label="Main contact supervisor"
+                {...register("main_contact_supervisor", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
                 })}
-                error={!!errors.model}
-                helperText={errors.model?.message}
+                error={!!errors.main_contact_supervisor}
+                helperText={errors.main_contact_supervisor?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="Product family"
-                {...register("product_family", {
-                  required: "This field is required",
-                  minLength: { value: 1, message: "Minimum 1 character" },
-                  maxLength: { value: 100, message: "Maximum 100 characters" },
+                label="Model family"
+                {...register("model_family", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
                 })}
-                error={!!errors.product_family}
-                helperText={errors.product_family?.message}
+                error={!!errors.model_family}
+                helperText={errors.model_family?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Models"
+                {...register("models", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.models}
+                helperText={errors.models?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -202,6 +219,20 @@ export default function AddProjects({ open, handleClose, brands }) {
                 })}
                 error={!!errors.estimated_volume}
                 helperText={errors.estimated_volume?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Plant line"
+                {...register("plant_line", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.plant_line}
+                helperText={errors.plant_line?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -253,6 +284,21 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
+                label="Trademark license agreement"
+                {...register("trademark_license_agreement", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.trademark_license_agreement}
+                helperText={errors.trademark_license_agreement?.message}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
                 label="Contract"
                 {...register("contract_status", {
                   maxLength: { value: 100, message: "Maximum 100 characters" },
@@ -270,17 +316,6 @@ export default function AddProjects({ open, handleClose, brands }) {
                 })}
                 error={!!errors.bom_status}
                 helperText={errors.bom_status?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Price agreement"
-                {...register("price_agreement", {
-                  maxLength: { value: 100, message: "Maximum 100 characters" },
-                })}
-                error={!!errors.price_agreement}
-                helperText={errors.price_agreement?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -318,15 +353,47 @@ export default function AddProjects({ open, handleClose, brands }) {
                 helperText={errors.assembly_line?.message}
               />
             </Grid>
+
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="Layout"
-                {...register("layout", {
-                  maxLength: { value: 100, message: "Maximum 100 characters" },
+                label="Homologation status"
+                {...register("homologation_status", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
                 })}
-                error={!!errors.layout}
-                helperText={errors.layout?.message}
+                error={!!errors.homologation_status}
+                helperText={errors.homologation_status?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Estimated SOP"
+                {...register("estimated_sop", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.estimated_sop}
+                helperText={errors.estimated_sop?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Project mgr"
+                {...register("project_mgr", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.project_mgr}
+                helperText={errors.project_mgr?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -341,13 +408,81 @@ export default function AddProjects({ open, handleClose, brands }) {
                 helperText={errors.potential_volume?.message}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <SelectField
-                name="due_diligence"
-                label="Due diligence"
-                control={control}
-                errors={errors}
-                options={dueDiligence}
+            <Grid size={{ xs: 12 }}>
+              {monthlyComments.map((item, index) => (
+                <Grid container spacing={2} key={index} mb={1}>
+                  <Grid size={{ xs: 12, sm: 5 }}>
+                    <TextField
+                      type="month"
+                      fullWidth
+                      label="Months"
+                      InputLabelProps={{ shrink: true }}
+                      value={item.months}
+                      onChange={(e) =>
+                        handleMonthChange(index, "months", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 5 }}>
+                    <TextField
+                      rows={2}
+                      multiline
+                      fullWidth
+                      label="Comments"
+                      value={item.comment}
+                      onChange={(e) =>
+                        handleMonthChange(index, "comment", e.target.value)
+                      }
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12, sm: 2 }}>
+                    <Button
+                      fullWidth
+                      color="error"
+                      onClick={() => removeMonth(index)}
+                      sx={{ textTransform: "none" }}
+                    >
+                      Eliminate
+                    </Button>
+                  </Grid>
+                </Grid>
+              ))}
+
+              <Button
+                onClick={addMonth}
+                color="error"
+                variant="outlined"
+                sx={{ textTransform: "none" }}
+              >
+                + Add month
+              </Button>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                rows={2}
+                multiline
+                fullWidth
+                label="Next steps"
+                {...register("next_steps", {})}
+                error={!!errors.next_steps}
+                helperText={errors.next_steps?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                rows={2}
+                multiline
+                fullWidth
+                label="Pending points legal"
+                {...register("pending_points_legal", {
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
+                })}
+                error={!!errors.pending_points_legal}
+                helperText={errors.pending_points_legal?.message}
               />
             </Grid>
             <Grid size={{ xs: 12 }}>
@@ -397,211 +532,9 @@ export default function AddProjects({ open, handleClose, brands }) {
               </Button>
             </Grid>
             <Grid size={{ xs: 12 }}>
-              {monthlyComments.map((item, index) => (
-                <Grid container spacing={2} key={index} mb={1}>
-                  <Grid size={{ xs: 12, sm: 5 }}>
-                    <TextField
-                      fullWidth
-                      label="Months"
-                      value={item.months}
-                      onChange={(e) =>
-                        handleMonthChange(index, "months", e.target.value)
-                      }
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 5 }}>
-                    <TextField
-                      fullWidth
-                      label="Comments"
-                      value={item.comment}
-                      onChange={(e) =>
-                        handleMonthChange(index, "comment", e.target.value)
-                      }
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, sm: 2 }}>
-                    <Button
-                      fullWidth
-                      color="error"
-                      onClick={() => removeMonth(index)}
-                      sx={{ textTransform: "none" }}
-                    >
-                      Eliminate
-                    </Button>
-                  </Grid>
-                </Grid>
-              ))}
-
-              <Button
-                onClick={addMonth}
-                color="error"
-                variant="outlined"
-                sx={{ textTransform: "none" }}
-              >
-                + Add month
-              </Button>
-            </Grid>
-            {documentTypes.map((type) => (
-              <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                <FileField
-                  name={`documents.${type}`}
-                  label={`${type} file`}
-                  control={control}
-                  errors={errors}
-                />
-              </Grid>
-            ))}
-            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
               <TextField
-                rows={4}
-                fullWidth
+                rows={2}
                 multiline
-                label="Comments"
-                {...register("comments", {})}
-                error={!!errors.comments}
-                helperText={errors.comments?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
-              <TextField
-                rows={4}
-                multiline
-                fullWidth
-                label="Next steps"
-                {...register("next_steps", {})}
-                error={!!errors.next_steps}
-                helperText={errors.next_steps?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Main contact supervisor"
-                {...register("main_contact_supervisor", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.main_contact_supervisor}
-                helperText={errors.main_contact_supervisor?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Model family"
-                {...register("model_family", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.model_family}
-                helperText={errors.model_family?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Models"
-                {...register("models", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.models}
-                helperText={errors.models?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Plant line"
-                {...register("plant_line", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.plant_line}
-                helperText={errors.plant_line?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Trademark license agreement"
-                {...register("trademark_license_agreement", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.trademark_license_agreement}
-                helperText={errors.trademark_license_agreement?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Homologation status"
-                {...register("homologation_status", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.homologation_status}
-                helperText={errors.homologation_status?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Estimated SOP"
-                {...register("estimated_sop", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.estimated_sop}
-                helperText={errors.estimated_sop?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Project mgr"
-                {...register("project_mgr", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.project_mgr}
-                helperText={errors.project_mgr?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
-                fullWidth
-                label="Pending points legal"
-                {...register("pending_points_legal", {
-                  maxLength: {
-                    value: 100,
-                    message: "Maximum 100 characters",
-                  },
-                })}
-                error={!!errors.pending_points_legal}
-                helperText={errors.pending_points_legal?.message}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <TextField
                 fullWidth
                 label="Support requested"
                 {...register("support_requested", {
@@ -614,6 +547,88 @@ export default function AddProjects({ open, handleClose, brands }) {
                 helperText={errors.support_requested?.message}
               />
             </Grid>
+            {documentTypes.map((type) => (
+              <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                <FileField
+                  name={`documents.${type}`}
+                  label={`${type} file`}
+                  control={control}
+                  errors={errors}
+                />
+              </Grid>
+            ))}
+
+            {/* <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Model"
+                {...register("model", {
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
+                })}
+                error={!!errors.model}
+                helperText={errors.model?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Product family"
+                {...register("product_family", {
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
+                })}
+                error={!!errors.product_family}
+                helperText={errors.product_family?.message}
+              />
+            </Grid> */}
+            {/* 
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Price agreement"
+                {...register("price_agreement", {
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
+                })}
+                error={!!errors.price_agreement}
+                helperText={errors.price_agreement?.message}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Layout"
+                {...register("layout", {
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
+                })}
+                error={!!errors.layout}
+                helperText={errors.layout?.message}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <SelectField
+                name="due_diligence"
+                label="Due diligence"
+                control={control}
+                errors={errors}
+                options={dueDiligence}
+              />
+            </Grid> 
+                <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
+              <TextField
+                rows={4}
+                fullWidth
+                multiline
+                label="Comments"
+                {...register("comments", {})}
+                error={!!errors.comments}
+                helperText={errors.comments?.message}
+              />
+            </Grid>*/}
           </Grid>
         </DialogContent>
         <DialogActions>

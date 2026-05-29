@@ -158,65 +158,144 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
 
   const rows = [
     { label: "NR", value: project.id },
-    { label: "BRAND", value: project?.brand?.name || "Sin marca" },
-    { label: "MODEL", value: project.model },
-    { label: "PRODUCT FAMILY", value: project.product_family },
+    { label: "Brand", value: project?.brand?.name || "Sin marca" },
+
     {
-      label: "ESTIMATED VOLUME",
+      label: "Main contact supervisor",
+      value: project.main_contact_supervisor,
+    },
+
+    { label: "Model family", value: project.model_family },
+
+    { label: "Models", value: project.models },
+
+    {
+      label: "Estimated volume",
       value: formatNumber(project.estimated_volume),
     },
-    // {
-    //   label: "QUESTIONNAIRE COMPLETION",
-    //   value: project.questionnaire_completion,
-    // },
-    renderDocumentVersions("QUESTIONNAIRE", "QUESTIONNAIRE"),
-    // { label: "NDA STATUS", value: project.nda_status },
-    renderDocumentVersions("NDA", "NDA"),
-    // { label: "MOU", value: project.mou_status },
-    renderDocumentVersions("MOU", "MOU"),
-    // { label: "TCA", value: project.tca_status },
-    renderDocumentVersions("TCA", "TCA"),
-    // { label: "CONTRACT", value: project.contract_status },
-    renderDocumentVersions("CONTRACT", "CONTRACT"),
-    // { label: "BOM", value: project.bom_status },
-    renderDocumentVersions("BOM", "BOM"),
-  ];
 
-  if (canSeePrice) {
-    rows.push(
-      // { label: "PRICE AGREEMENT", value: project.price_agreement },
-      renderDocumentVersions("PRICE", "PRICE AGREEMENT"),
-    );
-  }
+    { label: "Plant line", value: project.plant_line },
 
-  rows.push(
-    { label: "PROJECT STATUS", value: project.project_status },
-    { label: "ASSEMBLY APPROACH", value: project.assembly_approach },
-    { label: "ASSEMBLY LINE", value: project.assembly_line },
-    // { label: "LAYOUT", value: project.layout },
-    renderDocumentVersions("LAYOUT", "LAYOUT"),
+    renderDocumentVersions("QUESTIONNAIRE", "Questionnaire completion"),
+
+    renderDocumentVersions("NDA", "Nda status"),
+
+    renderDocumentVersions("MOU", "Mou"),
+
+    renderDocumentVersions("TCA", "Tca"),
+
     {
-      label: "PRODUCTION",
+      label: "Trademark license agreement",
+      value: project.trademark_license_agreement,
+    },
+
+    renderDocumentVersions("CONTRACT", "Contract"),
+
+    renderDocumentVersions("BOM", "Bom"),
+
+    {
+      label: "Project status",
+      value: project.project_status,
+    },
+
+    {
+      label: "Assembly approach",
+      value: project.assembly_approach,
+    },
+
+    {
+      label: "Assembly line",
+      value: project.assembly_line,
+    },
+
+    {
+      label: "Homologation status",
+      value: project.homologation_status,
+    },
+
+    {
+      label: "Estimated sop",
+      value: project.estimated_sop,
+    },
+
+    {
+      label: "Project mgr",
+      value: project.project_mgr,
+    },
+
+    {
+      label: "Potential volume",
+      value: formatNumber(project.potential_volume),
+    },
+
+    {
+      label: "Comments",
       value: (
         <Stack spacing={0.5}>
-          {project.yearly_estimations?.length > 0 &&
+          {project.months_comments?.length > 0 ? (
+            project.months_comments.map((item) => (
+              <Typography key={item.id} fontSize="0.85rem">
+                <strong>{item.months}</strong> = {item.comment}
+              </Typography>
+            ))
+          ) : (
+            <Typography fontSize="0.85rem">Sin datos</Typography>
+          )}
+        </Stack>
+      ),
+    },
+
+    {
+      label: "Next steps",
+      value: project.next_steps,
+    },
+
+    {
+      label: "Pending points legal",
+      value: project.pending_points_legal,
+    },
+
+    {
+      label: "Production",
+      value: (
+        <Stack spacing={0.5}>
+          {project.yearly_estimations?.length > 0 ? (
             [...project.yearly_estimations]
               .sort((a, b) => a.year - b.year)
               .map((item) => (
                 <Typography key={item.id} fontSize="0.85rem">
-                  <strong>{item.year}</strong>{" "}
+                  <strong>{item.year}</strong> ={" "}
                   {formatNumber(Number(item.amount))}
                 </Typography>
-              ))}
+              ))
+          ) : (
+            <Typography fontSize="0.85rem">Sin datos</Typography>
+          )}
         </Stack>
       ),
     },
-    { label: "COMMENTS", value: project.comments },
-    { label: "NEXT STEPS", value: project.next_steps },
-    { label: "Fecha de registro", value: dateFormatter(project.created_at) },
-    { label: "Estado", value: <EstadoChip estado={project.estado} /> },
-  );
 
+    {
+      label: "Support requested",
+      value: project.support_requested,
+    },
+  ];
+
+  // if (canSeePrice) {
+  //   rows.push(renderDocumentVersions("PRICE", "Price agreement"));
+  // }
+
+  rows.push(
+    renderDocumentVersions("LAYOUT", "Layout"),
+    {
+      label: "Fecha de creación",
+      value: dateFormatter(project.created_at),
+    },
+    {
+      label: "Estado",
+      value: <EstadoChip estado={project.estado} />,
+    },
+  );
   return (
     <Dialog
       open={open}

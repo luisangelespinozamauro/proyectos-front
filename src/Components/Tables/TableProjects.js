@@ -134,7 +134,7 @@ export default function TableProjects({ rows = [] }) {
     {
       field: "actions",
       type: "actions",
-      headerName: "ACCIÓN",
+      headerName: "Acciones",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -163,7 +163,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "id",
-      headerName: "NR",
+      headerName: "Nr",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -171,7 +171,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "brand",
-      headerName: "BRAND",
+      headerName: "Brand",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -181,16 +181,24 @@ export default function TableProjects({ rows = [] }) {
       },
     },
     {
-      field: "model",
-      headerName: "MODEL",
+      field: "main_contact_supervisor",
+      headerName: "Main contact supervisor",
       flex: 1,
       align: "center",
       headerAlign: "center",
       minWidth: 100,
     },
     {
-      field: "product_family",
-      headerName: "PRODUCT FAMILY",
+      field: "model_family",
+      headerName: "Model family",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 100,
+    },
+    {
+      field: "models",
+      headerName: "Models",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -198,7 +206,18 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "estimated_volume",
-      headerName: "ESTIMATED VOLUME",
+      headerName: "Estimated volume",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 100,
+      valueFormatter: (params) => {
+        return formatNumber(Number(params) || 0);
+      },
+    },
+    {
+      field: "plant_line",
+      headerName: "Plant line",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -209,7 +228,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "questionnaire_completion",
-      headerName: "QUESTIONNAIRE COMPLETION",
+      headerName: "Questionnaire completion",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -220,7 +239,7 @@ export default function TableProjects({ rows = [] }) {
         if (!url) return null;
 
         return (
-          <Tooltip title="Ver QUESTIONNAIRE COMPLETION">
+          <Tooltip title="Ver questionnaire completion">
             <IconButton onClick={() => window.open(url, "_blank")}>
               {getFileIcon(url)}
             </IconButton>
@@ -228,9 +247,10 @@ export default function TableProjects({ rows = [] }) {
         );
       },
     },
+
     {
       field: "nda_status",
-      headerName: "NDA STATUS",
+      headerName: "Nda status",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -241,7 +261,7 @@ export default function TableProjects({ rows = [] }) {
         if (!url) return null;
 
         return (
-          <Tooltip title="Ver NDA">
+          <Tooltip title="Ver nda status">
             <IconButton onClick={() => window.open(url, "_blank")}>
               {getFileIcon(url)}
             </IconButton>
@@ -251,7 +271,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "mou_status",
-      headerName: "MOU",
+      headerName: "Mou",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -262,7 +282,7 @@ export default function TableProjects({ rows = [] }) {
         if (!url) return null;
 
         return (
-          <Tooltip title="Ver MOU">
+          <Tooltip title="Ver mou">
             <IconButton onClick={() => window.open(url, "_blank")}>
               {getFileIcon(url)}
             </IconButton>
@@ -272,7 +292,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "tca_status",
-      headerName: "TCA",
+      headerName: "Tca",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -283,7 +303,7 @@ export default function TableProjects({ rows = [] }) {
         if (!url) return null;
 
         return (
-          <Tooltip title="Ver TCA">
+          <Tooltip title="Ver tca">
             <IconButton onClick={() => window.open(url, "_blank")}>
               {getFileIcon(url)}
             </IconButton>
@@ -292,8 +312,16 @@ export default function TableProjects({ rows = [] }) {
       },
     },
     {
+      field: "trademark_license_agreement",
+      headerName: "Trademark license agreement",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 100,
+    },
+    {
       field: "contract_status",
-      headerName: "CONTRACT",
+      headerName: "Contract",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -304,7 +332,7 @@ export default function TableProjects({ rows = [] }) {
         if (!url) return null;
 
         return (
-          <Tooltip title="Ver contrato">
+          <Tooltip title="Ver contract">
             <IconButton onClick={() => window.open(url, "_blank")}>
               {getFileIcon(url)}
             </IconButton>
@@ -314,7 +342,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "bom_status",
-      headerName: "BOM",
+      headerName: "Bom",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -325,32 +353,7 @@ export default function TableProjects({ rows = [] }) {
         if (!url) return null;
 
         return (
-          <Tooltip title="Ver BOM">
-            <IconButton onClick={() => window.open(url, "_blank")}>
-              {getFileIcon(url)}
-            </IconButton>
-          </Tooltip>
-        );
-      },
-    },
-    {
-      field: "price_agreement",
-      headerName: "PRICE AGREEMENT",
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      minWidth: 100,
-      renderCell: (params) => {
-        if (!allowedUserIds.includes(auth_user_id)) {
-          return "No autorizado";
-        }
-
-        const url = getDocumentUrl(params.row, "PRICE");
-
-        if (!url) return null;
-
-        return (
-          <Tooltip title="Ver PRICE AGREEMENT">
+          <Tooltip title="Ver bom">
             <IconButton onClick={() => window.open(url, "_blank")}>
               {getFileIcon(url)}
             </IconButton>
@@ -360,7 +363,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "project_status",
-      headerName: "PROJECT STATUS",
+      headerName: "Project status",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -368,7 +371,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "assembly_approach",
-      headerName: "ASSEMBLY APPROACH",
+      headerName: "Assembly approach",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -376,40 +379,95 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "assembly_line",
-      headerName: "ASSEMBLY LINE",
+      headerName: "Assembly line",
       flex: 1,
       align: "center",
       headerAlign: "center",
       minWidth: 100,
     },
     {
-      field: "layout",
-      headerName: "LAYOUT",
+      field: "homologation_status",
+      headerName: "Homologation status",
       flex: 1,
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+    },
+    {
+      field: "estimated_sop",
+      headerName: "Estimated sop",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 100,
+    },
+    {
+      field: "project_mgr",
+      headerName: "Project mgr",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 100,
+    },
+    {
+      field: "potential_volume",
+      headerName: "Potential volume",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 100,
+      valueFormatter: (params) => {
+        return formatNumber(Number(params) || 0);
+      },
+    },
+    {
+      field: "months_comments",
+      headerName: "Comments",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 200,
       renderCell: (params) => {
-        const url = getDocumentUrl(params.row, "LAYOUT");
+        const comments = params.row.months_comments;
 
-        if (!url) return null;
+        if (!comments || comments.length === 0) {
+          return <Typography variant="caption">Sin datos</Typography>;
+        }
 
         return (
-          <Tooltip title="Ver LAYOUT">
-            <IconButton onClick={() => window.open(url, "_blank")}>
-              {getFileIcon(url)}
-            </IconButton>
-          </Tooltip>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            {comments.map((item) => (
+              <Typography key={item.id} variant="caption">
+                {item.months} = {item.comment}
+              </Typography>
+            ))}
+          </Box>
         );
       },
     },
     {
-      field: "production",
-      headerName: "PRODUCTION",
+      field: "next_steps",
+      headerName: "Next steps",
       flex: 1,
       align: "center",
       headerAlign: "center",
-      minWidth: 150,
+      minWidth: 100,
+    },
+    {
+      field: "pending_points_legal",
+      headerName: "Pending points legal",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 100,
+    },
+    {
+      field: "production",
+      headerName: "Production",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 200,
       renderCell: (params) => {
         const estimations = params.row.yearly_estimations;
 
@@ -429,44 +487,97 @@ export default function TableProjects({ rows = [] }) {
       },
     },
     {
-      field: "potential_volume",
-      headerName: "POTENTIAL VOLUME",
+      field: "support_requested",
+      headerName: "Support requested",
       flex: 1,
       align: "center",
       headerAlign: "center",
       minWidth: 100,
-      valueFormatter: (params) => {
-        return formatNumber(Number(params) || 0);
-      },
-    },
-    {
-      field: "comments",
-      headerName: "COMMENTS",
-      flex: 1,
-      minWidth: 200,
-    },
-    {
-      field: "next_steps",
-      headerName: "NEXT STEPS",
-      flex: 1,
-      minWidth: 200,
     },
     {
       field: "created_at",
-      headerName: "FECHA REGISTRO",
+      headerName: "Fecha de creación",
       flex: 1,
       minWidth: 200,
       renderCell: (params) => dateFormatter(params.value),
     },
     {
       field: "estado",
-      headerName: "ESTADO",
+      headerName: "Estado",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
       minWidth: 100,
       renderCell: (params) => <EstadoChip estado={params.value} />,
     },
+    // {
+    //   field: "price_agreement",
+    //   headerName: "Price agreement",
+    //   flex: 1,
+    //   align: "center",
+    //   headerAlign: "center",
+    //   minWidth: 100,
+    //   renderCell: (params) => {
+    //     if (!allowedUserIds.includes(auth_user_id)) {
+    //       return "No autorizado";
+    //     }
+
+    //     const url = getDocumentUrl(params.row, "PRICE");
+
+    //     if (!url) return null;
+
+    //     return (
+    //       <Tooltip title="Ver price agreement">
+    //         <IconButton onClick={() => window.open(url, "_blank")}>
+    //           {getFileIcon(url)}
+    //         </IconButton>
+    //       </Tooltip>
+    //     );
+    //   },
+    // },
+    // {
+    //   field: "layout",
+    //   headerName: "Layout",
+    //   flex: 1,
+    //   align: "center",
+    //   headerAlign: "center",
+    //   minWidth: 100,
+    //   renderCell: (params) => {
+    //     const url = getDocumentUrl(params.row, "LAYOUT");
+
+    //     if (!url) return null;
+
+    //     return (
+    //       <Tooltip title="Ver layout">
+    //         <IconButton onClick={() => window.open(url, "_blank")}>
+    //           {getFileIcon(url)}
+    //         </IconButton>
+    //       </Tooltip>
+    //     );
+    //   },
+    // },
+    // {
+    //   field: "model",
+    //   headerName: "Model",
+    //   flex: 1,
+    //   align: "center",
+    //   headerAlign: "center",
+    //   minWidth: 100,
+    // },
+    // {
+    //   field: "product_family",
+    //   headerName: "Product family",
+    //   flex: 1,
+    //   align: "center",
+    //   headerAlign: "center",
+    //   minWidth: 100,
+    // },
+    // {
+    //   field: "comments",
+    //   headerName: "Comments",
+    //   flex: 1,
+    //   minWidth: 200,
+    // },
   ];
 
   return (
