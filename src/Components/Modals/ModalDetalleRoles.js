@@ -55,7 +55,7 @@ const ModalDetalleRoles = ({ open, handleClose, role }) => {
           alignItems="center"
         >
           <Typography variant="h6" fontWeight={700}>
-            Detalle del Rol
+            Rol details
           </Typography>
 
           <IconButton onClick={handleClose}>
@@ -86,7 +86,7 @@ const ModalDetalleRoles = ({ open, handleClose, role }) => {
             },
           }}
         >
-          <Tab label="Información" />
+          <Tab label="Information" />
         </Tabs>
       </Box>
 
@@ -102,14 +102,14 @@ const ModalDetalleRoles = ({ open, handleClose, role }) => {
           <Table>
             <TableBody>
               {[
-                { label: "ID", value: role.id },
-                { label: "NOMBRE", value: role.name },
+                { label: "Id", value: role.id },
+                { label: "Rol", value: role.name },
                 {
-                  label: "FECHA DE REGISTRO",
+                  label: "Created at",
                   value: dateFormatter(role.created_at),
                 },
                 {
-                  label: "ESTADO",
+                  label: "Status",
                   value: <EstadoChip estado={role.estado} />,
                 },
               ].map((row, index) => (

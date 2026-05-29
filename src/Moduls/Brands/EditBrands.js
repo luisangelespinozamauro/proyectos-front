@@ -64,13 +64,13 @@ export default function EditBrands({ open, handleClose, id }) {
   };
 
   const estado = [
-    { id: 1, nombre: "Inactivo" },
-    { id: 2, nombre: "Activo" },
+    { id: 1, nombre: "Inactive" },
+    { id: 2, nombre: "Active" },
   ];
 
   return (
     <Dialog open={open} onClose={handleDialogClose} fullWidth maxWidth="sm">
-      <DialogTitle>Editar Marca</DialogTitle>
+      <DialogTitle>Edit brand</DialogTitle>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -86,13 +86,13 @@ export default function EditBrands({ open, handleClose, id }) {
             <Grid size={12}>
               <TextField
                 fullWidth
-                label="Nombre"
+                label="Brand"
                 InputLabelProps={{ shrink: true }}
                 {...register("name", {
-                  required: "El nombre es obligatorio",
+                  required: "This field is required",
                   maxLength: {
-                    value: 200,
-                    message: "Máximo 200 caracteres",
+                    value: 100,
+                    message: "Maxium 100 characters",
                   },
                 })}
                 error={!!errors.name}
@@ -105,19 +105,19 @@ export default function EditBrands({ open, handleClose, id }) {
                 name="estado"
                 control={control}
                 rules={{
-                  required: "Debes seleccionar un estado",
+                  required: "This field is required",
                 }}
                 render={({ field }) => (
                   <TextField
                     select
                     fullWidth
-                    label="Selecciona un estado"
+                    label="Status"
                     {...field}
                     error={!!errors.estado}
                     helperText={errors.estado?.message}
                   >
                     <MenuItem value="">
-                      <em>-- Selecciona un estado --</em>
+                      <em>-- Select an option --</em>
                     </MenuItem>
 
                     {estado.map((item) => (
@@ -143,7 +143,7 @@ export default function EditBrands({ open, handleClose, id }) {
               },
             }}
           >
-            Cancelar
+            Cancel
           </Button>
 
           <Button
@@ -156,7 +156,7 @@ export default function EditBrands({ open, handleClose, id }) {
               },
             }}
           >
-            Actualizar
+            Update
           </Button>
         </DialogActions>
       </form>

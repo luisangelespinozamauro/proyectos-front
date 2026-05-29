@@ -55,7 +55,7 @@ const ModalDetalleBrands = ({ open, handleClose, brand }) => {
           alignItems="center"
         >
           <Typography variant="h6" fontWeight={700}>
-            Detalle de la Marca
+            Brands details
           </Typography>
 
           <IconButton onClick={handleClose}>
@@ -86,7 +86,7 @@ const ModalDetalleBrands = ({ open, handleClose, brand }) => {
             },
           }}
         >
-          <Tab label="Información" />
+          <Tab label="Information" />
         </Tabs>
       </Box>
 
@@ -102,14 +102,14 @@ const ModalDetalleBrands = ({ open, handleClose, brand }) => {
           <Table>
             <TableBody>
               {[
-                { label: "ID", value: brand.id },
-                { label: "NOMBRE", value: brand.name },
+                { label: "Id", value: brand.id },
+                { label: "Brand", value: brand.name },
                 {
-                  label: "FECHA DE REGISTRO",
+                  label: "Created at",
                   value: dateFormatter(brand.created_at),
                 },
                 {
-                  label: "ESTADO",
+                  label: "Status",
                   value: <EstadoChip estado={brand.estado} />,
                 },
               ].map((row, index) => (

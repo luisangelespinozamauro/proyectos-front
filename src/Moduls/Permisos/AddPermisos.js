@@ -10,6 +10,7 @@ import { Grid } from "@mui/material";
 import { useContext } from "react";
 import PermisosContext from "../../Context/Permisos/PermisosContext";
 
+
 export default function AddPermisos({ open, handleClose }) {
   const { CreatePermisos } = useContext(PermisosContext);
 
@@ -26,7 +27,7 @@ export default function AddPermisos({ open, handleClose }) {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Nuevo permiso</DialogTitle>
+      <DialogTitle>New permission</DialogTitle>
       <form
         onSubmit={handleSubmit(onSubmit)}
         autoComplete="off"
@@ -41,11 +42,11 @@ export default function AddPermisos({ open, handleClose }) {
             <Grid size={12}>
               <TextField
                 fullWidth
-                label="Nombre"
+                label="Permission"
                 {...register("name", {
-                  required: "El nombre es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
@@ -56,9 +57,9 @@ export default function AddPermisos({ open, handleClose }) {
                 fullWidth
                 label="Slug"
                 {...register("slug", {
-                  required: "El slug es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.slug}
                 helperText={errors.slug?.message}
@@ -75,7 +76,7 @@ export default function AddPermisos({ open, handleClose }) {
               "&:hover": { backgroundColor: "darkred" },
             }}
           >
-            Cancelar
+            Cancel
           </Button>
           <Button
             type="submit"
@@ -85,7 +86,7 @@ export default function AddPermisos({ open, handleClose }) {
               "&:hover": { backgroundColor: "#0d47a1" },
             }}
           >
-            Guardar
+            Save
           </Button>
         </DialogActions>
       </form>

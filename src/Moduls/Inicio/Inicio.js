@@ -21,49 +21,48 @@ import KeyIcon from "@mui/icons-material/Key";
 
 const opciones = [
   {
-    title: "Inicio",
-    descripcion: "Pantalla principal del sistema",
+    title: "Dashboard",
+    descripcion: "Main system dashboard",
     icon: <HomeIcon />,
     ruta: "/inicio",
     color: "linear-gradient(135deg, #4F46E5, #6366F1)",
     rolesPermitidos: [1, 2, 3, 4],
   },
   {
-    title: "Marcas",
-    descripcion: "Gestión de marcas",
+    title: "Brands",
+    descripcion: "Brand management",
     icon: <SellIcon />,
     ruta: "/brands",
     color: "linear-gradient(135deg, #F59E0B, #FBBF24)",
     rolesPermitidos: [1, 2, 3, 4],
   },
   {
-    title: "Proyectos",
-    descripcion: "Gestión de proyectos",
+    title: "Projects",
+    descripcion: "Project management",
     icon: <StorefrontIcon />,
     ruta: "/projects",
     color: "linear-gradient(135deg, #0EA5E9, #38BDF8)",
     rolesPermitidos: [1, 2, 3, 4],
   },
   {
-    title: "Usuarios",
-    descripcion: "Administración de usuarios",
+    title: "Users",
+    descripcion: "User administration",
     icon: <DescriptionIcon />,
     ruta: "/Users",
     color: "linear-gradient(135deg, #10B981, #34D399)",
     rolesPermitidos: [1],
   },
-  //roles
   {
     title: "Roles",
-    descripcion: "Administración de roles",
+    descripcion: "Role administration",
     icon: <SecurityIcon />,
     ruta: "/Roles",
     color: "linear-gradient(135deg, #EF4444, #F87171)",
     rolesPermitidos: [1],
   },
   {
-    title: "Permisos",
-    descripcion: "Administración de permisos",
+    title: "Permissions",
+    descripcion: "Permission management",
     icon: <KeyIcon />,
     ruta: "/Permisos",
     color: "linear-gradient(135deg, #8B5CF6, #A78BFA)",
@@ -96,9 +95,9 @@ const Inicio = () => {
 
   const getSaludo = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Buenos días";
-    if (hour < 18) return "Buenas tardes";
-    return "Buenas noches";
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
   };
 
   useEffect(() => {
@@ -119,7 +118,7 @@ const Inicio = () => {
         <Container maxWidth="lg">
           <Box textAlign="center" mb={6}>
             <Typography variant="h4" fontWeight="700">
-              Hola, {saludo}, {nombreCompleto}.
+              Hello, {saludo}, {nombreCompleto}.
               <br />
             </Typography>
 
@@ -127,9 +126,8 @@ const Inicio = () => {
               variant="subtitle1"
               sx={{ color: "text.secondary", mt: 1 }}
             >
-              Te damos la bienvenida a la Plataforma de Gestión de Proyectos de
-              Operaciones, donde podrás administrar y dar seguimiento a tus
-              proyectos de manera eficiente.
+              Welcome to the Operations Project Management Platform, where you
+              can efficiently manage and track your projects.
             </Typography>
           </Box>
 

@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { esES } from "@mui/x-data-grid/locales";
 import ModalDetallePermisos from "../Modals/ModalDetallePermisos";
 import PermisosContext from "../../Context/Permisos/PermisosContext";
 import EditIcon from "@mui/icons-material/Edit";
@@ -51,7 +50,7 @@ export default function TablePermisos({ rows = [] }) {
     {
       field: "actions",
       type: "actions",
-      headerName: "ACCIÓN",
+      headerName: "Actions",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -74,7 +73,7 @@ export default function TablePermisos({ rows = [] }) {
     },
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Id",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -83,7 +82,7 @@ export default function TablePermisos({ rows = [] }) {
 
     {
       field: "name",
-      headerName: "NOMBRE",
+      headerName: "Permission",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -91,7 +90,7 @@ export default function TablePermisos({ rows = [] }) {
     },
     {
       field: "slug",
-      headerName: "SLUG",
+      headerName: "Slug",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -99,7 +98,7 @@ export default function TablePermisos({ rows = [] }) {
     },
     {
       field: "created_at",
-      headerName: "FECHA REGISTRO",
+      headerName: "Created at",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -108,7 +107,7 @@ export default function TablePermisos({ rows = [] }) {
     },
     {
       field: "estado",
-      headerName: "ESTADO",
+      headerName: "Status",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -128,7 +127,7 @@ export default function TablePermisos({ rows = [] }) {
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-          Listado de permisos
+          Permission list
         </Typography>
 
         <Box
@@ -170,12 +169,11 @@ export default function TablePermisos({ rows = [] }) {
                     onClick={handleClickOpenAdd}
                     sx={{ borderRadius: 3 }}
                   >
-                    Nuevo permiso
+                    New permission
                   </Button>
                 </Box>
               ),
             }}
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             sx={{
               border: "none",
 

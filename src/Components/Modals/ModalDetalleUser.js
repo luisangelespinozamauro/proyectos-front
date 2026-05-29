@@ -56,7 +56,7 @@ const ModalDetalleUser = ({ open, handleClose, user }) => {
           alignItems="center"
         >
           <Typography variant="h6" fontWeight={700}>
-            Detalle del Usuario
+            Users details
           </Typography>
 
           <IconButton onClick={handleClose}>
@@ -87,7 +87,7 @@ const ModalDetalleUser = ({ open, handleClose, user }) => {
             },
           }}
         >
-          <Tab label="Información" />
+          <Tab label="Information" />
         </Tabs>
       </Box>
 
@@ -103,18 +103,21 @@ const ModalDetalleUser = ({ open, handleClose, user }) => {
           <Table>
             <TableBody>
               {[
-                { label: "ID", value: user.id },
-                { label: "NUM. COLABORADOR", value: user.collaborator_number },
-                { label: "NOMBRE", value: user.name },
-                { label: "APELLIDOS", value: user.last_name },
-                { label: "TELÉFONO", value: user.phone },
-                { label: "CORREO", value: user.email },
+                { label: "Id", value: user.id },
                 {
-                  label: "ROL",
+                  label: "Collaborator number",
+                  value: user.collaborator_number,
+                },
+                { label: "Name", value: user.name },
+                { label: "Last name", value: user.last_name },
+                { label: "Phone", value: user.phone },
+                { label: "Email", value: user.email },
+                {
+                  label: "Rol",
                   value: ROLES[user.role_id] || "Sin rol",
                 },
                 {
-                  label: "MARCAS",
+                  label: "Brands",
                   value:
                     user.brands?.length > 0
                       ? user.brands.map((brand) => brand.name).join(", ")
@@ -122,11 +125,11 @@ const ModalDetalleUser = ({ open, handleClose, user }) => {
                 },
 
                 {
-                  label: "FECHA DE REGISTRO",
+                  label: "Created at",
                   value: dateFormatter(user.created_at),
                 },
                 {
-                  label: "ESTADO",
+                  label: "Status",
                   value: <EstadoChip estado={user.estado} />,
                 },
               ].map((row, index) => (

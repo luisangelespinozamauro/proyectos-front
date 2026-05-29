@@ -1,10 +1,7 @@
 import React, { useReducer } from "react";
 import PermisosContext from "./PermisosContext";
 import PermisosReducer from "./PermisosReducer";
-import MethodGet, {
-  MethodPost,
-  MethodPut,
-} from "../../Config/Service";
+import MethodGet, { MethodPost, MethodPut } from "../../Config/Service";
 import Swal from "sweetalert2";
 import {
   GET_ALL_PERMISOS,
@@ -35,7 +32,7 @@ const PermisosState = ({ children }) => {
         .map(([campo, errores]) => `• ${errores.join(", ")}`)
         .join("\n");
       Swal.fire({
-        title: "Error de validación",
+        title: "Validation error",
         text: mensajes,
         icon: "warning",
       });
@@ -75,8 +72,8 @@ const PermisosState = ({ children }) => {
       .then((res) => {
         dispatch({ type: ADD_PERMISOS, payload: res.data });
         Swal.fire({
-          title: "Éxito",
-          text: "Permiso agregado con éxito",
+          title: "Success",
+          text: "Permission successfully added",
           icon: "success",
         });
         GetPermisos();
@@ -89,8 +86,8 @@ const PermisosState = ({ children }) => {
       .then((res) => {
         dispatch({ type: UPDATE_PERMISOS, payload: res.data });
         Swal.fire({
-          title: "Éxito",
-          text: "Permiso actualizado con éxito",
+          title: "Success",
+          text: "Permission successfully updated",
           icon: "success",
         });
         GetPermisos();

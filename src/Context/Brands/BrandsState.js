@@ -1,10 +1,7 @@
 import React, { useReducer } from "react";
 import BrandsContext from "./BrandsContext";
 import BrandsReducer from "./BrandsReducer";
-import MethodGet, {
-  MethodPost,
-  MethodPut,
-} from "../../Config/Service";
+import MethodGet, { MethodPost, MethodPut } from "../../Config/Service";
 import Swal from "sweetalert2";
 import {
   GET_ALL_BRANDS,
@@ -35,7 +32,7 @@ const BrandsState = ({ children }) => {
         .map(([campo, errores]) => `• ${errores.join(", ")}`)
         .join("\n");
       Swal.fire({
-        title: "Error de validación",
+        title: "Validation error",
         text: mensajes,
         icon: "warning",
       });
@@ -70,14 +67,13 @@ const BrandsState = ({ children }) => {
       .catch(handleError);
   };
 
-
   const CreateBrands = (data) => {
     MethodPost("/brands", data, imageHeaders)
       .then((res) => {
         dispatch({ type: ADD_BRANDS, payload: res.data });
         Swal.fire({
-          title: "Éxito",
-          text: "Marca agregada con éxito",
+          title: "Success",
+          text: "Brand successfully added",
           icon: "success",
         });
         GetBrands();
@@ -90,8 +86,8 @@ const BrandsState = ({ children }) => {
       .then((res) => {
         dispatch({ type: UPDATE_BRANDS, payload: res.data });
         Swal.fire({
-          title: "Éxito",
-          text: "Marca actualizada con éxito",
+          title: "Success",
+          text: "Brand successfully updated",
           icon: "success",
         });
         GetBrands();

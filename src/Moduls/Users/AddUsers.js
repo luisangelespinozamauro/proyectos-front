@@ -55,7 +55,7 @@ export default function AddUsers({ open, handleClose, brands }) {
     register("brands", {
       validate: (value) => {
         if (Number(roleSelected) === 4) {
-          return value?.length > 0 || "Debes seleccionar al menos una marca";
+          return value?.length > 0 || "You must select at least one brand";
         }
 
         return true;
@@ -76,7 +76,7 @@ export default function AddUsers({ open, handleClose, brands }) {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Nuevo Usuario</DialogTitle>
+      <DialogTitle>New user</DialogTitle>
       <form
         onSubmit={handleSubmit(onSubmit)}
         autoComplete="off"
@@ -92,11 +92,11 @@ export default function AddUsers({ open, handleClose, brands }) {
               <TextField
                 type="number"
                 fullWidth
-                label="Num. Colaborador"
+                label="Collaborator number"
                 {...register("collaborator_number", {
-                  required: "El Num. Colaborador es obligatorio",
-                  minLength: { value: 3, message: "Mínimo 3 caracteres" },
-                  maxLength: { value: 10, message: "Máximo 10 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 3, message: "Minium 3 characters" },
+                  maxLength: { value: 10, message: "Maximum 10 characters" },
                 })}
                 error={!!errors.collaborator_number}
                 helperText={errors.collaborator_number?.message}
@@ -105,11 +105,13 @@ export default function AddUsers({ open, handleClose, brands }) {
             <Grid size={12}>
               <TextField
                 fullWidth
-                label="Nombre"
+                label="Name"
                 {...register("name", {
-                  required: "El nombre es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
                 })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
@@ -118,11 +120,13 @@ export default function AddUsers({ open, handleClose, brands }) {
             <Grid size={12}>
               <TextField
                 fullWidth
-                label="Apellidos"
+                label="last name"
                 {...register("last_name", {
-                  required: "El apellido es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
                 })}
                 error={!!errors.last_name}
                 helperText={errors.last_name?.message}
@@ -132,7 +136,7 @@ export default function AddUsers({ open, handleClose, brands }) {
               <TextField
                 type="number"
                 fullWidth
-                label="Telefono"
+                label="Phone"
                 {...register("phone", {
                   minLength: { value: 10, message: "Mínimo 10 caracteres" },
                   maxLength: { value: 10, message: "Máximo 10 caracteres" },
@@ -145,11 +149,13 @@ export default function AddUsers({ open, handleClose, brands }) {
               <TextField
                 type="email"
                 fullWidth
-                label="Correo"
+                label="Email"
                 {...register("email", {
-                  required: "El correo es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  maxLength: {
+                    value: 100,
+                    message: "Maximum 100 characters",
+                  },
                 })}
                 error={!!errors.email}
                 helperText={errors.email?.message}
@@ -159,15 +165,15 @@ export default function AddUsers({ open, handleClose, brands }) {
               <TextField
                 select
                 fullWidth
-                label="Selecciona un rol"
+                label="Select an role"
                 {...register("role_id", {
-                  required: "Debes seleccionar un rol",
+                  required: "This field is required",
                 })}
                 error={!!errors.role_id}
                 helperText={errors.role_id?.message}
               >
                 <MenuItem value="">
-                  <em>-- Selecciona un rol --</em>
+                  <em>-- Select an option --</em>
                 </MenuItem>
                 {roles.map((rol) => (
                   <MenuItem key={rol.id} value={rol.id}>
@@ -179,7 +185,7 @@ export default function AddUsers({ open, handleClose, brands }) {
             {Number(roleSelected) === 4 && (
               <Grid size={12}>
                 <FormControl fullWidth error={!!errors.brands}>
-                  <InputLabel>Selecciona marcas</InputLabel>
+                  <InputLabel>Select an brand</InputLabel>
 
                   <Select
                     multiple
@@ -189,7 +195,7 @@ export default function AddUsers({ open, handleClose, brands }) {
                         shouldValidate: true,
                       });
                     }}
-                    input={<OutlinedInput label="Selecciona marcas" />}
+                    input={<OutlinedInput label="Select an brand" />}
                     renderValue={(selected) =>
                       brands
                         .filter((brand) => selected.includes(brand.id))
@@ -223,7 +229,7 @@ export default function AddUsers({ open, handleClose, brands }) {
               "&:hover": { backgroundColor: "darkred" },
             }}
           >
-            Cancelar
+            Cancel
           </Button>
           <Button
             type="submit"
@@ -233,7 +239,7 @@ export default function AddUsers({ open, handleClose, brands }) {
               "&:hover": { backgroundColor: "#0d47a1" },
             }}
           >
-            Guardar
+            Save
           </Button>
         </DialogActions>
       </form>

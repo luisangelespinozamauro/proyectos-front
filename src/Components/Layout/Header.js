@@ -27,38 +27,38 @@ const MODULOS = [
   {
     id: 1,
     segment: "Inicio",
-    title: "Inicio",
+    title: "Dashboard",
     icon: <DashboardIcon />,
   },
   {
     id: 2,
     segment: "Brands",
-    title: "Marcas",
+    title: "Brands",
     icon: <SellIcon />,
   },
   {
     id: 3,
     segment: "Projects",
-    title: "Proyectos",
+    title: "Projects",
     icon: <FolderIcon />,
   },
   {
     id: 4,
     segment: "Users",
-    title: "Usuarios",
+    title: "Users",
     icon: <GroupIcon />,
   },
   {
     id: 5,
     segment: "Roles",
     title: "Roles",
-    icon: <SecurityIcon  />,
+    icon: <SecurityIcon />,
   },
   {
     id: 6,
     segment: "Permisos",
-    title: "Permisos",
-    icon: <KeyIcon  />,
+    title: "Permissions",
+    icon: <KeyIcon />,
   },
 ];
 
@@ -122,17 +122,17 @@ export default function Header({ children }) {
 
       {
         segment: "volver-intranet",
-        title: "Volver a la intranet",
+        title: "Return to intranet",
         icon: <KeyboardReturnIcon />,
       },
       {
         segment: "manual-usuario",
-        title: "Manual de usuario",
+        title: "User manual",
         icon: <DescriptionIcon />,
       },
       {
         segment: "cerrar-sesion",
-        title: "Cerrar sesión",
+        title: "Log out",
         icon: <LogoutIcon />,
       },
     ];

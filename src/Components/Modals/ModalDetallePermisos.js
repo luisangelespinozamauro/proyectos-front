@@ -55,7 +55,7 @@ const ModalDetallePermisos = ({ open, handleClose, permiso }) => {
           alignItems="center"
         >
           <Typography variant="h6" fontWeight={700}>
-            Detalle del permiso
+            Permission details
           </Typography>
 
           <IconButton onClick={handleClose}>
@@ -86,7 +86,7 @@ const ModalDetallePermisos = ({ open, handleClose, permiso }) => {
             },
           }}
         >
-          <Tab label="Información" />
+          <Tab label="Information" />
         </Tabs>
       </Box>
 
@@ -102,15 +102,15 @@ const ModalDetallePermisos = ({ open, handleClose, permiso }) => {
           <Table>
             <TableBody>
               {[
-                { label: "ID", value: permiso.id },
-                { label: "NOMBRE", value: permiso.name },
-                { label: "SLUG", value: permiso.slug },
+                { label: "Id", value: permiso.id },
+                { label: "Permission", value: permiso.name },
+                { label: "Slug", value: permiso.slug },
                 {
-                  label: "FECHA DE REGISTRO",
+                  label: "Created at",
                   value: dateFormatter(permiso.created_at),
                 },
                 {
-                  label: "ESTADO",
+                  label: "Status",
                   value: <EstadoChip estado={permiso.estado} />,
                 },
               ].map((row, index) => (

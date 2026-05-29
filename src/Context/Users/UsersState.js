@@ -1,10 +1,7 @@
 import React, { useReducer } from "react";
 import UsersContext from "./UsersContext";
 import UsersReducer from "./UsersReducer";
-import MethodGet, {
-  MethodPost,
-  MethodPut,
-} from "../../Config/Service";
+import MethodGet, { MethodPost, MethodPut } from "../../Config/Service";
 import Swal from "sweetalert2";
 import {
   GET_ALL_USERS,
@@ -33,7 +30,7 @@ const UsersState = ({ children }) => {
 
     if (status === 422 && data.errors) {
       const mensajes = Object.values(data.errors).flat().join("\n");
-      Swal.fire("Error de validación", mensajes, "warning");
+      Swal.fire("Validation error", mensajes, "warning");
     } else if (data.message) {
       Swal.fire("Error", data.message, "error");
     } else {
@@ -68,8 +65,8 @@ const UsersState = ({ children }) => {
       .then((res) => {
         dispatch({ type: ADD_USERS, payload: res.data });
         Swal.fire({
-          title: "Éxito",
-          text: "Usuario agregado con éxito",
+          title: "Success",
+          text: "User successfully added",
           icon: "success",
         });
         GetUsers();
@@ -82,15 +79,14 @@ const UsersState = ({ children }) => {
       .then((res) => {
         dispatch({ type: UPDATE_USERS, payload: res.data });
         Swal.fire({
-          title: "Éxito",
-          text: "Usuario actualizado con éxito",
+          title: "Success",
+          text: "User successfully updated",
           icon: "success",
         });
         GetUsers();
       })
       .catch(handleError);
   };
-
 
   return (
     <UsersContext.Provider

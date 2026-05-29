@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { esES } from "@mui/x-data-grid/locales";
 import ModalDetalleUser from "../Modals/ModalDetalleUser";
 import UsersContext from "../../Context/Users/UsersContext";
 import BrandsContext from "../../Context/Brands/BrandsContext";
@@ -59,7 +58,7 @@ export default function TableUsers({ rows = [] }) {
     {
       field: "actions",
       type: "actions",
-      headerName: "ACCIÓN",
+      headerName: "Actions",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -82,7 +81,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Id",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -90,7 +89,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "collaborator_number",
-      headerName: "NUM COLABORADOR",
+      headerName: "Collaborator number",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -98,7 +97,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "name",
-      headerName: "NOMBRES",
+      headerName: "Name",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -106,7 +105,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "last_name",
-      headerName: "APELLIDOS",
+      headerName: "Last name",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -114,7 +113,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "phone",
-      headerName: "TELEFONO",
+      headerName: "Phone",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -122,7 +121,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "email",
-      headerName: "CORREO",
+      headerName: "Email",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -130,7 +129,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "role_id",
-      headerName: "ROL",
+      headerName: "Rol",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -167,7 +166,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "created_at",
-      headerName: "FECHA REGISTRO",
+      headerName: "Created at",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -176,7 +175,7 @@ export default function TableUsers({ rows = [] }) {
     },
     {
       field: "estado",
-      headerName: "ESTADO",
+      headerName: "Status",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -196,7 +195,7 @@ export default function TableUsers({ rows = [] }) {
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-          Listado de Usuarios
+          Users list
         </Typography>
 
         <Box
@@ -238,12 +237,11 @@ export default function TableUsers({ rows = [] }) {
                     onClick={handleClickOpenAdd}
                     sx={{ borderRadius: 3 }}
                   >
-                    Nuevo Usuario
+                    New user
                   </Button>
                 </Box>
               ),
             }}
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             sx={{
               border: "none",
 

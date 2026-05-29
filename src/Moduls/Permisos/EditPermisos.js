@@ -66,13 +66,13 @@ export default function EditPermisos({ open, handleClose, id }) {
   };
 
   const estado = [
-    { id: 1, nombre: "Inactivo" },
-    { id: 2, nombre: "Activo" },
+    { id: 1, nombre: "Inactive" },
+    { id: 2, nombre: "Active" },
   ];
 
   return (
     <Dialog open={open} onClose={handleDialogClose} fullWidth maxWidth="sm">
-      <DialogTitle>Editar Permiso</DialogTitle>
+      <DialogTitle>Edit permission</DialogTitle>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -88,13 +88,13 @@ export default function EditPermisos({ open, handleClose, id }) {
             <Grid size={12}>
               <TextField
                 fullWidth
-                label="Nombre"
+                label="Permission"
                 InputLabelProps={{ shrink: true }}
                 {...register("name", {
-                  required: "El nombre es obligatorio",
+                  required: "This field is required",
                   maxLength: {
-                    value: 200,
-                    message: "Máximo 200 caracteres",
+                    value: 100,
+                    message: "Maxium 100 characters",
                   },
                 })}
                 error={!!errors.name}
@@ -107,10 +107,10 @@ export default function EditPermisos({ open, handleClose, id }) {
                 label="Slug"
                 InputLabelProps={{ shrink: true }}
                 {...register("slug", {
-                  required: "El slug es obligatorio",
+                  required: "This field is required",
                   maxLength: {
-                    value: 200,
-                    message: "Máximo 200 caracteres",
+                    value: 100,
+                    message: "Maxium 100 characters",
                   },
                 })}
                 error={!!errors.slug}
@@ -123,19 +123,19 @@ export default function EditPermisos({ open, handleClose, id }) {
                 name="estado"
                 control={control}
                 rules={{
-                  required: "Debes seleccionar un estado",
+                  required: "This field is required",
                 }}
                 render={({ field }) => (
                   <TextField
                     select
                     fullWidth
-                    label="Selecciona un estado"
+                    label="Status"
                     {...field}
                     error={!!errors.estado}
                     helperText={errors.estado?.message}
                   >
                     <MenuItem value="">
-                      <em>-- Selecciona un estado --</em>
+                      <em>-- Select an option --</em>
                     </MenuItem>
 
                     {estado.map((item) => (
@@ -161,7 +161,7 @@ export default function EditPermisos({ open, handleClose, id }) {
               },
             }}
           >
-            Cancelar
+            Cancel
           </Button>
 
           <Button
@@ -174,7 +174,7 @@ export default function EditPermisos({ open, handleClose, id }) {
               },
             }}
           >
-            Actualizar
+            Update
           </Button>
         </DialogActions>
       </form>

@@ -26,7 +26,7 @@ export default function AddBrands({ open, handleClose }) {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Nueva Marca</DialogTitle>
+      <DialogTitle>New brand</DialogTitle>
       <form
         onSubmit={handleSubmit(onSubmit)}
         autoComplete="off"
@@ -41,11 +41,11 @@ export default function AddBrands({ open, handleClose }) {
             <Grid size={12}>
               <TextField
                 fullWidth
-                label="Nombre"
+                label="Brand"
                 {...register("name", {
-                  required: "El nombre es obligatorio",
-                  minLength: { value: 1, message: "Mínimo 1 caracteres" },
-                  maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                  required: "This field is required",
+                  minLength: { value: 1, message: "Minimum 1 character" },
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
@@ -62,7 +62,7 @@ export default function AddBrands({ open, handleClose }) {
               "&:hover": { backgroundColor: "darkred" },
             }}
           >
-            Cancelar
+            Cancel
           </Button>
           <Button
             type="submit"
@@ -72,7 +72,7 @@ export default function AddBrands({ open, handleClose }) {
               "&:hover": { backgroundColor: "#0d47a1" },
             }}
           >
-            Guardar
+            Save
           </Button>
         </DialogActions>
       </form>

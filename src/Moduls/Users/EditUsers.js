@@ -74,13 +74,13 @@ export default function EditUsers({ open, handleClose, id, brands }) {
   const roleSelected = watch("role_id");
 
   const estado = [
-    { id: 1, nombre: "Inactivo" },
-    { id: 2, nombre: "Activo" },
+    { id: 1, nombre: "Inactive" },
+    { id: 2, nombre: "Active" },
   ];
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-      <DialogTitle>Editar Usuario</DialogTitle>
+      <DialogTitle>Edit user</DialogTitle>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -99,11 +99,11 @@ export default function EditUsers({ open, handleClose, id, brands }) {
                   InputLabelProps={{ shrink: true }}
                   type="number"
                   fullWidth
-                  label="Num. Colaborador"
+                  label="Collaborator number"
                   {...register("collaborator_number", {
-                    required: "El Num. Colaborador es obligatorio",
-                    minLength: { value: 3, message: "Mínimo 3 caracteres" },
-                    maxLength: { value: 10, message: "Máximo 10 caracteres" },
+                    required: "This field is required",
+                    minLength: { value: 3, message: "Minium 3 characters" },
+                    maxLength: { value: 10, message: "Maximum 10 characters" },
                   })}
                   error={!!errors.collaborator_number}
                   helperText={errors.collaborator_number?.message}
@@ -114,10 +114,13 @@ export default function EditUsers({ open, handleClose, id, brands }) {
                 <TextField
                   InputLabelProps={{ shrink: true }}
                   fullWidth
-                  label="Nombre"
+                  label="Name"
                   {...register("name", {
-                    required: "El nombre es obligatorio",
-                    maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                    required: "This field is required",
+                    maxLength: {
+                      value: 100,
+                      message: "Maximum 100 characters",
+                    },
                   })}
                   error={!!errors.name}
                   helperText={errors.name?.message}
@@ -128,10 +131,13 @@ export default function EditUsers({ open, handleClose, id, brands }) {
                 <TextField
                   InputLabelProps={{ shrink: true }}
                   fullWidth
-                  label="Apellidos"
+                  label="Last name"
                   {...register("last_name", {
-                    required: "El apellido es obligatorio",
-                    maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                    required: "This field is required",
+                    maxLength: {
+                      value: 100,
+                      message: "Maximum 100 characters",
+                    },
                   })}
                   error={!!errors.last_name}
                   helperText={errors.last_name?.message}
@@ -143,10 +149,10 @@ export default function EditUsers({ open, handleClose, id, brands }) {
                   InputLabelProps={{ shrink: true }}
                   type="number"
                   fullWidth
-                  label="Teléfono"
+                  label="Phone"
                   {...register("phone", {
-                    minLength: { value: 10, message: "Mínimo 10 caracteres" },
-                    maxLength: { value: 10, message: "Máximo 10 caracteres" },
+                    minLength: { value: 10, message: "Minium 10 characters" },
+                    maxLength: { value: 10, message: "Maximum 10 characters" },
                   })}
                   error={!!errors.phone}
                   helperText={errors.phone?.message}
@@ -158,10 +164,10 @@ export default function EditUsers({ open, handleClose, id, brands }) {
                   InputLabelProps={{ shrink: true }}
                   type="email"
                   fullWidth
-                  label="Correo"
+                  label="Email"
                   {...register("email", {
-                    required: "El correo es obligatorio",
-                    maxLength: { value: 200, message: "Máximo 200 caracteres" },
+                    required: "This field is required",
+                    maxLength: { value: 100, message: "Máximo 100 caracteres" },
                   })}
                   error={!!errors.email}
                   helperText={errors.email?.message}
@@ -172,18 +178,18 @@ export default function EditUsers({ open, handleClose, id, brands }) {
                   name="role_id"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Debes seleccionar un rol" }}
+                  rules={{ required: "This field is required" }}
                   render={({ field }) => (
                     <TextField
                       select
                       fullWidth
-                      label="Selecciona un rol"
+                      label="Select an role"
                       {...field}
                       error={!!errors.role_id}
                       helperText={errors.role_id?.message}
                     >
                       <MenuItem value="">
-                        <em>-- Selecciona un rol --</em>
+                        <em>-- Select an option --</em>
                       </MenuItem>
 
                       {roles.map((rol) => (
@@ -202,11 +208,11 @@ export default function EditUsers({ open, handleClose, id, brands }) {
                     control={control}
                     defaultValue={[]}
                     rules={{
-                      required: "Debes seleccionar al menos una marca",
+                      required: "You must select at least one brand",
                     }}
                     render={({ field }) => (
                       <FormControl fullWidth error={!!errors.brands}>
-                        <InputLabel>Selecciona marcas</InputLabel>
+                        <InputLabel>Select an brands</InputLabel>
 
                         <Select
                           multiple
@@ -245,19 +251,19 @@ export default function EditUsers({ open, handleClose, id, brands }) {
                   control={control}
                   defaultValue=""
                   rules={{
-                    required: "Debes seleccionar un estado",
+                    required: "This field is required",
                   }}
                   render={({ field }) => (
                     <TextField
                       select
                       fullWidth
-                      label="Selecciona un estado"
+                      label="Status"
                       {...field}
                       error={!!errors.estado}
                       helperText={errors.estado?.message}
                     >
                       <MenuItem value="">
-                        <em>-- Selecciona un estado --</em>
+                        <em>-- Select an option --</em>
                       </MenuItem>
 
                       {estado.map((item) => (
@@ -282,7 +288,7 @@ export default function EditUsers({ open, handleClose, id, brands }) {
               "&:hover": { backgroundColor: "darkred" },
             }}
           >
-            Cancelar
+            Cancel
           </Button>
 
           <Button
@@ -293,7 +299,7 @@ export default function EditUsers({ open, handleClose, id, brands }) {
               "&:hover": { backgroundColor: "#0d47a1" },
             }}
           >
-            Actualizar
+            Update
           </Button>
         </DialogActions>
       </form>

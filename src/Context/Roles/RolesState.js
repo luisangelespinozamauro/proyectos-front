@@ -32,7 +32,7 @@ const RolesState = ({ children }) => {
         .map(([campo, errores]) => `• ${errores.join(", ")}`)
         .join("\n");
       Swal.fire({
-        title: "Error de validación",
+        title: "Validation error",
         text: mensajes,
         icon: "warning",
       });
@@ -72,8 +72,8 @@ const RolesState = ({ children }) => {
       .then((res) => {
         dispatch({ type: ADD_ROLES, payload: res.data });
         Swal.fire({
-          title: "Éxito",
-          text: "Rol agregado con éxito",
+          title: "Success",
+          text: "Rol sucesfully added",
           icon: "success",
         });
         GetRoles();
@@ -86,8 +86,8 @@ const RolesState = ({ children }) => {
       .then((res) => {
         dispatch({ type: UPDATE_ROLES, payload: res.data });
         Swal.fire({
-          title: "Éxito",
-          text: "Rol actualizado con éxito",
+          title: "Success",
+          text: "Rol sucesfully updated",
           icon: "success",
         });
         GetRoles();

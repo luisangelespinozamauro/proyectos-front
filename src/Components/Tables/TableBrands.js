@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { esES } from "@mui/x-data-grid/locales";
 import ModalDetalleBrands from "../Modals/ModalDetalleBrands";
 import BrandsContext from "../../Context/Brands/BrandsContext";
 import EditIcon from "@mui/icons-material/Edit";
@@ -52,7 +51,7 @@ export default function TableBrands({ rows = [] }) {
     {
       field: "actions",
       type: "actions",
-      headerName: "ACCIÓN",
+      headerName: "Actions",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -75,7 +74,7 @@ export default function TableBrands({ rows = [] }) {
     },
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Id",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -84,7 +83,7 @@ export default function TableBrands({ rows = [] }) {
 
     {
       field: "name",
-      headerName: "NOMBRE",
+      headerName: "Brand",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -92,7 +91,7 @@ export default function TableBrands({ rows = [] }) {
     },
     {
       field: "created_at",
-      headerName: "FECHA REGISTRO",
+      headerName: "Created at",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -101,7 +100,7 @@ export default function TableBrands({ rows = [] }) {
     },
     {
       field: "estado",
-      headerName: "ESTADO",
+      headerName: "Status",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -121,7 +120,7 @@ export default function TableBrands({ rows = [] }) {
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-          Listado de Marcas
+          Brands list
         </Typography>
 
         <Box
@@ -163,12 +162,11 @@ export default function TableBrands({ rows = [] }) {
                     onClick={handleClickOpenAdd}
                     sx={{ borderRadius: 3 }}
                   >
-                    Nueva marca
+                    New brand
                   </Button>
                 </Box>
               ),
             }}
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             sx={{
               border: "none",
 

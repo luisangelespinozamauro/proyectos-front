@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { esES } from "@mui/x-data-grid/locales";
 import ModalDetalleRoles from "../Modals/ModalDetalleRoles";
 import RolesContext from "../../Context/Roles/RolesContext";
 import EditIcon from "@mui/icons-material/Edit";
@@ -14,7 +13,7 @@ import AddRoles from "../../Moduls/Roles/AddRoles";
 import { EstadoChip } from "../../utils/EstadoChip";
 
 export default function TableRoles({ rows = [] }) {
-  const { role, GetRole } = useContext(RolesContext);  
+  const { role, GetRole } = useContext(RolesContext);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -51,7 +50,7 @@ export default function TableRoles({ rows = [] }) {
     {
       field: "actions",
       type: "actions",
-      headerName: "ACCIÓN",
+      headerName: "Actions",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -74,7 +73,7 @@ export default function TableRoles({ rows = [] }) {
     },
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Id",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -83,7 +82,7 @@ export default function TableRoles({ rows = [] }) {
 
     {
       field: "name",
-      headerName: "NOMBRE",
+      headerName: "Rol",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -91,7 +90,7 @@ export default function TableRoles({ rows = [] }) {
     },
     {
       field: "created_at",
-      headerName: "FECHA REGISTRO",
+      headerName: "Created at",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -100,7 +99,7 @@ export default function TableRoles({ rows = [] }) {
     },
     {
       field: "estado",
-      headerName: "ESTADO",
+      headerName: "Status",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -120,7 +119,7 @@ export default function TableRoles({ rows = [] }) {
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-          Listado de roles
+          Rol list
         </Typography>
 
         <Box
@@ -162,12 +161,11 @@ export default function TableRoles({ rows = [] }) {
                     onClick={handleClickOpenAdd}
                     sx={{ borderRadius: 3 }}
                   >
-                    Nuevo rol
+                    New rol
                   </Button>
                 </Box>
               ),
             }}
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             sx={{
               border: "none",
 

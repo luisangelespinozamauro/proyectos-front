@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box, Typography, Paper, useTheme, useMediaQuery } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { esES } from "@mui/x-data-grid/locales";
 import ModalDetalleProjects from "../Modals/ModalDetalleProjects";
 import ProjectsContext from "../../Context/Projects/ProjectsContext";
 import EditIcon from "@mui/icons-material/Edit";
@@ -134,7 +133,7 @@ export default function TableProjects({ rows = [] }) {
     {
       field: "actions",
       type: "actions",
-      headerName: "Acciones",
+      headerName: "Actions",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -496,14 +495,14 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "created_at",
-      headerName: "Fecha de creación",
+      headerName: "Created at",
       flex: 1,
       minWidth: 200,
       renderCell: (params) => dateFormatter(params.value),
     },
     {
       field: "estado",
-      headerName: "Estado",
+      headerName: "Status",
       flex: 0.5,
       align: "center",
       headerAlign: "center",
@@ -591,7 +590,7 @@ export default function TableProjects({ rows = [] }) {
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-          Listado de proyectos
+          Project list
         </Typography>
 
         <Box
@@ -633,15 +632,14 @@ export default function TableProjects({ rows = [] }) {
                       variant="contained"
                       startIcon={<AddIcon />}
                       onClick={handleClickOpenAdd}
-                      sx={{ borderRadius: 3 }}
+                      sx={{ borderRadius: 3, textTransform: "none" }}
                     >
-                      Nuevo proyecto
+                      New project
                     </Button>
                   )}
                 </Box>
               ),
             }}
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             sx={{
               border: "none",
 

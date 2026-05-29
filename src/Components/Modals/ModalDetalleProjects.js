@@ -157,7 +157,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
   };
 
   const rows = [
-    { label: "NR", value: project.id },
+    { label: "Nr", value: project.id },
     { label: "Brand", value: project?.brand?.name || "Sin marca" },
 
     {
@@ -288,11 +288,11 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
   rows.push(
     renderDocumentVersions("LAYOUT", "Layout"),
     {
-      label: "Fecha de creación",
+      label: "Created at",
       value: dateFormatter(project.created_at),
     },
     {
-      label: "Estado",
+      label: "Status",
       value: <EstadoChip estado={project.estado} />,
     },
   );
@@ -313,7 +313,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
           alignItems="center"
         >
           <Typography variant="h6" fontWeight={700}>
-            Detalle del proyecto
+            Project details
           </Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon />
@@ -334,7 +334,7 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
             "& .MuiTab-root": { textTransform: "none", fontWeight: 600 },
           }}
         >
-          <Tab label="Información" />
+          <Tab label="Information" />
         </Tabs>
       </Box>
 
