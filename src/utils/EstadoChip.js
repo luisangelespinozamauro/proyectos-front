@@ -18,7 +18,7 @@ export const EstadoChip = ({ estado }) => {
       label={config.label}
       color={config.color}
       size="small"
-      icon={config.label === "Activo" ? <CheckCircleIcon /> : <CancelIcon />}
+      icon={estado === 2 ? <CheckCircleIcon /> : <CancelIcon />}
       variant="outlined"
     />
   );

@@ -221,9 +221,6 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
-      valueFormatter: (params) => {
-        return formatNumber(Number(params) || 0);
-      },
     },
     {
       field: "questionnaire_completion",
@@ -507,6 +504,11 @@ export default function TableProjects({ rows = [] }) {
       align: "center",
       headerAlign: "center",
       minWidth: 100,
+      type: "singleSelect",
+      valueOptions: [
+        { value: 1, label: "Inactive" },
+        { value: 2, label: "Active" },
+      ],
       renderCell: (params) => <EstadoChip estado={params.value} />,
     },
     // {
