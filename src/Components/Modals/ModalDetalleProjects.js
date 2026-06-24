@@ -189,7 +189,8 @@ const ModalDetalleProjects = ({ open, handleClose, project }) => {
       value: project.trademark_license_agreement,
     },
 
-    renderDocumentVersions("CONTRACT", "Contract"),
+    renderDocumentVersions("CONTRACT", "Equipment contract"),
+    renderDocumentVersions("CONTRACT2", "Production contract"),
 
     renderDocumentVersions("BOM", "Bom"),
 

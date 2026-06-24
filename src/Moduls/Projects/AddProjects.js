@@ -72,15 +72,28 @@ export default function AddProjects({ open, handleClose, brands }) {
     { id: "First approach", nombre: "First approach" },
   ];
 
+  // const documentTypes = [
+  //   "Questionnaire",
+  //   "Nda",
+  //   "Mou",
+  //   "Tca",
+  //   "Equipment contract",
+  //   "Production contract",
+  //   "Bom",
+  //   "Price",
+  //   "Layout",
+  // ];
+
   const documentTypes = [
-    "Questionnaire",
-    "Nda",
-    "Mou",
-    "Tca",
-    "Contract",
-    "Bom",
-    "Price",
-    "Layout",
+    { type: "Questionnaire", label: "Questionnaire" },
+    { type: "Nda", label: "NDA" },
+    { type: "Mou", label: "Mou" },
+    { type: "Tca", label: "Tca" },
+    { type: "Contract", label: "Equipment contract" },
+    { type: "Contract2", label: "Production contract" },
+    { type: "Bom", label: "Bom" },
+    { type: "Price", label: "Price" },
+    { type: "Layout", label: "Layout" },
   ];
 
   const dueDiligence = [
@@ -299,12 +312,23 @@ export default function AddProjects({ open, handleClose, brands }) {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <TextField
                 fullWidth
-                label="Contract"
+                label="Equipment contract"
                 {...register("contract_status", {
                   maxLength: { value: 100, message: "Maximum 100 characters" },
                 })}
                 error={!!errors.contract_status}
                 helperText={errors.contract_status?.message}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <TextField
+                fullWidth
+                label="Production contract"
+                {...register("contract_status2", {
+                  maxLength: { value: 100, message: "Maximum 100 characters" },
+                })}
+                error={!!errors.contract_status2}
+                helperText={errors.contract_status2?.message}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -547,11 +571,11 @@ export default function AddProjects({ open, handleClose, brands }) {
                 helperText={errors.support_requested?.message}
               />
             </Grid>
-            {documentTypes.map((type) => (
-              <Grid key={type} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+            {documentTypes.map((doc) => (
+              <Grid key={doc} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <FileField
-                  name={`documents.${type}`}
-                  label={`${type} file`}
+                  name={`documents.${doc.type}`}
+                  label={`${doc.label} file`}
                   control={control}
                   errors={errors}
                 />

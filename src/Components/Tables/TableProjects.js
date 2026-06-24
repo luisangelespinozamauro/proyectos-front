@@ -317,7 +317,7 @@ export default function TableProjects({ rows = [] }) {
     },
     {
       field: "contract_status",
-      headerName: "Contract",
+      headerName: "Equipment contract",
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -328,7 +328,29 @@ export default function TableProjects({ rows = [] }) {
         if (!url) return null;
 
         return (
-          <Tooltip title="Ver contract">
+          <Tooltip title="Ver equipment contract">
+            <IconButton onClick={() => window.open(url, "_blank")}>
+              {getFileIcon(url)}
+            </IconButton>
+          </Tooltip>
+        );
+      },
+    },
+    {
+      field: "contract_status2",
+      headerName: "Production contract",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 120,
+
+      renderCell: (params) => {
+        const url = getDocumentUrl(params.row, "CONTRACT2");
+
+        if (!url) return null;
+
+        return (
+          <Tooltip title="Ver production contract">
             <IconButton onClick={() => window.open(url, "_blank")}>
               {getFileIcon(url)}
             </IconButton>
